@@ -246,3 +246,10 @@ No hay frameworks prohibidos.
 El README está completo.
 El informe de IA está incluido.
 El deploy navega correctamente.
+
+## Reglas de Comentarios en el Código (Estricto)
+Evitar saturar el código con comentarios explicativos innecesarios u obvios. Busco un resultado estético, limpio y profesional.
+- PROHIBIDO comentar cada línea de código explicando qué hace la sintaxis nativa de JS, HTML o CSS.
+- El código debe ser autoexplicativo mediante el uso de nombres de variables y funciones descriptivos.
+- SÓLO se permiten comentarios cortos y concisos en situaciones excepcionales: para justificar una decisión de diseño compleja, una fórmula matemática o la integración con el localStorage si es estrictamente necesario para el entendimiento del flujo general.
+- Si no hay una lógica compleja, devolvé el código completamente limpio de comentarios.
