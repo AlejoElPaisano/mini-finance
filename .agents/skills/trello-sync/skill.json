@@ -1,0 +1,16 @@
+{
+  "name": "trello-sync",
+  "description": "Sincroniza tarjetas de Trello con el progreso del proyecto Mini Finance.",
+  "command": "/trello-mover",
+  "arguments": {
+    "tarea": {
+      "type": "string",
+      "description": "Nombre exacto o parcial de la tarjeta en Trello"
+    },
+    "estado": {
+      "type": "string",
+      "description": "Columna destino",
+      "enum": ["todo", "doing", "done"]
+    }
+  }
+}

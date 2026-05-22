@@ -40,3 +40,12 @@ En desarrollo activo. Estructura base completada y contenido funcional en constr
 - README completo.
 - Informe de uso de IA en `docs/`.
 - Deploy funcional.
+
+## 22 de mayo de 2026 (continuacion)
+
+### Completado
+- Archivo `.env` creado en raiz con credenciales de Trello protegidas.
+- `.gitignore` actualizado para excluir `.env` y evitar subida de credenciales a GitHub.
+- Skill personalizada `trello-sync` creada en `.agents/skills/trello-sync/`:
+  - `skill.json`: define el comando `/trello-mover` con argumentos `tarea` y `estado` (todo | doing | done).
+  - `index.js`: script Node.js nativo con modulos `https` y `fs` para leer `.env`, conectarse a la API de Trello, buscar tarjetas por nombre y moverlas a las columnas "Por hacer", "Haciendo" o "Hecho".
