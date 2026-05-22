@@ -46,6 +46,7 @@ En desarrollo activo. Estructura base completada y contenido funcional en constr
 ### Completado
 - Archivo `.env` creado en raiz con credenciales de Trello protegidas.
 - `.gitignore` actualizado para excluir `.env` y evitar subida de credenciales a GitHub.
-- Skill personalizada `trello-sync` creada en `.agents/skills/trello-sync/`:
-  - `skill.json`: define el comando `/trello-mover` con argumentos `tarea` y `estado` (todo | doing | done).
-  - `index.js`: script Node.js nativo con modulos `https` y `fs` para leer `.env`, conectarse a la API de Trello, buscar tarjetas por nombre y moverlas a las columnas "Por hacer", "Haciendo" o "Hecho".
+- Skill personalizada `trello-sync` creada y actualizada en `.agents/skills/trello-sync/`:
+  - `skill.json`: define comandos `/trello-crear`, `/trello-mover` y `/trello-eliminar` con argumentos `tarea` y `estado`.
+  - `index.js`: script Node.js nativo con modulos `https` y `fs` para leer `.env`. Soporta crear tarjetas nuevas, mover tarjetas existentes y eliminar tarjetas del tablero.
+  - `SKILL.md`: documentacion de uso para OpenCode Desktop con reglas de comando, ejemplos y confirmacion para eliminaciones irreversibles.

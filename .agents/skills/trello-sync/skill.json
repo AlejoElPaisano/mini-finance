@@ -1,16 +1,43 @@
 {
   "name": "trello-sync",
-  "description": "Sincroniza tarjetas de Trello con el progreso del proyecto Mini Finance.",
-  "command": "/trello-mover",
-  "arguments": {
-    "tarea": {
-      "type": "string",
-      "description": "Nombre exacto o parcial de la tarjeta en Trello"
+  "description": "Sincroniza tarjetas de Trello con el progreso del proyecto Mini Finance. Permite crear, mover y eliminar tarjetas del tablero.",
+  "commands": {
+    "/trello-crear": {
+      "description": "Crea una nueva tarjeta en el tablero de Trello",
+      "arguments": {
+        "tarea": {
+          "type": "string",
+          "description": "Nombre de la nueva tarjeta"
+        },
+        "estado": {
+          "type": "string",
+          "description": "Columna destino donde se creará la tarjeta",
+          "enum": ["todo", "doing"]
+        }
+      }
     },
-    "estado": {
-      "type": "string",
-      "description": "Columna destino",
-      "enum": ["todo", "doing", "done"]
+    "/trello-mover": {
+      "description": "Mueve una tarjeta existente a otra columna del tablero",
+      "arguments": {
+        "tarea": {
+          "type": "string",
+          "description": "Nombre exacto o parcial de la tarjeta en Trello"
+        },
+        "estado": {
+          "type": "string",
+          "description": "Columna destino",
+          "enum": ["todo", "doing", "done"]
+        }
+      }
+    },
+    "/trello-eliminar": {
+      "description": "Elimina una tarjeta existente del tablero",
+      "arguments": {
+        "tarea": {
+          "type": "string",
+          "description": "Nombre exacto o parcial de la tarjeta a eliminar"
+        }
+      }
     }
   }
 }
