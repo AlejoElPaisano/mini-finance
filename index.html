@@ -4,14 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mini Finance - Inicio</title>
-  <link rel="stylesheet" href="./base/styles/reset.css">
-  <link rel="stylesheet" href="./base/styles/tokens.css">
+  <link rel="stylesheet" href="./base/styles/main.css">
 </head>
 <body>
   <header>
     <nav>
       <ul>
-        <li><a href="./index.html">Inicio</a></li>
+        <li><a href="./index.html" aria-current="page">Inicio</a></li>
         <li><a href="./pages/simulador.html">Simulador</a></li>
         <li><a href="./pages/resumen.html">Resumen</a></li>
         <li><a href="./pages/market-rates.html">Cotizaciones</a></li>
@@ -20,14 +19,37 @@
   </header>
 
   <main>
+    <h1>Bienvenido a Mini Finance</h1>
+    <p>Registra tus ingresos y gastos de forma sencilla y manten el control de tus finanzas.</p>
+
+    <div id="alerts-container" aria-live="polite"></div>
+
+    <section class="dashboard">
+      <article class="card card--income">
+        <h2 class="card__title">Total Ingresos</h2>
+        <p class="card__value" id="total-income">$0</p>
+      </article>
+      <article class="card card--expense">
+        <h2 class="card__title">Total Gastos</h2>
+        <p class="card__value" id="total-expense">$0</p>
+      </article>
+      <article class="card">
+        <h2 class="card__title">Saldo Disponible</h2>
+        <p class="card__value" id="balance">$0</p>
+      </article>
+    </section>
+
     <section>
-      <h1>Bienvenido a Mini Finance</h1>
-      <p>Registra tus ingresos y gastos de forma sencilla.</p>
+      <h2>Movimientos Recientes</h2>
+      <div id="movements-list">
+        <p class="empty-state">No hay movimientos registrados.</p>
+      </div>
     </section>
   </main>
 
   <footer>
     <p>&copy; 2026 Mini Finance IntegrarTEC</p>
   </footer>
+
 </body>
 </html>

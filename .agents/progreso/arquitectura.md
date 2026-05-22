@@ -1,5 +1,16 @@
 # Arquitectura del Proyecto
 
+## Consigna Oficial
+
+Idea 5 - IntegrarTEC 2026: Mini Finance
+- Tipo: Simulador de presupuesto personal.
+- Nicho: Finanzas personales.
+- Objetivo: Registrar ingresos, gastos y metas de ahorro. Visualizar saldo y recibir advertencias segun habitos de gasto.
+- Paginas sugeridas: Inicio; Simulador; Resumen financiero.
+- Funcionalidades JS: Agregar ingresos; Agregar gastos; Clasificar gastos por categoria; Calcular saldo disponible; Calcular porcentaje de ahorro; Mostrar advertencias visuales.
+- Storage: Guardar ingresos, gastos, categorias, metas de ahorro o historial mensual.
+- Desafio obligatorio: Alertas visuales en el DOM cuando el usuario supere un limite de gasto o no alcance su meta de ahorro.
+
 ## Estructura de Carpetas
 
 ```
@@ -7,7 +18,8 @@
 ├─ index.html
 ├─ pages/
 │  ├─ simulador.html
-│  └─ resumen.html
+│  ├─ resumen.html
+│  └─ market-rates.html
 ├─ base/
 │  ├─ scripts/
 │  │  ├─ config.js
@@ -32,34 +44,87 @@
 ├─ docs/
 │  └─ informe-uso-ia.md
 ├─ .agents/
+│  ├─ skills/
+│  │  └─ buenas-practica-mini-finance/
+│  │     └─ SKILL.md
 │  └─ progreso/
-│     ├─ BITACORA.md
+│     ├─ Memory.md
+│     └─ arquitectura.md
+└─ README.md
+```
+/
+├─ index.html
+├─ pages/
+│  ├─ simulador.html
+│  ├─ resumen.html
+│  └─ market-rates.html
+├─ base/
+│  ├─ scripts/
+│  │  ├─ config.js
+│  │  ├─ state.js
+│  │  ├─ dom.js
+│  │  ├─ render.js
+│  │  ├─ events.js
+│  │  └─ main.js
+│  └─ styles/
+│     ├─ reset.css
+│     ├─ tokens.css
+│     ├─ base.css
+│     ├─ layout.css
+│     ├─ components.css
+│     ├─ motion.css
+│     ├─ preferences.css
+│     └─ main.css
+├─ assets/
+│  ├─ img/
+│  ├─ icons/
+│  └─ data/
+├─ docs/
+│  └─ informe-uso-ia.md
+├─ .agents/
+│  ├─ skills/
+│  │  └─ buenas-practica-mini-finance/
+│  │     └─ SKILL.md
+│  └─ progreso/
+│     ├─ Memory.md
 │     └─ arquitectura.md
 └─ README.md
 ```
 
-## Descripción Conceptual
+## Descripcion Conceptual
 
 ### HTML
-Punto de entrada en `index.html`. Páginas adicionales dentro de `pages/` para mantener la raíz limpia y manejar rutas relativas de forma predecible. Cada documento es una unidad semántica independiente pero con navegación compartida.
+Punto de entrada en `index.html`. Paginas adicionales dentro de `pages/` para mantener la raiz limpia y manejar rutas relativas de forma predecible.
+- `index.html`: Dashboard principal con saldo, metricas y alertas visuales.
+- `pages/simulador.html`: Formularios para agregar ingresos y gastos, clasificar por categoria, gestionar metas de ahorro y limite de gasto. Filtros dinamicos por tipo y categoria.
+- `pages/resumen.html`: Resumen financiero detallado con historial completo, filtros y calculos de totales.
+- `pages/market-rates.html`: Pagina de cotizaciones (adicional al equipo, contenido en desarrollo).
+
+Todos los documentos comparten navegacion semantica consistente, usan `aria-current` para indicar la pagina activa y `aria-live` para alertas dinamicas.
 
 ### CSS
-Modularizado por responsabilidad. `reset.css` y `tokens.css` definen la base. El resto de los archivos se especializan en layout, componentes, animaciones y preferencias del usuario. Se importan desde un `main.css` central.
+Modularizado por responsabilidad.
+- `reset.css`: normalizacion y `box-sizing` global.
+- `tokens.css`: variables de diseño (colores, tipografia, espaciado, sombras).
+- `base.css`: estilos tipograficos y de elementos base.
+- `layout.css`: estructura de pagina, grid del dashboard, navegacion responsive con media queries.
+- `components.css`: cards, botones, formularios, alertas, filtros, lista de movimientos.
+- `main.css`: importa todos los modulos anteriores.
 
 ### JavaScript
-Arquitectura modular vanilla. Cada archivo tiene una única responsabilidad:
-- `config.js`: constantes y configuración.
-- `state.js`: estado de la aplicación y persistencia en `localStorage`.
-- `dom.js`: selectores centralizados.
-- `render.js`: generación de HTML dinámico.
-- `events.js`: registro de eventos.
-- `main.js`: orquestador de inicialización.
+Arquitectura modular vanilla orientada a funcionalidades financieras. Cada modulo tiene responsabilidad unica:
+- `config.js`: constantes, categorias predefinidas, claves de storage, valores por defecto.
+- `state.js`: gestion del estado, persistencia en `localStorage`, calculos financieros (ingresos, gastos, saldo, totales por categoria) y logica de alertas visuales.
+- `dom.js`: centralizacion de selectores del DOM para evitar repeticion.
+- `render.js`: generacion dinamica de movimientos, metricas, filtros y alertas en el DOM.
+- `events.js`: registro de listeners para formularios, filtros, eliminacion de movimientos y configuracion de alertas.
+- `main.js`: orquestador que inicializa todos los modulos al cargar el DOM.
 
 ### Assets
-Recursos estáticos organizados por tipo: imágenes, iconos y datos JSON locales.
+Recursos estaticos organizados por tipo: imagenes, iconos y datos JSON locales (ej. categorias o consejos financieros).
 
-### Documentación
-README para usuarios y `docs/` para entregables académicos como el informe de uso de IA.
+### Documentacion
+README para usuarios y `docs/` para entregables academicos como el informe de uso de IA.
 
 ### Contexto Interno
-La carpeta `.agents/` aloja la skill especializada y el seguimiento del progreso del proyecto sin afectar el código fuente ni el deploy.
+La carpeta `.agents/` aloja la skill especializada (`SKILL.md`) y el seguimiento del progreso (`progreso/Memory.md` y `progreso/arquitectura.md`) sin afectar el codigo fuente ni el deploy.

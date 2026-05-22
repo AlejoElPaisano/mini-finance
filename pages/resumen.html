@@ -4,8 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mini Finance - Resumen</title>
-  <link rel="stylesheet" href="../base/styles/reset.css">
-  <link rel="stylesheet" href="../base/styles/tokens.css">
+  <link rel="stylesheet" href="../base/styles/main.css">
 </head>
 <body>
   <header>
@@ -13,19 +12,59 @@
       <ul>
         <li><a href="../index.html">Inicio</a></li>
         <li><a href="./simulador.html">Simulador</a></li>
-        <li><a href="./resumen.html">Resumen</a></li>
+        <li><a href="./resumen.html" aria-current="page">Resumen</a></li>
+        <li><a href="./market-rates.html">Cotizaciones</a></li>
       </ul>
     </nav>
   </header>
 
   <main>
+    <h1>Resumen Financiero</h1>
+
+    <div id="alerts-container" aria-live="polite"></div>
+
+    <section class="dashboard">
+      <article class="card card--income">
+        <h2 class="card__title">Total Ingresos</h2>
+        <p class="card__value" id="total-income">$0</p>
+      </article>
+      <article class="card card--expense">
+        <h2 class="card__title">Total Gastos</h2>
+        <p class="card__value" id="total-expense">$0</p>
+      </article>
+      <article class="card">
+        <h2 class="card__title">Saldo Disponible</h2>
+        <p class="card__value" id="balance">$0</p>
+      </article>
+    </section>
+
     <section>
-      <h1>Resumen Financiero</h1>
+      <h2>Historial de Movimientos</h2>
+      <div class="filters">
+        <div class="form-group">
+          <label for="filter-type">Filtrar por tipo</label>
+          <select id="filter-type">
+            <option value="">Todos</option>
+            <option value="income">Ingreso</option>
+            <option value="expense">Gasto</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="filter-category">Filtrar por categoria</label>
+          <select id="filter-category">
+            <option value="">Todas</option>
+          </select>
+        </div>
+      </div>
+      <div id="movements-list">
+        <p class="empty-state">No hay movimientos registrados.</p>
+      </div>
     </section>
   </main>
 
   <footer>
     <p>&copy; 2026 Mini Finance IntegrarTEC</p>
   </footer>
+
 </body>
 </html>
