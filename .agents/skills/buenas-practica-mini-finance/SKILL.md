@@ -257,7 +257,7 @@ Evitar saturar el código con comentarios explicativos innecesarios u obvios. Bu
 ## Automatización de Contexto Interno (Bitácora y Arquitectura)
 En cada interacción donde el usuario solicite crear, modificar o eliminar archivos del proyecto, o cuando se avance en el desarrollo de cualquier funcionalidad, DEBO actualizar automáticamente los siguientes archivos de contexto antes de entregar la respuesta final:
 
-1. `.agents/progreso/BITACORA.md`:
+1. `.agents/progreso/Memory.md`:
    - Registrar la fecha y una descripción concisa de lo realizado en la sesión actual.
    - Actualizar la sección "Estado General" si el proyecto cambia de fase.
    - Mover tareas completadas a la sección "Completado" y nuevas tareas a "Pendiente".

@@ -1,4 +1,4 @@
-# Bitácora de Progreso
+# Memory
 
 ## Consigna Oficial
 
@@ -23,7 +23,7 @@ En desarrollo activo. Estructura base completada y contenido funcional en constr
 - `base/styles/tokens.css`: variables CSS para colores, tipografia, espaciados y sombras.
 - `base/styles/base.css`, `layout.css`, `main.css`: estilos base, layout responsive y sistema de importacion.
 - Eliminacion de archivos desviados (`assets/css/styles.css`, `assets/js/main.js`) para alinear estructura con la skill.
-- Archivos de contexto interno creados y actualizados: `.agents/progreso/BITACORA.md` y `.agents/progreso/arquitectura.md`.
+- Archivos de contexto interno creados y actualizados: `.agents/progreso/Memory.md` y `.agents/progreso/arquitectura.md`.
 - Skill actualizada con regla de automatizacion de contexto.
 
 ### Revertido estrategicamente (para commits del equipo)
@@ -50,3 +50,7 @@ En desarrollo activo. Estructura base completada y contenido funcional en constr
   - `skill.json`: define comandos `/trello-crear`, `/trello-mover` y `/trello-eliminar` con argumentos `tarea` y `estado`.
   - `index.js`: script Node.js nativo con modulos `https` y `fs` para leer `.env`. Soporta crear tarjetas nuevas, mover tarjetas existentes y eliminar tarjetas del tablero.
   - `SKILL.md`: documentacion de uso para OpenCode Desktop con reglas de comando, ejemplos y confirmacion para eliminaciones irreversibles.
+
+### Gestion de Tareas (Trello)
+- Eliminada tarjeta "Agregar formulario de gastos" del tablero mediante script `trello-sync`.
+- Creada tarjeta "Hola" en la columna "En proceso" mediante script `trello-sync`.

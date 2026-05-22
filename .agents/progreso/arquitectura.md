@@ -48,7 +48,7 @@ Idea 5 - IntegrarTEC 2026: Mini Finance
 │  │  └─ buenas-practica-mini-finance/
 │  │     └─ SKILL.md
 │  └─ progreso/
-│     ├─ BITACORA.md
+│     ├─ Memory.md
 │     └─ arquitectura.md
 └─ README.md
 ```
@@ -86,7 +86,7 @@ Idea 5 - IntegrarTEC 2026: Mini Finance
 │  │  └─ buenas-practica-mini-finance/
 │  │     └─ SKILL.md
 │  └─ progreso/
-│     ├─ BITACORA.md
+│     ├─ Memory.md
 │     └─ arquitectura.md
 └─ README.md
 ```
@@ -127,4 +127,4 @@ Recursos estaticos organizados por tipo: imagenes, iconos y datos JSON locales (
 README para usuarios y `docs/` para entregables academicos como el informe de uso de IA.
 
 ### Contexto Interno
-La carpeta `.agents/` aloja la skill especializada (`SKILL.md`) y el seguimiento del progreso (`progreso/BITACORA.md` y `progreso/arquitectura.md`) sin afectar el codigo fuente ni el deploy.
+La carpeta `.agents/` aloja la skill especializada (`SKILL.md`) y el seguimiento del progreso (`progreso/Memory.md` y `progreso/arquitectura.md`) sin afectar el codigo fuente ni el deploy.
