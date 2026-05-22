@@ -54,3 +54,7 @@ En desarrollo activo. Estructura base completada y contenido funcional en constr
 ### Gestion de Tareas (Trello)
 - Eliminada tarjeta "Agregar formulario de gastos" del tablero mediante script `trello-sync`.
 - Creada tarjeta "Hola" en la columna "En proceso" mediante script `trello-sync`.
+
+### Skills Instaladas
+- `frontend-design` desde `https://github.com/anthropics/skills` (instalada via `pnpm dlx` en `.agents/skills/frontend-design/`).
+- `mobile-first-design` desde `https://github.com/aj-geddes/useful-ai-prompts` (instalada via `pnpm dlx` en `.agents/skills/mobile-first-design/`).
