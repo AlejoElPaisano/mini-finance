@@ -253,3 +253,20 @@ Evitar saturar el código con comentarios explicativos innecesarios u obvios. Bu
 - El código debe ser autoexplicativo mediante el uso de nombres de variables y funciones descriptivos.
 - SÓLO se permiten comentarios cortos y concisos en situaciones excepcionales: para justificar una decisión de diseño compleja, una fórmula matemática o la integración con el localStorage si es estrictamente necesario para el entendimiento del flujo general.
 - Si no hay una lógica compleja, devolvé el código completamente limpio de comentarios.
+
+## Automatización de Contexto Interno (Bitácora y Arquitectura)
+En cada interacción donde el usuario solicite crear, modificar o eliminar archivos del proyecto, o cuando se avance en el desarrollo de cualquier funcionalidad, DEBO actualizar automáticamente los siguientes archivos de contexto antes de entregar la respuesta final:
+
+1. `.agents/progreso/BITACORA.md`:
+   - Registrar la fecha y una descripción concisa de lo realizado en la sesión actual.
+   - Actualizar la sección "Estado General" si el proyecto cambia de fase.
+   - Mover tareas completadas a la sección "Completado" y nuevas tareas a "Pendiente".
+
+2. `.agents/progreso/arquitectura.md`:
+   - Si se crean, renombran o eliminan carpetas o archivos significativos, actualizar el diagrama de estructura.
+   - Si cambia la lógica modular o la forma en que interactúan los componentes, reflejarlo en la "Descripción Conceptual".
+
+Reglas para esta actualización:
+- No esperar a que el usuario lo pida explícitamente.
+- Mantener el formato Markdown limpio y directo, sin comentarios innecesarios.
+- Priorizar la precisión técnica sobre la verbosidad.
