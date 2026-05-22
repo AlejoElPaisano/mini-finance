@@ -14,20 +14,29 @@ Idea 5 - IntegrarTEC 2026: Mini Finance
 ## 22 de mayo de 2026
 
 ### Estado General
-En desarrollo. Estructura base iniciada segun skill de Mini Finance IntegrarTEC.
+En desarrollo activo. Estructura base completada y contenido funcional en construccion. Alineacion de archivos del equipo a la skill oficial.
 
 ### Completado
-- Estructura de carpetas base (`pages/`, `base/styles/`).
-- `index.html`, `pages/simulador.html`, `pages/resumen.html`: navegacion semantica consistente y rutas relativas correctas.
+- Estructura de carpetas base (`pages/`, `base/styles/`, `base/scripts/`).
+- `index.html`, `pages/simulador.html`, `pages/resumen.html`, `pages/market-rates.html`: navegacion semantica consistente, rutas relativas correctas y correccion de semantica HTML.
 - `base/styles/reset.css`: limpieza de estilos por defecto y `box-sizing: border-box` global.
 - `base/styles/tokens.css`: variables CSS para colores, tipografia, espaciados y sombras.
-- Archivos de contexto interno creados: `.agents/progreso/BITACORA.md` y `.agents/progreso/arquitectura.md`.
+- `base/styles/base.css`, `layout.css`, `main.css`: estilos base, layout responsive y sistema de importacion.
+- Eliminacion de archivos desviados (`assets/css/styles.css`, `assets/js/main.js`) para alinear estructura con la skill.
+- Archivos de contexto interno creados y actualizados: `.agents/progreso/BITACORA.md` y `.agents/progreso/arquitectura.md`.
 - Skill actualizada con regla de automatizacion de contexto.
 
-### Pendiente
-- Archivos CSS restantes (`base.css`, `layout.css`, `components.css`, `motion.css`, `preferences.css`, `main.css`).
-- Módulos JavaScript (`config.js`, `state.js`, `dom.js`, `render.js`, `events.js`, `main.js`).
-- Contenido funcional y formularios en paginas HTML.
-- Implementacion de `localStorage` y alertas visuales (desafio obligatorio).
-- Assets, README, informe de IA.
-- Configuracion de ramas Git y deploy.
+### Revertido estrategicamente (para commits del equipo)
+- `base/scripts/config.js`, `state.js`, `dom.js`, `render.js`, `events.js`, `main.js`: removidos para que el equipo implemente los modulos JS en sus commits.
+- `base/styles/components.css`: removido para que el equipo desarrolle los estilos de componentes (cards, botones, formularios, alertas).
+- Tags `<script>` removidos de los HTML para desacoplar la estructura de la logica funcional.
+
+### Pendiente (reservado para el equipo)
+- Modulos JavaScript: config, state, dom, render, events, main.
+- CSS de componentes: cards, botones, formularios, alertas, lista de movimientos, filtros.
+- Logica funcional: localStorage, calculos financieros, alertas visuales (desafio obligatorio), renderizado dinamico.
+- Pagina `pages/market-rates.html`: contenido funcional de cotizaciones (fetch opcional).
+- Assets (imagenes, iconos, datos JSON).
+- README completo.
+- Informe de uso de IA en `docs/`.
+- Deploy funcional.

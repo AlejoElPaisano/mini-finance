@@ -4,28 +4,99 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mini Finance - Simulador</title>
-  <link rel="stylesheet" href="../base/styles/reset.css">
-  <link rel="stylesheet" href="../base/styles/tokens.css">
+  <link rel="stylesheet" href="../base/styles/main.css">
 </head>
 <body>
   <header>
     <nav>
       <ul>
         <li><a href="../index.html">Inicio</a></li>
-        <li><a href="./simulador.html">Simulador</a></li>
+        <li><a href="./simulador.html" aria-current="page">Simulador</a></li>
         <li><a href="./resumen.html">Resumen</a></li>
+        <li><a href="./market-rates.html">Cotizaciones</a></li>
       </ul>
     </nav>
   </header>
 
   <main>
+    <h1>Simulador de Movimientos</h1>
+
+    <div id="alerts-container" aria-live="polite"></div>
+
+    <section class="card">
+      <h2>Registrar Movimiento</h2>
+      <form id="movement-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="type">Tipo</label>
+            <select id="type" name="type">
+              <option value="income">Ingreso</option>
+              <option value="expense">Gasto</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="category">Categoria</label>
+            <select id="category" name="category"></select>
+          </div>
+          <div class="form-group">
+            <label for="description">Descripcion</label>
+            <input type="text" id="description" name="description" placeholder="Ej. Sueldo mensual">
+          </div>
+          <div class="form-group">
+            <label for="amount">Monto</label>
+            <input type="number" id="amount" name="amount" min="1" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label for="date">Fecha</label>
+            <input type="date" id="date" name="date">
+          </div>
+        </div>
+        <button type="submit" class="btn btn--primary" id="submit-btn">Agregar Movimiento</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Configuracion de Alertas</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="savings-goal">Meta de Ahorro</label>
+          <input type="number" id="savings-goal" name="savings-goal" min="0" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label for="expense-limit">Limite de Gasto</label>
+          <input type="number" id="expense-limit" name="expense-limit" min="0" placeholder="0">
+        </div>
+      </div>
+      <button type="button" class="btn btn--primary" id="save-settings">Guardar Configuracion</button>
+    </section>
+
     <section>
-      <h1>Simulador de Gastos</h1>
+      <h2>Lista de Movimientos</h2>
+      <div class="filters">
+        <div class="form-group">
+          <label for="filter-type">Filtrar por tipo</label>
+          <select id="filter-type">
+            <option value="">Todos</option>
+            <option value="income">Ingreso</option>
+            <option value="expense">Gasto</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="filter-category">Filtrar por categoria</label>
+          <select id="filter-category">
+            <option value="">Todas</option>
+          </select>
+        </div>
+      </div>
+      <div id="movements-list">
+        <p class="empty-state">No hay movimientos registrados.</p>
+      </div>
     </section>
   </main>
 
   <footer>
     <p>&copy; 2026 Mini Finance IntegrarTEC</p>
   </footer>
+
 </body>
 </html>
