@@ -51,10 +51,28 @@ En desarrollo activo. Estructura base completada y contenido funcional en constr
   - `index.js`: script Node.js nativo con modulos `https` y `fs` para leer `.env`. Soporta crear tarjetas nuevas, mover tarjetas existentes y eliminar tarjetas del tablero.
   - `SKILL.md`: documentacion de uso para OpenCode Desktop con reglas de comando, ejemplos y confirmacion para eliminaciones irreversibles.
 
-### Gestion de Tareas (Trello)
-- Eliminada tarjeta "Agregar formulario de gastos" del tablero mediante script `trello-sync`.
-- Creada tarjeta "Hola" en la columna "En proceso" mediante script `trello-sync`.
-
 ### Skills Instaladas
 - `frontend-design` desde `https://github.com/anthropics/skills` (instalada via `pnpm dlx` en `.agents/skills/frontend-design/`).
 - `mobile-first-design` desde `https://github.com/aj-geddes/useful-ai-prompts` (instalada via `pnpm dlx` en `.agents/skills/mobile-first-design/`).
+
+## 23 de mayo de 2026
+
+### Estado General
+En desarrollo activo. Aplicacion de directrices de frontend-design y mobile-first-design al codigo del proyecto.
+
+### Completado
+- `base/styles/tokens.css` actualizado con tipografia distintiva (Playfair Display + Sora), colores con acento naranja, sombras dramaticas y variables de transicion.
+- `base/styles/base.css` actualizado con jerarquia tipografica, fuentes display/body, touch targets minimos 44x44px, y media queries mobile-first.
+- `base/styles/layout.css` reescrito con enfoque mobile-first: navegacion vertical en mobile, grid asimetrico en desktop, breakpoints con `min-width`.
+- `base/styles/components.css` creado con estetica audaz: cards con sombras dramaticas y gradientes en hover, botones con estados sorprendentes, formularios enfocados, alertas con bordes laterales.
+- `base/styles/main.css` corregido: removido import inexistente `simulator.css`, agregado `components.css`.
+- `index.html`, `pages/simulador.html`, `pages/resumen.html`, `pages/market-rates.html`: agregadas fuentes de Google Fonts, limpieza de codigo comentado y espacios en blanco masivos en simulador.html.
+
+### Pendiente (reservado para el equipo)
+- Modulos JavaScript: config, state, dom, render, events, main.
+- Logica funcional: localStorage, calculos financieros, alertas visuales (desafio obligatorio), renderizado dinamico.
+- Pagina `pages/market-rates.html`: contenido funcional de cotizaciones (fetch opcional).
+- Assets (imagenes, iconos, datos JSON).
+- README completo.
+- Informe de uso de IA en `docs/`.
+- Deploy funcional.
