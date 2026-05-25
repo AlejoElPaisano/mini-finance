@@ -86,6 +86,7 @@
         </div>
 
         <div class="slider-grid">
+
           <label class="range-field" for="savings-goal">
             <span>Meta de Ahorro</span>
             <output id="savings-goal-output" for="savings-goal">$1000</output>
@@ -98,7 +99,35 @@
             max="50000"
             step="100"
             value="1000"
+            list="savings-scale"
           />
+
+
+          <datalist id="savings-scale">
+            <option value="0"     label="$0"></option>
+            <option value="5000"  label="$5k"></option>
+            <option value="10000" label="$10k"></option>
+            <option value="15000" label="$15k"></option>
+            <option value="20000" label="$20k"></option>
+            <option value="25000" label="$25k"></option>
+            <option value="30000" label="$30k"></option>
+            <option value="35000" label="$35k"></option>
+            <option value="40000" label="$40k"></option>
+            <option value="45000" label="$45k"></option>
+            <option value="50000" label="$50k"></option>
+          </datalist>
+
+
+          <div class="slider-scale">
+            <span>$0</span>
+            <span>$10k</span>
+            <span>$20k</span>
+            <span>$30k</span>
+            <span>$40k</span>
+            <span>$50k</span>
+          </div>
+
+
         </div>
 
         <button type="submit" class="btn btn--primary" id="submit-btn">Agregar Movimiento</button>
@@ -107,30 +136,30 @@
 
 
       <article class="card-total" >
-        <p class="card-total-label" > Balance Total </p>
+        <p class="card-total-label" > Monto Total Disponible </p>
         <p class="card-total-amount" > $125000 </p>
+
+        <aside  class="card-total-footer">
+          <label for="adjusted-amount" class="card-total-footer__label">
+            MONTO CONSIDERANDO AHORRO
+          </label>
+          <output id="adjusted-amount" class="card-total-footer__value">
+            $0
+          </output>
+        </aside >
+
+
       </article>
 
     </section>
 
     <section>
-      <h2>Lista de Movimientos</h2>
-      <div class="filters">
-        <div class="form-group">
-          <label for="filter-type">Filtrar por tipo</label>
-          <select id="filter-type">
-            <option value="">Todos</option>
-            <option value="income">Ingreso</option>
-            <option value="expense">Gasto</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="filter-category">Filtrar por categoria</label>
-          <select id="filter-category">
-            <option value="">Todas</option>
-          </select>
-        </div>
-      </div>
+      <h2>Movimientos recientes</h2>
+
+      <section class="filters">
+      
+      </section>
+      
       <div id="movements-list">
         <p class="empty-state">No hay movimientos registrados.</p>
       </div>

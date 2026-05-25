@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════
-   .card — grid de 3 columnas
+  .card — grid de 3 columnas
 ══════════════════════════════════════════ */
 section.card {
   display: grid;
@@ -81,6 +81,7 @@ section.card {
   display: grid;
   gap: 0.5rem;
   background-color: rgb(128, 234, 229);
+  opacity: 0.7;
   padding: 1rem;
   border-radius: 0.5rem ;
   /*justify-content: end;*/
@@ -113,11 +114,13 @@ input[type="range"] {
    .btn--primary — abarca ambas columnas del form
 ══════════════════════════════════════════ */
 .btn--primary {
-  grid-column: 1 / -1;
+  grid-row: 6;
+  grid-column: 1 / 3 ;
+  align-self: center;
   background-color: #0e7490;
   padding: 0.625rem;
   font-size: 1.125rem;
-  width: 100%;
+  width: 50%;
   border-radius: 9999px;
   color: #e2e8f0;
   font-weight: 700;
@@ -149,14 +152,33 @@ input[type="range"] {
 }
 
 .card-total-label {
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: 1.25rem;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  opacity: 0.8;
+  opacity: 0.9;
+  color: wheat
 }
 
 .card-total-amount {
   font-size: 2rem;
   font-weight: 700;
+   opacity: 0.9;
+  color: wheat;
+  background-color: #0e91b5 ;
+  border-radius: 0.5rem ;
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+
+.slider-scale {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: #64748b;
+  padding: 0 2px;
+  margin-top: 0.25rem;
 }
