@@ -68,6 +68,19 @@ En desarrollo activo. Aplicacion de directrices de frontend-design y mobile-firs
 - `base/styles/main.css` corregido: removido import inexistente `simulator.css`, agregado `components.css`.
 - `index.html`, `pages/simulador.html`, `pages/resumen.html`, `pages/market-rates.html`: agregadas fuentes de Google Fonts, limpieza de codigo comentado y espacios en blanco masivos en simulador.html.
 
+## 25 de mayo de 2026 (evolución)
+
+### Estado General
+En desarrollo activo. Footer desplegable refinado según feedback del equipo.
+
+### Completado
+- Eliminada sección de navegación del footer en las 4 páginas.
+- Título de equipo cambiado a "Desarrollado por:".
+- Nombres de integrantes convertidos en links directos a LinkedIn (sin URL visible).
+- Grid de equipo reestructurado a 2 columnas con layout limpio.
+- `base/styles/footer.css`: ajustado grid del footer de 4 a 3 columnas, simplificada estructura del equipo, removidos estilos de links de miembro obsoletos.
+- `index.html`, `pages/simulador.html`, `pages/resumen.html`, `pages/market-rates.html`: actualizados con nuevo layout del footer.
+
 ### Pendiente (reservado para el equipo)
 - Modulos JavaScript: config, state, dom, render, events, main.
 - Logica funcional: localStorage, calculos financieros, alertas visuales (desafio obligatorio), renderizado dinamico.

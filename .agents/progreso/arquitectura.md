@@ -27,13 +27,15 @@ Idea 5 - IntegrarTEC 2026: Mini Finance
 │  │  ├─ dom.js
 │  │  ├─ render.js
 │  │  ├─ events.js
-│  │  └─ main.js
+│  │  ├─ main.js
+│  │  └─ footer.js
 │  └─ styles/
 │     ├─ reset.css
 │     ├─ tokens.css
 │     ├─ base.css
 │     ├─ layout.css
 │     ├─ components.css
+│     ├─ footer.css
 │     ├─ motion.css
 │     ├─ preferences.css
 │     └─ main.css
@@ -65,13 +67,15 @@ Idea 5 - IntegrarTEC 2026: Mini Finance
 │  │  ├─ dom.js
 │  │  ├─ render.js
 │  │  ├─ events.js
-│  │  └─ main.js
+│  │  ├─ main.js
+│  │  └─ footer.js
 │  └─ styles/
 │     ├─ reset.css
 │     ├─ tokens.css
 │     ├─ base.css
 │     ├─ layout.css
 │     ├─ components.css
+│     ├─ footer.css
 │     ├─ motion.css
 │     ├─ preferences.css
 │     └─ main.css
@@ -109,6 +113,7 @@ Modularizado por responsabilidad.
 - `base.css`: estilos tipograficos y de elementos base.
 - `layout.css`: estructura de pagina, grid del dashboard, navegacion responsive con media queries.
 - `components.css`: cards, botones, formularios, alertas, filtros, lista de movimientos.
+- `footer.css`: footer desplegable tipo cajon con glassmorphism, toggle persistente y grid de equipo; footer simplificado para paginas secundarias.
 - `main.css`: importa todos los modulos anteriores.
 
 ### JavaScript
@@ -119,6 +124,7 @@ Arquitectura modular vanilla orientada a funcionalidades financieras. Cada modul
 - `render.js`: generacion dinamica de movimientos, metricas, filtros y alertas en el DOM.
 - `events.js`: registro de listeners para formularios, filtros, eliminacion de movimientos y configuracion de alertas.
 - `main.js`: orquestador que inicializa todos los modulos al cargar el DOM.
+- `footer.js`: gestiona el estado abierto/cerrado del footer desplegable, persiste en localStorage y ajusta el padding del body dinamicamente.
 
 ### Assets
 Recursos estaticos organizados por tipo: imagenes, iconos y datos JSON locales (ej. categorias o consejos financieros).
