@@ -22,15 +22,15 @@
     </nav>
   </header>
 
-  <main>
-    <h1>Simulador de Movimientos</h1>
+  <main aria-describedby="simulator-title">
+    <h1 id="simulator-title">Simulador de Movimientos</h1>
 
     <div id="alerts-container" aria-live="polite"></div>
 
     <section class="card">
       <h2 id="section-movement">Registrar Movimiento</h2>
 
-      <form id="movement-form" aria-labelledby="section-movement">
+      <form id="movement-form" class="card-form" aria-labelledby="section-movement">
 
         <div class="form-group">
           <label for="type">Tipo</label>
@@ -58,7 +58,8 @@
           >
           <strong id="description-hint">Ingresá una descripción breve del movimiento.</strong>
         </div>
-
+        
+        <!--
         <div class="form-group">
           <label for="amount">Monto</label>
           <input
@@ -72,6 +73,7 @@
           >
           <strong id="amount-hint">Ingresá el monto en pesos argentinos.</strong>
         </div>
+        -->
 
         <div class="form-group">
           <label for="date">Fecha</label>
@@ -102,6 +104,13 @@
         <button type="submit" class="btn btn--primary" id="submit-btn">Agregar Movimiento</button>
 
       </form>
+
+
+      <article class="card-total" >
+        <p class="card-total-label" > Balance Total </p>
+        <p class="card-total-amount" > $125000 </p>
+      </article>
+
     </section>
 
     <section>
