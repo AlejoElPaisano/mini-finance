@@ -61,3 +61,33 @@ function initAccessibility() {
 }
 
 initAccessibility();
+
+const userMenuTrigger = document.querySelector('.user-menu__trigger');
+const userMenuDropdown = document.querySelector('.user-menu__dropdown');
+
+if (userMenuTrigger && userMenuDropdown) {
+  userMenuTrigger.addEventListener('click', () => {
+    const isOpen = !userMenuDropdown.hidden;
+    userMenuDropdown.hidden = isOpen;
+    userMenuTrigger.setAttribute('aria-expanded', String(!isOpen));
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!userMenuTrigger.contains(event.target) && !userMenuDropdown.contains(event.target)) {
+      userMenuDropdown.hidden = true;
+      userMenuTrigger.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+
+const logoutBtn = document.getElementById('logout-btn');
+
+if (logoutBtn) {
+  const isInPages = window.location.pathname.includes('/pages/');
+  const loginPath = isInPages ? './login.html' : './pages/login.html';
+
+  logoutBtn.addEventListener('click', () => {
+    localStorage.removeItem('miniFinanceSession');
+    window.location.href = loginPath;
+  });
+}

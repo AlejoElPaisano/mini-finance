@@ -133,17 +133,19 @@ Auditoría completa realizada con las skills `frontend-design` e `interface-desi
   - Custom range input styling con hover scale effect.
   - Valores monetarios con `font-family: var(--font-mono)`.
 
-### 25 de mayo de 2026 (continuacion)
+## 26 de mayo de 2026
 
 ### Estado General
-En desarrollo activo. Implementacion de herramientas de accesibilidad persistentes en el header.
+En desarrollo activo. Sistema de autenticacion integrado con flujo completo de login/logout.
 
 ### Completado
-- `base/styles/accessibility.css`: creado con estilos para modo dislexia (fuente OpenDyslexic) y modo daltonismo (paleta segura Vermilion/Sky Blue, bordes reforzados).
-- `base/styles/main.css`: agregado import de `accessibility.css`.
-- `base/scripts/main.js`: logica vanilla para toggles de accesibilidad con persistencia en localStorage y clases dinamicas en `<body>`.
-- `index.html`, `pages/simulador.html`, `pages/resumen.html`, `pages/market-rates.html`: agregados botones de accesibilidad (dislexia y daltonismo) agrupados en `.header-tools` junto al dark mode toggle.
-- Botones con `aria-pressed`, estados `.active`, labels responsivas (ocultas en mobile) y tooltips descriptivos.
+- `pages/login.html`: pagina de acceso con tres vistas intercambiables (login, registro, recuperacion).
+- `base/styles/login.css`: estilos de autenticacion con gradiente de acento animado.
+- `base/styles/accessibility.css`: herramientas de accesibilidad (dislexia, daltonismo) y menu desplegable de usuario.
+- `base/scripts/login.js`: logica de autenticacion con localStorage, validaciones, mensajes en DOM.
+- `base/scripts/main.js`: manejo de menu desplegable de usuario (toggle, cierre al click fuera) y logout.
+- `index.html`, `pages/simulador.html`, `pages/resumen.html`, `pages/market-rates.html`: auth guard en `<head>` que redirige a login si no hay sesion; header con herramientas de accesibilidad, dark mode y menu de usuario (👤) con opcion de cerrar sesion.
+- Flujo: login exitoso → guarda `miniFinanceSession` → redirige a `index.html` → usuario navega libremente → click en 👤 → "Cerrar sesión" → elimina sesion → redirige a login.
 
 ### Pendiente (reservado para el equipo)
 - Modulos JavaScript: config, state, dom, render, events, main.
