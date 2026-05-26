@@ -101,6 +101,21 @@
           >
         </div>
 
+        <div class="form-group">
+          <label for="amount">Monto</label>
+          <input
+            type="number"
+            id="amount"
+            name="amount"
+            required
+            min="1"
+            step="0.01"
+            placeholder="Ej. 25000"
+            aria-describedby="amount-hint"
+          >
+          <small id="amount-hint" class="form-hint">Ingresá el monto en pesos.</small>
+        </div>
+
         <div class="slider-grid">
           <div class="range-field">
             <label for="savings-goal">Meta de Ahorro</label>
@@ -207,6 +222,11 @@
     </div>
   </footer>
 
+  <script src="../base/scripts/config.js"></script>
+  <script src="../base/scripts/state.js"></script>
+  <script src="../base/scripts/dom.js"></script>
+  <script src="../base/scripts/render.js"></script>
+  <script src="../base/scripts/events.js"></script>
   <script src="../base/scripts/main.js"></script>
   <script src="../base/scripts/footer.js"></script>
 </body>

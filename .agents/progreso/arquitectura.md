@@ -119,7 +119,7 @@ Modularizado por responsabilidad.
 - `tokens.css`: variables de diseño (colores, tipografia, espaciado, sombras).
 - `base.css`: estilos tipograficos y de elementos base.
 - `layout.css`: estructura de pagina, grid del dashboard, navegacion responsive con media queries.
-- `components.css`: cards, botones, formularios, alertas, filtros, lista de movimientos.
+- `components.css`: cards, botones, formularios, alertas, filtros, lista de movimientos con items de ingreso/gasto y estilos de eliminacion.
 - `footer.css`: footer desplegable tipo cajon con glassmorphism, toggle persistente y grid de equipo; footer simplificado para paginas secundarias.
 - `accessibility.css`: herramientas de accesibilidad persistentes en header (modo dislexia con fuente OpenDyslexic y modo daltonismo con paleta segura y bordes reforzados), botones de herramientas del header y menu desplegable de usuario con animacion de aparicion.
 - `login.css`: estilos especificos de la pagina de autenticacion, diseno mobile-first con card centrada, gradiente de acento y animaciones de transicion entre vistas.

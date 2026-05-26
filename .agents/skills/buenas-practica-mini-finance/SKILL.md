@@ -270,3 +270,19 @@ Reglas para esta actualización:
 - No esperar a que el usuario lo pida explícitamente.
 - Mantener el formato Markdown limpio y directo, sin comentarios innecesarios.
 - Priorizar la precisión técnica sobre la verbosidad.
+
+## Reglas de Git (Estricto)
+
+### Commits
+- **PROHIBIDO ejecutar `git commit` sin permiso explícito del usuario.**
+- **PROHIBIDO ejecutar `git push`, `git merge`, `git rebase`, `git reset --hard` u cualquier comando destructivo sin autorización previa.**
+- En cada interacción donde se realicen cambios en el proyecto, DEBO proponer al usuario un título y una descripción de commit acordes a la convención Conventional Commits, solicitando confirmación antes de ejecutar.
+- Ejemplo de formato a proponer:
+  ```
+  feat: add expense form with validation
+
+  - Add form fields for description, amount, date and category
+  - Implement client-side validation before submission
+  - Persist expenses to localStorage with unique IDs
+  ```
+- Sólo tras la confirmación explícita del usuario (`"dale"`, `"hacelo"`, `"sí"`, `"ok"`, etc.) se debe ejecutar el commit.
