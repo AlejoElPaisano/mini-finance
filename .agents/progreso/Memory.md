@@ -133,6 +133,18 @@ Auditoría completa realizada con las skills `frontend-design` e `interface-desi
   - Custom range input styling con hover scale effect.
   - Valores monetarios con `font-family: var(--font-mono)`.
 
+### 25 de mayo de 2026 (continuacion)
+
+### Estado General
+En desarrollo activo. Implementacion de herramientas de accesibilidad persistentes en el header.
+
+### Completado
+- `base/styles/accessibility.css`: creado con estilos para modo dislexia (fuente OpenDyslexic) y modo daltonismo (paleta segura Vermilion/Sky Blue, bordes reforzados).
+- `base/styles/main.css`: agregado import de `accessibility.css`.
+- `base/scripts/main.js`: logica vanilla para toggles de accesibilidad con persistencia en localStorage y clases dinamicas en `<body>`.
+- `index.html`, `pages/simulador.html`, `pages/resumen.html`, `pages/market-rates.html`: agregados botones de accesibilidad (dislexia y daltonismo) agrupados en `.header-tools` junto al dark mode toggle.
+- Botones con `aria-pressed`, estados `.active`, labels responsivas (ocultas en mobile) y tooltips descriptivos.
+
 ### Pendiente (reservado para el equipo)
 - Modulos JavaScript: config, state, dom, render, events, main.
 - Logica funcional: localStorage, calculos financieros, alertas visuales (desafio obligatorio), renderizado dinamico.

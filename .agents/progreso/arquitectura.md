@@ -36,6 +36,7 @@ Idea 5 - IntegrarTEC 2026: Mini Finance
 │     ├─ layout.css
 │     ├─ components.css
 │     ├─ footer.css
+│     ├─ accessibility.css
 │     ├─ motion.css
 │     ├─ preferences.css
 │     └─ main.css
@@ -76,6 +77,7 @@ Idea 5 - IntegrarTEC 2026: Mini Finance
 │     ├─ layout.css
 │     ├─ components.css
 │     ├─ footer.css
+│     ├─ accessibility.css
 │     ├─ motion.css
 │     ├─ preferences.css
 │     └─ main.css
@@ -114,6 +116,7 @@ Modularizado por responsabilidad.
 - `layout.css`: estructura de pagina, grid del dashboard, navegacion responsive con media queries.
 - `components.css`: cards, botones, formularios, alertas, filtros, lista de movimientos.
 - `footer.css`: footer desplegable tipo cajon con glassmorphism, toggle persistente y grid de equipo; footer simplificado para paginas secundarias.
+- `accessibility.css`: herramientas de accesibilidad persistentes en header (modo dislexia con fuente OpenDyslexic y modo daltonismo con paleta segura y bordes reforzados).
 - `main.css`: importa todos los modulos anteriores.
 
 ### JavaScript

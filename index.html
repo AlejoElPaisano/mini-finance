@@ -20,9 +20,21 @@
         <li><a href="./pages/resumen.html">Resumen</a></li>
         <li><a href="./pages/market-rates.html">Cotizaciones</a></li>
       </ul>
-      <button type="button" id="dark-mode-toggle" aria-label="Cambiar modo oscuro">
-        <span aria-hidden="true">🌙</span>
-      </button>
+      <div class="header-tools">
+        <div class="accessibility-tools">
+          <button type="button" id="dyslexic-toggle" class="btn-tool" aria-pressed="false" title="Fuente para dislexia">
+            <span aria-hidden="true">👁️</span>
+            <span class="btn-tool__label">Dislexia</span>
+          </button>
+          <button type="button" id="colorblind-toggle" class="btn-tool" aria-pressed="false" title="Modo alto contraste para daltonismo">
+            <span aria-hidden="true">🎨</span>
+            <span class="btn-tool__label">Daltónico</span>
+          </button>
+        </div>
+        <button type="button" id="dark-mode-toggle" aria-label="Cambiar modo oscuro">
+          <span aria-hidden="true">🌙</span>
+        </button>
+      </div>
     </nav>
   </header>
 
