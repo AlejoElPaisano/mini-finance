@@ -164,6 +164,16 @@ En desarrollo activo. Modulos JavaScript financieros implementados y funcionando
 - `base/styles/components.css`: agregados estilos para lista de movimientos (`.movements-list`, `.movement-item`, `.movement-item__delete`) con indicadores de color para ingresos/gastos.
 - Alertas visuales: se muestran en el DOM cuando se supera el limite de gasto o no se alcanza la meta de ahorro.
 
+## 27 de mayo de 2026 (documentacion)
+
+### Estado General
+Documentacion completa del proyecto creada.
+
+### Completado
+- `README.md`: documentacion completa con descripcion del proyecto, integrantes, idea elegida, tecnologias, funcionalidades detalladas, estructura de carpetas, instrucciones de uso e informacion sobre IA.
+- `docs/informe-uso-ia.md`: informe de uso de inteligencia artificial con herramientas utilizadas, prompts utiles, partes asistidas, correcciones realizadas, aprendizajes y decisiones tomadas por el grupo.
+- `.agents/skills/buenas-practica-mini-finance/SKILL.md`: agregadas reglas estrictas de Git (prohibicion de commit sin permiso y obligatoriedad de proponer titulo/descripcion antes de ejecutar).
+
 ### Pendiente (reservado para el equipo)
 - Pagina `pages/market-rates.html`: contenido funcional de cotizaciones (fetch opcional).
 - Assets (imagenes, iconos, datos JSON).
