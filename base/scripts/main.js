@@ -3,20 +3,22 @@ const toggle = document.getElementById('dark-mode-toggle');
 const savedMode = localStorage.getItem('dark-mode');
 if (savedMode === 'enabled') {
   document.body.classList.add('dark-mode');
-  toggle.textContent = '☀️';
+  if (toggle) toggle.textContent = '☀️';
 }
 
-toggle.addEventListener('click', () => {
-  document.body.classList.toggle('dark-mode');
+if (toggle) {
+  toggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
 
-  if (document.body.classList.contains('dark-mode')) {
-    localStorage.setItem('dark-mode', 'enabled');
-    toggle.textContent = '☀️';
-  } else {
-    localStorage.setItem('dark-mode', 'disabled');
-    toggle.textContent = '🌙';
-  }
-});
+    if (document.body.classList.contains('dark-mode')) {
+      localStorage.setItem('dark-mode', 'enabled');
+      toggle.textContent = '☀️';
+    } else {
+      localStorage.setItem('dark-mode', 'disabled');
+      toggle.textContent = '🌙';
+    }
+  });
+}
 
 const dyslexicToggle = document.getElementById('dyslexic-toggle');
 const colorblindToggle = document.getElementById('colorblind-toggle');
@@ -90,4 +92,43 @@ if (logoutBtn) {
     localStorage.removeItem('miniFinanceSession');
     window.location.href = loginPath;
   });
+}
+
+function initFinancialApp() {
+  if (typeof getMovements !== 'function') return;
+
+  renderDashboard();
+  renderAlerts();
+
+  if (dom.movementsList) {
+    renderMovements(
+      dom.filterType ? dom.filterType.value : '',
+      dom.filterCategory ? dom.filterCategory.value : ''
+    );
+  }
+
+  if (dom.categorySelect) {
+    renderCategoryOptions(dom.typeSelect ? dom.typeSelect.value : '');
+  }
+
+  if (dom.filterCategory) {
+    renderFilterCategoryOptions();
+  }
+
+  if (dom.savingsGoalInput) {
+    initRangeOutput();
+    renderAdjustedAmount();
+  }
+
+  initFormEvents();
+  initTypeChangeEvent();
+  initFilterEvents();
+  initDeleteEvents();
+  initSavingsGoalEvent();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initFinancialApp);
+} else {
+  initFinancialApp();
 }

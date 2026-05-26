@@ -147,9 +147,24 @@ En desarrollo activo. Sistema de autenticacion integrado con flujo completo de l
 - `index.html`, `pages/simulador.html`, `pages/resumen.html`, `pages/market-rates.html`: auth guard en `<head>` que redirige a login si no hay sesion; header con herramientas de accesibilidad, dark mode y menu de usuario (👤) con opcion de cerrar sesion.
 - Flujo: login exitoso → guarda `miniFinanceSession` → redirige a `index.html` → usuario navega libremente → click en 👤 → "Cerrar sesión" → elimina sesion → redirige a login.
 
+## 27 de mayo de 2026
+
+### Estado General
+En desarrollo activo. Modulos JavaScript financieros implementados y funcionando.
+
+### Completado
+- `base/scripts/config.js`: constantes, categorias predefinidas (ingresos/gastos), claves de storage y valores por defecto.
+- `base/scripts/state.js`: gestion de estado con localStorage (movimientos, meta de ahorro, limite de gasto), calculos financieros (ingresos, gastos, saldo, totales por categoria, progreso de ahorro) y logica de alertas visuales (limite de gasto y meta de ahorro).
+- `base/scripts/dom.js`: centralizacion de selectores del DOM.
+- `base/scripts/render.js`: renderizado dinamico de dashboard, lista de movimientos, filtros de categoria, alertas visuales y monto ajustado.
+- `base/scripts/events.js`: listeners para formulario de movimientos, cambio de tipo (actualiza categorias), filtros, eliminacion de movimientos y meta de ahorro.
+- `base/scripts/main.js`: orquestador actualizado que inicializa dark mode, accesibilidad, menu de usuario, logout y los modulos financieros.
+- `pages/simulador.html`: agregado campo de monto (`#amount`) al formulario; scripts financieros integrados.
+- `index.html`, `pages/simulador.html`, `pages/resumen.html`: scripts financieros cargados en orden correcto.
+- `base/styles/components.css`: agregados estilos para lista de movimientos (`.movements-list`, `.movement-item`, `.movement-item__delete`) con indicadores de color para ingresos/gastos.
+- Alertas visuales: se muestran en el DOM cuando se supera el limite de gasto o no se alcanza la meta de ahorro.
+
 ### Pendiente (reservado para el equipo)
-- Modulos JavaScript: config, state, dom, render, events, main.
-- Logica funcional: localStorage, calculos financieros, alertas visuales (desafio obligatorio), renderizado dinamico.
 - Pagina `pages/market-rates.html`: contenido funcional de cotizaciones (fetch opcional).
 - Assets (imagenes, iconos, datos JSON).
 - README completo.
