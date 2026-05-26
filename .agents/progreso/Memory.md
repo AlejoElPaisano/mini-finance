@@ -133,6 +133,20 @@ Auditoría completa realizada con las skills `frontend-design` e `interface-desi
   - Custom range input styling con hover scale effect.
   - Valores monetarios con `font-family: var(--font-mono)`.
 
+## 26 de mayo de 2026
+
+### Estado General
+En desarrollo activo. Sistema de autenticacion integrado con flujo completo de login/logout.
+
+### Completado
+- `pages/login.html`: pagina de acceso con tres vistas intercambiables (login, registro, recuperacion).
+- `base/styles/login.css`: estilos de autenticacion con gradiente de acento animado.
+- `base/styles/accessibility.css`: herramientas de accesibilidad (dislexia, daltonismo) y menu desplegable de usuario.
+- `base/scripts/login.js`: logica de autenticacion con localStorage, validaciones, mensajes en DOM.
+- `base/scripts/main.js`: manejo de menu desplegable de usuario (toggle, cierre al click fuera) y logout.
+- `index.html`, `pages/simulador.html`, `pages/resumen.html`, `pages/market-rates.html`: auth guard en `<head>` que redirige a login si no hay sesion; header con herramientas de accesibilidad, dark mode y menu de usuario (👤) con opcion de cerrar sesion.
+- Flujo: login exitoso → guarda `miniFinanceSession` → redirige a `index.html` → usuario navega libremente → click en 👤 → "Cerrar sesión" → elimina sesion → redirige a login.
+
 ### Pendiente (reservado para el equipo)
 - Modulos JavaScript: config, state, dom, render, events, main.
 - Logica funcional: localStorage, calculos financieros, alertas visuales (desafio obligatorio), renderizado dinamico.

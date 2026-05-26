@@ -8,6 +8,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../base/styles/main.css">
+  <script>
+    if (!localStorage.getItem('miniFinanceSession')) {
+      window.location.replace('./login.html');
+    }
+  </script>
 </head>
 <body>
   <a href="#main-content" class="skip-link">Ir al contenido principal</a>
@@ -20,9 +25,32 @@
         <li><a href="./resumen.html" aria-current="page">Resumen</a></li>
         <li><a href="./market-rates.html">Cotizaciones</a></li>
       </ul>
-      <button type="button" id="dark-mode-toggle" aria-label="Cambiar modo oscuro">
-        <span aria-hidden="true">🌙</span>
-      </button>
+      <div class="header-tools">
+        <div class="accessibility-tools">
+          <button type="button" id="dyslexic-toggle" class="btn-tool" aria-pressed="false" title="Fuente para dislexia">
+            <span aria-hidden="true">👁️</span>
+            <span class="btn-tool__label">Dislexia</span>
+          </button>
+          <button type="button" id="colorblind-toggle" class="btn-tool" aria-pressed="false" title="Modo alto contraste para daltonismo">
+            <span aria-hidden="true">🎨</span>
+            <span class="btn-tool__label">Daltónico</span>
+          </button>
+        </div>
+        <button type="button" id="dark-mode-toggle" aria-label="Cambiar modo oscuro">
+          <span aria-hidden="true">🌙</span>
+        </button>
+        <div class="user-menu">
+          <button type="button" class="btn-tool user-menu__trigger" aria-haspopup="true" aria-expanded="false" title="Menú de usuario">
+            <span aria-hidden="true">👤</span>
+          </button>
+          <div class="user-menu__dropdown" hidden>
+            <button type="button" class="user-menu__item" id="logout-btn">
+              <span aria-hidden="true">🚪</span>
+              Cerrar sesión
+            </button>
+          </div>
+        </div>
+      </div>
     </nav>
   </header>
 
@@ -70,7 +98,7 @@
     </section>
   </main>
 
-  <footer class="app-footer open" id="app-footer">
+  <footer class="app-footer" id="app-footer">
     <button type="button" class="footer-toggle-btn" id="footer-toggle" aria-expanded="true" aria-controls="footer-drawer">
       <span class="footer-toggle-icon" aria-hidden="true">▲</span>
       <span class="footer-toggle-text">CERRAR</span>
