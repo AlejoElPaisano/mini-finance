@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="./base/styles/main.css">
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Ir al contenido principal</a>
+
   <header>
     <nav>
       <ul>
@@ -18,13 +20,15 @@
         <li><a href="./pages/resumen.html">Resumen</a></li>
         <li><a href="./pages/market-rates.html">Cotizaciones</a></li>
       </ul>
-      <button id="dark-mode-toggle" aria-label="Cambiar modo oscuro">🌙</button>
+      <button type="button" id="dark-mode-toggle" aria-label="Cambiar modo oscuro">
+        <span aria-hidden="true">🌙</span>
+      </button>
     </nav>
   </header>
 
-  <main>
+  <main id="main-content">
     <h1>Bienvenido a Mini Finance</h1>
-    <p>Registra tus ingresos y gastos de forma sencilla y manten el control de tus finanzas.</p>
+    <p class="text-secondary">Registrá tus ingresos y gastos de forma sencilla y mantené el control de tus finanzas.</p>
 
     <div id="alerts-container" aria-live="polite"></div>
 
@@ -50,7 +54,7 @@
       </div>
     </section>
   </main>
-    <script src="./base/scripts/main.js"></script>
+
   <footer class="app-footer open" id="app-footer">
     <button type="button" class="footer-toggle-btn" id="footer-toggle" aria-expanded="true" aria-controls="footer-drawer">
       <span class="footer-toggle-icon" aria-hidden="true">▲</span>
@@ -59,7 +63,7 @@
     <div class="footer-drawer" id="footer-drawer">
       <div class="footer__grid">
         <div>
-          <p class="footer__brand-name">📈 Mini Finance</p>
+          <p class="footer__brand-name"><span aria-hidden="true">📈</span> Mini Finance</p>
           <p class="footer__brand-tagline">Tu suite interactiva para simular metas y planificar tu futuro financiero.</p>
         </div>
         <div>
@@ -88,6 +92,7 @@
       </div>
     </div>
   </footer>
+
   <script src="./base/scripts/main.js"></script>
   <script src="./base/scripts/footer.js"></script>
 </body>

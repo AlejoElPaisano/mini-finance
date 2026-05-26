@@ -81,6 +81,58 @@ En desarrollo activo. Footer desplegable refinado según feedback del equipo.
 - `base/styles/footer.css`: ajustado grid del footer de 4 a 3 columnas, simplificada estructura del equipo, removidos estilos de links de miembro obsoletos.
 - `index.html`, `pages/simulador.html`, `pages/resumen.html`, `pages/market-rates.html`: actualizados con nuevo layout del footer.
 
+## 25 de mayo de 2026 (auditoría y refactorización)
+
+### Estado General
+Auditoría completa realizada con las skills `frontend-design` e `interface-design`. Código refactorizado para cumplir con estándares de diseño de interfaces de alto nivel.
+
+### Completado
+- **Auditoría completa**: 34 issues encontrados y corregidos en HTML, CSS y accesibilidad.
+- **HTML mejorado**:
+  - Agregado `type="button"` a todos los toggles de dark mode (4 páginas).
+  - Agregados skip-to-content links para navegación por teclado.
+  - Eliminado `main.js` duplicado en `index.html`.
+  - Corregidos acentos: "Próximamente", "visualización", "categoría".
+  - Arreglada estructura de label en simulador (separado output del label for).
+  - Reemplazado `<strong>` por `<small class="form-hint">` para hints.
+  - Eliminados trailing whitespaces y self-closing tags innecesarios.
+- **CSS Tokens rebuild completo** (`tokens.css`):
+  - Nueva arquitectura de tokens: foreground (4 niveles), background/surface (4 niveles), border (3 niveles), brand, semantic.
+  - Sistema de espaciado con `--space-unit: 0.25rem`.
+  - Sistema de elevación de superficies (surface shifts + bordes sutiles).
+  - Sombras sutiles reemplazando dramatic shadows.
+  - Tokens de motion con easing de deceleración (`cubic-bezier(0.16, 1, 0.3, 1)`).
+  - Dark mode reestructurado con override de primitivas semánticas.
+- **CSS Base mejorado** (`base.css`):
+  - Agregada textura de fondo editorial (dot-grid via radial-gradient).
+  - Clases utilitarias `.text-primary`, `.text-secondary`, `.text-tertiary`, `.text-muted`.
+  - Corregidos touch targets (eliminado `min-width: 44px` de `<a>` inline).
+  - Jerarquía tipográfica refinada con `line-height: 1.15` y `letter-spacing: -0.03em`.
+- **CSS Layout mejorado** (`layout.css`):
+  - Header sticky para mejor contexto de navegación.
+  - `padding-bottom` en main para evitar que el footer fijo tape contenido.
+  - Toggle de dark mode con micro-interacción de rotación.
+- **CSS Components overhaul** (`components.css`):
+  - Cards: eliminado gradiente decorativo, reemplazado por línea de acento animada vía `scaleY`.
+  - Cards: agregada animación de entrada escalonada (`cardEnter`).
+  - Botones: agregados estados `disabled`, `loading` (con spinner), `btn--secondary` (ghost).
+  - Botones: focus-visible con double-ring, hover con `translateY(-1px)`.
+  - Formularios: estado `.is-error`, hint class, custom select/date arrows via SVG inline.
+  - Focus de inputs: border + outline sutil en lugar de glow excesivo.
+  - Alertas: animación `slideIn`, bordes semánticos consistentes.
+  - Empty state: contenedor con borde dashed y layout flex centrado.
+- **CSS Footer refinado** (`footer.css`):
+  - Eliminados magic numbers (reemplazados por `--footer-toggle-height`).
+  - Corregido selector dark mode `.footer__member-link` → `.footer__member-name`.
+  - Mejorado responsive para mobile (<480px).
+  - Headings con `letter-spacing: 0.12em` para feel editorial.
+- **CSS Simulator reescrito** (`simulator.css`):
+  - Todos los selectores scrolpeados a `#movement-form` para evitar leaking.
+  - Grid responsive: mobile 1-col → tablet 2-col → desktop 3-col.
+  - Todos los hex raw reemplazados por tokens del sistema.
+  - Custom range input styling con hover scale effect.
+  - Valores monetarios con `font-family: var(--font-mono)`.
+
 ### Pendiente (reservado para el equipo)
 - Modulos JavaScript: config, state, dom, render, events, main.
 - Logica funcional: localStorage, calculos financieros, alertas visuales (desafio obligatorio), renderizado dinamico.

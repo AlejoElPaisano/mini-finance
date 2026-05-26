@@ -15,12 +15,13 @@ html {
 }
 
 body {
-  font-family: var(--font-family-base);
-  font-size: var(--font-size-base);
-  color: var(--color-grey-900);
-  background-color: var(--color-grey-50);
-  line-height: 1.5;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--fg-primary);
+  background-color: var(--bg-base);
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 img,
@@ -59,4 +60,15 @@ button {
   background: none;
   border: none;
   cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
