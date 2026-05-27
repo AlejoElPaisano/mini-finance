@@ -50,8 +50,13 @@ Idea 5 - IntegrarTEC 2026: Mini Finance
 │  └─ informe-uso-ia.md
 ├─ .agents/
 │  ├─ skills/
-│  │  └─ buenas-practica-mini-finance/
-│  │     └─ SKILL.md
+│  │  ├─ buenas-practica-mini-finance/
+│  │  │  └─ SKILL.md
+│  │  ├─ frontend-design/
+│  │  ├─ interface-design/
+│  │  ├─ mobile-first-design/
+│  │  ├─ trello-sync/
+│  │  └─ design-lab/
 │  └─ progreso/
 │     ├─ Memory.md
 │     └─ arquitectura.md
@@ -93,8 +98,13 @@ Idea 5 - IntegrarTEC 2026: Mini Finance
 │  └─ informe-uso-ia.md
 ├─ .agents/
 │  ├─ skills/
-│  │  └─ buenas-practica-mini-finance/
-│  │     └─ SKILL.md
+│  │  ├─ buenas-practica-mini-finance/
+│  │  │  └─ SKILL.md
+│  │  ├─ frontend-design/
+│  │  ├─ interface-design/
+│  │  ├─ mobile-first-design/
+│  │  ├─ trello-sync/
+│  │  └─ design-lab/
 │  └─ progreso/
 │     ├─ Memory.md
 │     └─ arquitectura.md

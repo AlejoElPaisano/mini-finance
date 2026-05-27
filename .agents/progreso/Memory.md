@@ -180,3 +180,8 @@ Documentacion completa del proyecto creada.
 - README completo.
 - Informe de uso de IA en `docs/`.
 - Deploy funcional.
+
+## Actualidad
+
+### Completado
+- Instalada skill `design-lab` utilizando `pnpm dlx skills add https://github.com/0xdesign/design-plugin --skill design-lab` para incorporar recursos de diseño.
