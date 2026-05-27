@@ -285,7 +285,7 @@ simulatorElements.$form.addEventListener( 'submit', (e) => {
     SaveMovements(movements) ;
 
 
-    RefreshAmount() ;
+    RefreshTotal() ;
 
     e.target.reset()
 
@@ -300,13 +300,13 @@ simulatorElements.$savingsForm.addEventListener( 'submit', (e) => {
 
     e.preventDefault() ;
 
-    RefreshAmount()
+    RefreshAdjusted()
 
 } )
 
 
 // Init
-RefreshAmount()
+InitAmounts()
 
 
 
