@@ -29,7 +29,9 @@ Idea 5 - IntegrarTEC 2026: Mini Finance
 │  │  ├─ events.js
 │  │  ├─ main.js
 │  │  ├─ footer.js
-│  │  └─ login.js
+│  │  ├─ login.js
+│  │  ├─ pesito-brain.js
+│  │  └─ pesito-chat.js
 │  └─ styles/
 │     ├─ reset.css
 │     ├─ tokens.css
@@ -41,6 +43,7 @@ Idea 5 - IntegrarTEC 2026: Mini Finance
 │     ├─ login.css
 │     ├─ motion.css
 │     ├─ preferences.css
+│     ├─ pesito.css
 │     └─ main.css
 ├─ assets/
 │  ├─ img/
@@ -133,6 +136,7 @@ Modularizado por responsabilidad.
 - `footer.css`: footer desplegable tipo cajon con glassmorphism, toggle persistente y grid de equipo; footer simplificado para paginas secundarias.
 - `accessibility.css`: herramientas de accesibilidad persistentes en header (modo dislexia con fuente OpenDyslexic y modo daltonismo con paleta segura y bordes reforzados), botones de herramientas del header y menu desplegable de usuario con animacion de aparicion.
 - `login.css`: estilos especificos de la pagina de autenticacion, diseno mobile-first con card centrada, gradiente de acento y animaciones de transicion entre vistas.
+- `pesito.css`: estilos dedicados del asistente flotante. Ventana tipo bottom-sheet en mobile y ventana flotante en desktop (breakpoint 768px). Incluye header con avatar SVG, burbujas de mensaje, typing indicator, botones de opciones guiadas y toggle flotante con microinteracciones.
 - `main.css`: importa todos los modulos anteriores.
 
 ### JavaScript
@@ -145,6 +149,8 @@ Arquitectura modular vanilla orientada a funcionalidades financieras. Cada modul
 - `main.js`: orquestador que inicializa todos los modulos al cargar el DOM. Incluye manejo del menu desplegable de usuario (toggle del dropdown, cierre al hacer click fuera) y logout: escucha el click en `#logout-btn`, elimina `miniFinanceSession` de localStorage y redirige a `pages/login.html`.
 - `footer.js`: gestiona el estado abierto/cerrado del footer desplegable, persiste en localStorage y ajusta el padding del body dinamicamente.
 - `login.js`: logica de autenticacion vanilla con tres vistas intercambiables, validacion de formularios, persistencia de usuarios en localStorage (`miniFinanceUsers`), gestion de sesion (`miniFinanceSession`) y mensajes de estado en el DOM.
+- `pesito-brain.js`: arbol de decisiones del asistente virtual Pesito. Define nodos conversacionales con UX Writing financiero amigable (simulador, consejos, seguridad, equipo).
+- `pesito-chat.js`: logica interactiva del chat flotante. Gestiona apertura/cierre con animaciones CSS, renderizado de mensajes, typing indicator, navegacion por el arbol de decisiones y accesibilidad (tecla Escape, ARIA, cierre al clic fuera).
 
 ### Assets
 Recursos estaticos organizados por tipo: imagenes, iconos y datos JSON locales (ej. categorias o consejos financieros).

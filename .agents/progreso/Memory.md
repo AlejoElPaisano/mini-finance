@@ -181,6 +181,16 @@ Documentacion completa del proyecto creada.
 - Informe de uso de IA en `docs/`.
 - Deploy funcional.
 
+## 27 de mayo de 2026 (asistente virtual)
+
+### Estado General
+En desarrollo activo. Asistente virtual flotante "Pesito" integrado en todas las páginas.
+
+### Completado
+- Estructura HTML de Pesito agregada a `pages/simulador.html`, `pages/resumen.html` y `pages/market-rates.html`.
+- Scripts `pesito-brain.js` y `pesito-chat.js` vinculados en las 4 páginas.
+- `base/styles/pesito.css`: ya importado en `main.css`, estilos mobile-first del chat flotante verificados.
+
 ## Actualidad
 
 ### Completado
