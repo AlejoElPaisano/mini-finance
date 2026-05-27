@@ -27,6 +27,16 @@ section.card {
   color: #1e293b;
 }
 
+#section-movement {
+  font-size: 1.55rem;
+}
+
+#movement-form > #section-movement,
+#savings-form > #savings-title {
+  text-align: center;
+  margin-bottom: 0;
+}
+
 /* ══════════════════════════════════════════
    #movement-form — col 1 del .card
 ══════════════════════════════════════════ */
@@ -40,6 +50,7 @@ section.card {
   padding: 1.5rem;
   border-radius: 0.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --divider-color: black ;
 }
 
 /* ══════════════════════════════════════════
@@ -56,6 +67,12 @@ section.card {
   padding: 1.5rem;
   border-radius: 0.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --divider-color: rgba(245, 222, 179, 0.5) ;
+}
+
+#movement-form > #section-movement,
+#savings-form > #savings-title {
+  text-align: center;
 }
 
 /* ══════════════════════════════════════════
@@ -150,6 +167,8 @@ input[type="range"] {
   border-radius: 0.5rem;
   padding: 1rem 1rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  --divider-color: rgba(245, 222, 179, 0.5) ;
 }
 .card-total #savings-title {
   margin-top: 0.7rem;
@@ -158,9 +177,9 @@ input[type="range"] {
   font-weight: 700;
 }
 
-.card-total-divider {
+.divider {
   border: none;
-  border-top: 0.2dvw dotted rgba(245, 222, 179, 0.5);  /* wheat translúcido */
+  border-top: 0.2dvw dotted var(--divider-color);  /* wheat translúcido */
   width: 70%;
   margin: 0 auto;
 }
@@ -198,22 +217,29 @@ p.card-total-label {
   align-items: baseline;
   justify-content: center;
   gap: 0.4rem;
-  margin-top: 1rem;
-}
+  margin-top: 2.5rem;                          /* más aire respecto del monto total */
+  background-color: rgba(255, 255, 255, 0.25); /* mismo destinte que .slider-equiv-header */
+  border-radius: 0.5rem;
+  padding: 0.55rem 0.55rem;}
 
 .card-total-footer__label {
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: wheat;
+  color:  rgb(29, 47, 47);
   opacity: 0.9;
+  text-align: center;
 }
 
 .card-total-footer__value {
-  font-size: 1rem;
+  font-size: 1.5rem;        /* sube de 1rem para que el recuadro respire */
   font-weight: 700;
-  color: wheat;
+  color: rgb(29, 47, 47);
+  opacity: 0.75;
+  background-color: rgba(255, 255, 255, 0.37);          /* shift proporcional al de card-total-amount */
+  border-radius: 0.5rem;
+  padding: 0.4rem 1rem;
 }
 
 
