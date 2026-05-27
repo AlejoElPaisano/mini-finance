@@ -276,7 +276,7 @@ Reglas para esta actualización:
 ### Commits
 - **PROHIBIDO ejecutar `git commit` sin permiso explícito del usuario.**
 - **PROHIBIDO ejecutar `git push`, `git merge`, `git rebase`, `git reset --hard` u cualquier comando destructivo sin autorización previa.**
-- En cada interacción donde se realicen cambios en el proyecto, DEBO proponer al usuario un título y una descripción de commit acordes a la convención Conventional Commits, solicitando confirmación antes de ejecutar.
+- En cada interacción donde se realicen cambios en el proyecto, DEBO proponer al usuario un título y una descripción de commit acordes a la convención Conventional Commits, solicitando confirmación antes de ejecutar (siemppre en ingles para mantener la consistencia con la convención).
 - Ejemplo de formato a proponer:
   ```
   feat: add expense form with validation
