@@ -1,3 +1,5 @@
+import { ParseAmount, FormatAmount } from "./helpers.js";
+
 export const simulatorElements = {
 
     // Form
@@ -5,16 +7,21 @@ export const simulatorElements = {
     $typeSelect: document.querySelector('#type'),
     $categorySelect: document.querySelector('#category'),
     $descriptionInput: document.querySelector('#description'),
+    $amountInput: document.querySelector('#amount') ,
     $dateInput: document.querySelector('#date'),
     $submitBtn: document.querySelector('#submit-btn'),
 
-    // Slider
+
+    // Slider / Savings Form
+    $savingsForm: document.querySelector('#savings-form'),
+    $savingsSubmitBtn: document.querySelector('#savings-submit-btn'),
     $savingsGoal: document.querySelector('#savings-goal'),
     $savingsGoalOutput: document.querySelector('#savings-goal-output'),
     $savingsScale: document.querySelector('#savings-scale'),      // datalist → ticks
     $sliderScale:  document.querySelector('.slider-scale'),       // div → labels visuales
     $toggleScaleBtn: document.querySelector('#toggle-scale-btn'),
-
+    $savingsEquivHeader: document.querySelector('#savings-equiv-header'),
+    $savingsMoneyEquiv: document.querySelector('#savings-money-equiv'),
 
 
     // Panel de totales
@@ -34,6 +41,7 @@ export const simulatorElements = {
 
 let savingsMode = 'amount' ;
 
+
 function RenderScaleLabels ( containerHTML , labels ) {
 
     containerHTML.replaceChildren() ;
@@ -49,9 +57,10 @@ function RenderScaleLabels ( containerHTML , labels ) {
     } )
 }
 
+
 function ToggleSavingsScale () {
 
-    const { $savingsGoal, $savingsGoalOutput, $sliderScale, $toggleScaleBtn } = simulatorElements
+    const { $savingsGoal, $savingsGoalOutput, $sliderScale, $toggleScaleBtn, $savingsEquivHeader, $savingsMoneyEquiv, $totalAmount } = simulatorElements
 
     savingsMode = savingsMode === "amount"  ?  'percent'  :  'amount'
 
@@ -71,6 +80,14 @@ function ToggleSavingsScale () {
         
         
         RenderScaleLabels($sliderScale, ['0%', '25%', '50%', '75%', '100%']);
+    
+        
+        $savingsEquivHeader.removeAttribute('hidden') ;
+
+        const currentTotal = ParseAmount( $totalAmount.textContent ) ;
+
+        $savingsMoneyEquiv.textContent = FormatAmount( currentTotal * 50/100 )  // valor inicial por default 50%
+    
     } 
     else {
         
@@ -84,9 +101,13 @@ function ToggleSavingsScale () {
         
         $savingsGoalOutput.textContent  = '$1000';
         
-        $toggleScaleBtn.textContent = 'Cambiar a escala porcentual';
+        $toggleScaleBtn.textContent = 'Cambiar a escala porcentual del total';
         
         RenderScaleLabels($sliderScale, ['$0', '$10k', '$20k', '$30k', '$40k', '$50k']);
+    
+
+        $savingsEquivHeader.setAttribute( 'hidden', '' ) ;
+
     }
 
 }
@@ -94,3 +115,92 @@ function ToggleSavingsScale () {
 
 simulatorElements.$toggleScaleBtn.addEventListener('click', ToggleSavingsScale)
 
+
+// Init: adjustedAmount arranca igual que totalAmount
+
+function InitAdjustedAmount () {
+
+    const { $totalAmount, $adjustedAmount } = simulatorElements
+
+    $adjustedAmount.textContent = $totalAmount.textContent.trim() ;
+
+}
+
+InitAdjustedAmount()
+
+
+function UpdateSavingsOutput () {
+
+    const { $savingsGoal , $savingsGoalOutput, $totalAmount, $savingsMoneyEquiv } = simulatorElements ; 
+
+
+    const sliderValue = Number( $savingsGoal.value ) ;
+
+
+
+    if( savingsMode === 'percent' ){
+
+        $savingsGoalOutput.textContent = `${$savingsGoal.value}%` ;
+    
+        const currentTotal = ParseAmount( $totalAmount.textContent ) ;
+
+        const equiv = currentTotal * sliderValue / 100 ;
+
+        $savingsMoneyEquiv.textContent = FormatAmount( equiv ) ;
+
+    }
+    else $savingsGoalOutput.textContent = `$${$savingsGoal.value}`
+}
+
+
+simulatorElements.$savingsGoal.addEventListener( 'input', UpdateSavingsOutput ) ;
+
+
+// Solo panel derecho — dispara al submit
+function UpdateAdjustedAmount() {
+    
+    const { $savingsGoal, $totalAmount, $adjustedAmount, $amountInput } = simulatorElements
+
+    
+    // 1. Leer monto a descontar
+
+    const amountToSubtract = Number( $amountInput.value ) || 0 ;
+
+
+    //2. Restar del total actual
+
+    const currentTotal = ParseAmount( $totalAmount.textContent ) ;
+
+    const newTotal = currentTotal - amountToSubtract ;
+
+    $totalAmount.textContent = FormatAmount( newTotal ) ;
+
+
+    // 3. Recalcular adjustedAmount según modo
+
+    if( savingsMode === 'percent' ) {
+
+        const sliderValue = Number( $savingsGoal.value ) ;
+
+        const savings = newTotal * sliderValue / 100 ;
+
+
+        $adjustedAmount.textContent = FormatAmount( newTotal - savings ) 
+
+    }
+    else $adjustedAmount.textContent = FormatAmount( newTotal ) ;
+
+}
+
+// Submit del form de movimientos → descuenta monto y recalcula panel derecho
+simulatorElements.$form.addEventListener('submit', (e) => {
+    e.preventDefault()
+    UpdateAdjustedAmount()
+    simulatorElements.$amountInput.value = ''
+})
+
+// Submit del form de meta de ahorro → recalcula panel derecho con la meta actual
+simulatorElements.$savingsForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+    UpdateAdjustedAmount()
+})
