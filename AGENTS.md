@@ -17,11 +17,5 @@ This repository contains the "Mini Finance" static web application, built for th
 - **Entry Points:** The main dashboard is `index.html`. Other views are located in the `pages/` directory (e.g., `pages/login.html`).
 - **Pesito (Virtual Assistant):** A floating chat assistant (`pesito-brain.js`, `pesito-chat.js`, `pesito.css`) is included in all protected pages. It provides guided financial help via an interactive decision tree. Ensure any global DOM changes do not conflict with `#pesito-container` or `#pesito-toggle`.
 
-## Git Rules
-- NEVER create a new git branch under any circumstances.
-- NEVER run `git checkout -b` or `git switch -c`.
-- Always make all changes directly on the current active branch.
-- If you think a new branch is needed, ask the user first.
-
 ## Further Context
 - For specific course requirements and grading criteria, consult `.agents/skills/buenas-practica-mini-finance/SKILL.md`.
