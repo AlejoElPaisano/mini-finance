@@ -1,6 +1,6 @@
 import { ParseAmount, FormatAmount } from "./helpers.js";
 import { STORAGE_KEYS, LoadMovements, SaveMovements, SaveAmount } from './local-storage.js'
-
+import { TYPE_LABELS, CATEGORY_LABELS } from './state.js'
 
 export const simulatorElements = {
 
@@ -120,21 +120,7 @@ function RefreshAdjusted () {
 
 // ── Render del listado de movimientos ──────────────────
 
-const TYPE_LABELS = {
-    income: 'Ingreso',
-    expense: 'Gasto',
-    savings: 'Meta de ahorro',
-}
 
-const CATEGORY_LABELS = {
-    salary: 'Sueldo',
-    food: 'Alimentos',
-    transport: 'Transporte',
-    services: 'Servicios',
-    entertainment: 'Entretenimiento',
-    amount: 'Reserva fija',
-    percent: 'Reserva porcentual',
-}
 
 
 function FormatMovementDate ( isoDate ) {
