@@ -6,7 +6,7 @@
   <title>Mini Finance - Simulador</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../base/styles/main.css">
 </head>
 <body>
@@ -235,14 +235,15 @@
 
           <div class="form-group">
             <label for="description" id="description-hint">Descripción</label>
-            <input 
+            <textarea 
               type="text" 
               id="description" 
-              name="description" 
+              name="description"
+              rows="2" 
               required 
               aria-describedby="description-hint" 
-              placeholder="Ingresá una descripción breve" 
-            >
+              placeholder="Ingresá una descripción breve del movimiento" 
+            ></textarea>
             <!--<strong id="description-hint">Ingresá una descripción breve del movimiento</strong> -->
           </div>
 
@@ -336,16 +337,19 @@
 
 
 
-    <section>
-      <h2>Movimientos recientes</h2>
+    <section class="movements" aria-labelledby="movements-title">
 
-      <section class="filters">
-      
+      <header class="movements__header">
+        <h2 id="movements-title">Movimientos recientes</h2>
+      </header>
+
+      <section class="filters" aria-label="Filtros de movimientos">
       </section>
-      
-      <div id="movements-list">
-        <p class="empty-state">No hay movimientos registrados.</p>
-      </div>
+
+      <ol id="movements-list" class="movements-list" aria-live="polite">
+        <li class="empty-state">No hay movimientos registrados.</li>
+      </ol>
+
     </section>
   </main>
   <script src="../base/scripts/main.js"></script>
