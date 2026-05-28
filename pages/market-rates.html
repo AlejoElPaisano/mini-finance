@@ -8,8 +8,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../base/styles/main.css">
+  <script>
+    if (!localStorage.getItem('miniFinanceSession')) {
+      window.location.replace('./login.html');
+    }
+  </script>
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Ir al contenido principal</a>
+
   <header>
     <nav>
       <ul>
@@ -18,62 +25,182 @@
         <li><a href="./resumen.html">Resumen</a></li>
         <li><a href="./market-rates.html" aria-current="page">Cotizaciones</a></li>
       </ul>
-      <button id="dark-mode-toggle" aria-label="Cambiar modo oscuro">🌙</button>
+      <div class="header-tools">
+        <div class="accessibility-tools">
+          <button type="button" id="dyslexic-toggle" class="btn-tool" aria-pressed="false" title="Fuente para dislexia">
+            <span aria-hidden="true">👁️</span>
+            <span class="btn-tool__label">Dislexia</span>
+          </button>
+          <button type="button" id="colorblind-toggle" class="btn-tool" aria-pressed="false" title="Modo alto contraste para daltonismo">
+            <span aria-hidden="true">🎨</span>
+            <span class="btn-tool__label">Daltónico</span>
+          </button>
+        </div>
+        <button type="button" id="dark-mode-toggle" aria-label="Cambiar modo oscuro">
+          <span aria-hidden="true">🌙</span>
+        </button>
+        <div class="user-menu">
+          <button type="button" class="btn-tool user-menu__trigger" aria-haspopup="true" aria-expanded="false" title="Menú de usuario">
+            <span aria-hidden="true">👤</span>
+          </button>
+          <div class="user-menu__dropdown" hidden>
+            <button type="button" class="user-menu__item" id="logout-btn">
+              <span aria-hidden="true">🚪</span>
+              Cerrar sesión
+            </button>
+          </div>
+        </div>
+      </div>
     </nav>
   </header>
 
-  <main>
+  <main id="main-content">
     <h1>Cotizaciones del Mercado</h1>
-    <p>Proximamente: visualizacion de cotizaciones financieras en tiempo real.</p>
+    <p class="text-secondary">Próximamente: visualización de cotizaciones financieras en tiempo real.</p>
   </main>
-  <footer>
-  <div class="footer__grid">
-    <div>
-      <p class="footer__brand-name">Mini Finance</p>
-    </div>
-    <div>
-      <p class="footer__heading">Navegación</p>
-      <ul class="footer__links">
-        <li><a href="../index.html">Inicio</a></li>
-        <li><a href="./simulador.html">Simulador</a></li>
-        <li><a href="./resumen.html">Resumen</a></li>
-        <li><a href="./market-rates.html">Cotizaciones</a></li>
-      </ul>
-    </div>
-    <div>
-      <p class="footer__heading">Proyecto</p>
-      <ul class="footer__links">
-        <li><a href="https://github.com/AlejoElPaisano/integrartec-proyecto-1" target="_blank" rel="noopener">Repositorio</a></li>
-        <li><a href="#">Deploy</a></li>
-        <li><a href="https://github.com/AlejoElPaisano/integrartec-proyecto-1/blob/develop/README.md" target="_blank" rel="noopener">README</a></li>
-      </ul>
-    </div>
-    <div>
-      <p class="footer__heading">Equipo</p>
-      <div class="footer__team">
-        <div class="footer__member">
-          <span class="footer__member-name">Nombre Apellido</span>
-          <a href="https://linkedin.com/in/usuario1" target="_blank" rel="noopener" class="footer__member-link">linkedin.com/in/usuario1</a>
+
+  <footer class="app-footer" id="app-footer">
+    <button type="button" class="footer-toggle-btn" id="footer-toggle" aria-expanded="true" aria-controls="footer-drawer">
+      <span class="footer-toggle-icon" aria-hidden="true">▲</span>
+      <span class="footer-toggle-text">CERRAR</span>
+    </button>
+    <div class="footer-drawer" id="footer-drawer">
+      <div class="footer__grid">
+        <div>
+          <p class="footer__brand-name"><span aria-hidden="true">📈</span> Mini Finance</p>
+          <p class="footer__brand-tagline">Tu suite interactiva para simular metas y planificar tu futuro financiero.</p>
         </div>
-        <div class="footer__member">
-          <span class="footer__member-name">Nombre Apellido</span>
-          <a href="https://linkedin.com/in/usuario2" target="_blank" rel="noopener" class="footer__member-link">linkedin.com/in/usuario2</a>
+        <div>
+          <p class="footer__heading">Proyecto</p>
+          <ul class="footer__links">
+            <li><a href="https://github.com/AlejoElPaisano/integrartec-proyecto-1" target="_blank" rel="noopener">Repositorio</a></li>
+            <li><a href="#">Deploy</a></li>
+            <li><a href="https://github.com/AlejoElPaisano/integrartec-proyecto-1/blob/develop/README.md" target="_blank" rel="noopener">README</a></li>
+          </ul>
         </div>
-        <div class="footer__member">
-          <span class="footer__member-name">Nombre Apellido</span>
-          <a href="https://linkedin.com/in/usuario3" target="_blank" rel="noopener" class="footer__member-link">linkedin.com/in/usuario3</a>
+        <div>
+          <p class="footer__heading">Desarrollado por:</p>
+          <div class="footer__team">
+            <a href="https://www.linkedin.com/in/karenledesma08" target="_blank" rel="noopener" class="footer__member-name">Karen Ledesma</a>
+            <a href="https://www.linkedin.com/in/francisco-thomas-chiressi-8b55b01a0" target="_blank" rel="noopener" class="footer__member-name">Francisco Chiressi</a>
+            <a href="https://www.linkedin.com/in/alejo-martinez-olmedo-877004283/" target="_blank" rel="noopener" class="footer__member-name">Alejo Martinez Olmedo</a>
+          </div>
         </div>
       </div>
+      <hr class="footer__divider">
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2026 Mini Finance · IntegrarTEC · Módulo Web Estática · Desarrollado por DevCore</p>
+        <a href="https://fpintegrar.org" target="_blank" rel="noopener" class="footer__logo-link">
+          <img src="../assets/img/logo-integrar.png" alt="Fundación Integrar" class="footer__logo-img" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================
+       PESITO — Asistente Virtual Flotante
+       ========================================== -->
+  <div id="pesito-container" class="pesito-container">
+    <div class="pesito-chat" role="dialog" aria-modal="true" aria-label="Chat con Pesito, asistente virtual">
+      <header class="pesito-header">
+        <div class="pesito-header__info">
+          <div class="pesito-header__avatar" aria-hidden="true">
+            <!-- Pesito: Moneda-cerdito animada, identidad visual de Mini Finance -->
+            <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Orejas -->
+              <ellipse cx="25" cy="22" rx="11" ry="17" fill="#f59e0b" stroke="#b45309" stroke-width="3" transform="rotate(-25 25 22)"/>
+              <ellipse cx="75" cy="22" rx="11" ry="17" fill="#f59e0b" stroke="#b45309" stroke-width="3" transform="rotate(25 75 22)"/>
+              <!-- Interior orejas -->
+              <ellipse cx="25" cy="22" rx="5" ry="9" fill="#fde68a" transform="rotate(-25 25 22)"/>
+              <ellipse cx="75" cy="22" rx="5" ry="9" fill="#fde68a" transform="rotate(25 75 22)"/>
+
+              <!-- Moneda / Cara -->
+              <circle cx="50" cy="56" r="36" fill="url(#goldGradient)" stroke="#b45309" stroke-width="3"/>
+              <!-- Relieve borde moneda -->
+              <circle cx="50" cy="56" r="32" stroke="#b45309" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.5"/>
+
+              <!-- Ojos -->
+              <circle cx="38" cy="50" r="5.5" fill="#1e293b"/>
+              <circle cx="62" cy="50" r="5.5" fill="#1e293b"/>
+              <circle cx="40" cy="48" r="2" fill="white"/>
+              <circle cx="64" cy="48" r="2" fill="white"/>
+
+              <!-- Mejillas -->
+              <circle cx="30" cy="60" r="4.5" fill="#fca5a5" opacity="0.5"/>
+              <circle cx="70" cy="60" r="4.5" fill="#fca5a5" opacity="0.5"/>
+
+              <!-- Sonrisa -->
+              <path d="M42 64 Q50 72 58 64" stroke="#1e293b" stroke-width="3" stroke-linecap="round" fill="none"/>
+              <path d="M40 63 Q42 65 44 63" stroke="#1e293b" stroke-width="2" stroke-linecap="round" fill="none"/>
+              <path d="M56 63 Q58 65 60 63" stroke="#1e293b" stroke-width="2" stroke-linecap="round" fill="none"/>
+
+              <!-- Letra P de Pesito (marca de la moneda) -->
+              <text x="50" y="42" text-anchor="middle" font-family="'Playfair Display', Georgia, serif" font-weight="700" font-size="13" fill="#92400e" opacity="0.35">P</text>
+
+              <!-- Reflejo metálico -->
+              <ellipse cx="34" cy="28" rx="10" ry="5" fill="white" opacity="0.3" transform="rotate(-25 34 28)"/>
+
+              <defs>
+                <linearGradient id="goldGradient" x1="20" y1="20" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#fcd34d"/>
+                  <stop offset="0.5" stop-color="#fbbf24"/>
+                  <stop offset="1" stop-color="#f59e0b"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <div>
+            <h2 class="pesito-header__name">Pesito</h2>
+            <span class="pesito-header__status">En línea</span>
+          </div>
+        </div>
+        <button type="button" class="pesito-header__close" aria-label="Cerrar chat">
+          <span aria-hidden="true">✕</span>
+        </button>
+      </header>
+
+      <div class="pesito-messages" id="pesito-messages" aria-live="polite"></div>
+
+      <div class="pesito-typing" id="pesito-typing" hidden>
+        <div class="pesito-typing__dots">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+
+      <div class="pesito-options" id="pesito-options"></div>
     </div>
   </div>
-  <hr class="footer__divider">
-  <div class="footer__bottom">
-    <p class="footer__copy">© 2026 Mini Finance · IntegrarTEC · Módulo Web Estática</p>
-    <a href="https://fpintegrar.org" target="blank" rel="noopener" class="footer_logo-link">
-     <img src="../assets/img/logo-integrar.png" alt="Fundación Integrar" class="footer__logo-img">
-    </a>
-  </div>
-</footer>
-<script src="../base/scripts/main.js"></script>
+
+  <button type="button" id="pesito-toggle" class="pesito-toggle" aria-expanded="false" aria-label="Abrir asistente virtual Pesito">
+    <span class="pesito-toggle__icon pesito-toggle__icon--open" aria-hidden="true">
+      <!-- Pesito mini para el botón flotante -->
+      <svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="25" cy="22" rx="11" ry="17" fill="#f59e0b" stroke="#92400e" stroke-width="3" transform="rotate(-25 25 22)"/>
+        <ellipse cx="75" cy="22" rx="11" ry="17" fill="#f59e0b" stroke="#92400e" stroke-width="3" transform="rotate(25 75 22)"/>
+        <ellipse cx="25" cy="22" rx="5" ry="9" fill="#fde68a" transform="rotate(-25 25 22)"/>
+        <ellipse cx="75" cy="22" rx="5" ry="9" fill="#fde68a" transform="rotate(25 75 22)"/>
+        <circle cx="50" cy="56" r="36" fill="url(#goldGradToggle)" stroke="#92400e" stroke-width="3"/>
+        <circle cx="38" cy="50" r="5.5" fill="#1e293b"/>
+        <circle cx="62" cy="50" r="5.5" fill="#1e293b"/>
+        <circle cx="40" cy="48" r="2" fill="white"/>
+        <circle cx="64" cy="48" r="2" fill="white"/>
+        <path d="M42 64 Q50 72 58 64" stroke="#1e293b" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <ellipse cx="34" cy="28" rx="10" ry="5" fill="white" opacity="0.3" transform="rotate(-25 34 28)"/>
+        <defs>
+          <linearGradient id="goldGradToggle" x1="20" y1="20" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#fcd34d"/>
+            <stop offset="0.5" stop-color="#fbbf24"/>
+            <stop offset="1" stop-color="#f59e0b"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </span>
+    <span class="pesito-toggle__icon pesito-toggle__icon--close" aria-hidden="true">✕</span>
+  </button>
+
+  <script src="../base/scripts/main.js"></script>
+  <script src="../base/scripts/footer.js"></script>
+  <script src="../base/scripts/pesito-brain.js"></script>
+  <script src="../base/scripts/pesito-chat.js"></script>
 </body>
 </html>

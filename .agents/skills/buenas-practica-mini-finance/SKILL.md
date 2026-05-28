@@ -266,7 +266,26 @@ En cada interacción donde el usuario solicite crear, modificar o eliminar archi
    - Si se crean, renombran o eliminan carpetas o archivos significativos, actualizar el diagrama de estructura.
    - Si cambia la lógica modular o la forma en que interactúan los componentes, reflejarlo en la "Descripción Conceptual".
 
+3. `AGENTS.md` (En la raíz del proyecto):
+   - Si la estructura modular cambia permanentemente (nuevas carpetas clave) o si el equipo define nuevas restricciones técnicas globales (ej. nuevas herramientas de JavaScript vanilla), actualizar las secciones correspondientes de este documento para que las futuras sesiones de la IA hereden las reglas correctas.
+
 Reglas para esta actualización:
 - No esperar a que el usuario lo pida explícitamente.
 - Mantener el formato Markdown limpio y directo, sin comentarios innecesarios.
 - Priorizar la precisión técnica sobre la verbosidad.
+
+## Reglas de Git (Estricto)
+
+### Commits
+- **PROHIBIDO ejecutar `git commit` sin permiso explícito del usuario.**
+- **PROHIBIDO ejecutar `git push`, `git merge`, `git rebase`, `git reset --hard` u cualquier comando destructivo sin autorización previa.**
+- En cada interacción donde se realicen cambios en el proyecto, DEBO proponer al usuario un título y una descripción de commit acordes a la convención Conventional Commits, solicitando confirmación antes de ejecutar (siemppre en ingles para mantener la consistencia con la convención).
+- Ejemplo de formato a proponer:
+  ```
+  feat: add expense form with validation
+
+  - Add form fields for description, amount, date and category
+  - Implement client-side validation before submission
+  - Persist expenses to localStorage with unique IDs
+  ```
+- Sólo tras la confirmación explícita del usuario (`"dale"`, `"hacelo"`, `"sí"`, `"ok"`, etc.) se debe ejecutar el commit.

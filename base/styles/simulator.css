@@ -19,7 +19,7 @@ section.card {
   margin-top: 0 ;
 }
 
-.card > h2 {
+section.card > h2 {
   grid-column: 1 / -1;
   grid-row: 1;
   font-size: 1.25rem;
@@ -83,9 +83,10 @@ section.card {
   gap: 0.5rem;
 }
 
-.form-group label {
-  font-weight: 600;
-  color: #1e293b;
+#movement-form .form-group label {
+  font-weight: var(--font-weight-semibold);
+  color: var(--fg-primary);
+  font-size: var(--text-sm);
 }
 
 .form-group input,
@@ -100,8 +101,8 @@ section.card {
   margin-bottom: 1.5rem;
 }
 
-.form-group input::placeholder {
-  color: #94a3b8;
+#movement-form .form-group input::placeholder {
+  color: var(--fg-muted);
 }
 
 .form-group strong {
@@ -138,8 +139,9 @@ section.card {
   justify-content: space-between;
   align-items: center;
     font-size: 1.1rem;        
-  font-weight: 600;
-  color: #1e293b;
+  font-weight: var(--font-weight-semibold);
+  color: var(--fg-primary);
+  font-size: var(--text-sm);
 }
 
 .range-field output {
@@ -157,15 +159,26 @@ section.card {
 
 input[type="range"] {
   width: 100%;
-  accent-color: #0e7490;
+  accent-color: var(--brand-primary);
   cursor: pointer;
  
 }
 
 
-/* ══════════════════════════════════════════
-   .card-total — col 3, fila 2 del .card
-══════════════════════════════════════════ */
+input[type="range"]:focus::-webkit-slider-thumb {
+  box-shadow: 0 0 0 3px var(--brand-primary-subtle);
+}
+
+.slider-scale {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-xs);
+  color: var(--fg-muted);
+  padding: 0 2px;
+  margin-top: var(--space-1);
+  font-family: var(--font-mono);
+}
+
 .card-total {
   grid-column: 3;
   grid-row: 2;
@@ -205,7 +218,11 @@ input[type="range"] {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   opacity: 0.9;
-  color: wheat
+  color: var(--bg-surface);
+}
+
+p.card-total-label {
+  white-space: nowrap;
 }
 
 p.card-total-label {

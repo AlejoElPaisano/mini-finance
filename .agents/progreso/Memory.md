@@ -68,11 +68,130 @@ En desarrollo activo. Aplicacion de directrices de frontend-design y mobile-firs
 - `base/styles/main.css` corregido: removido import inexistente `simulator.css`, agregado `components.css`.
 - `index.html`, `pages/simulador.html`, `pages/resumen.html`, `pages/market-rates.html`: agregadas fuentes de Google Fonts, limpieza de codigo comentado y espacios en blanco masivos en simulador.html.
 
+## 25 de mayo de 2026 (evolución)
+
+### Estado General
+En desarrollo activo. Footer desplegable refinado según feedback del equipo.
+
+### Completado
+- Eliminada sección de navegación del footer en las 4 páginas.
+- Título de equipo cambiado a "Desarrollado por:".
+- Nombres de integrantes convertidos en links directos a LinkedIn (sin URL visible).
+- Grid de equipo reestructurado a 2 columnas con layout limpio.
+- `base/styles/footer.css`: ajustado grid del footer de 4 a 3 columnas, simplificada estructura del equipo, removidos estilos de links de miembro obsoletos.
+- `index.html`, `pages/simulador.html`, `pages/resumen.html`, `pages/market-rates.html`: actualizados con nuevo layout del footer.
+
+## 25 de mayo de 2026 (auditoría y refactorización)
+
+### Estado General
+Auditoría completa realizada con las skills `frontend-design` e `interface-design`. Código refactorizado para cumplir con estándares de diseño de interfaces de alto nivel.
+
+### Completado
+- **Auditoría completa**: 34 issues encontrados y corregidos en HTML, CSS y accesibilidad.
+- **HTML mejorado**:
+  - Agregado `type="button"` a todos los toggles de dark mode (4 páginas).
+  - Agregados skip-to-content links para navegación por teclado.
+  - Eliminado `main.js` duplicado en `index.html`.
+  - Corregidos acentos: "Próximamente", "visualización", "categoría".
+  - Arreglada estructura de label en simulador (separado output del label for).
+  - Reemplazado `<strong>` por `<small class="form-hint">` para hints.
+  - Eliminados trailing whitespaces y self-closing tags innecesarios.
+- **CSS Tokens rebuild completo** (`tokens.css`):
+  - Nueva arquitectura de tokens: foreground (4 niveles), background/surface (4 niveles), border (3 niveles), brand, semantic.
+  - Sistema de espaciado con `--space-unit: 0.25rem`.
+  - Sistema de elevación de superficies (surface shifts + bordes sutiles).
+  - Sombras sutiles reemplazando dramatic shadows.
+  - Tokens de motion con easing de deceleración (`cubic-bezier(0.16, 1, 0.3, 1)`).
+  - Dark mode reestructurado con override de primitivas semánticas.
+- **CSS Base mejorado** (`base.css`):
+  - Agregada textura de fondo editorial (dot-grid via radial-gradient).
+  - Clases utilitarias `.text-primary`, `.text-secondary`, `.text-tertiary`, `.text-muted`.
+  - Corregidos touch targets (eliminado `min-width: 44px` de `<a>` inline).
+  - Jerarquía tipográfica refinada con `line-height: 1.15` y `letter-spacing: -0.03em`.
+- **CSS Layout mejorado** (`layout.css`):
+  - Header sticky para mejor contexto de navegación.
+  - `padding-bottom` en main para evitar que el footer fijo tape contenido.
+  - Toggle de dark mode con micro-interacción de rotación.
+- **CSS Components overhaul** (`components.css`):
+  - Cards: eliminado gradiente decorativo, reemplazado por línea de acento animada vía `scaleY`.
+  - Cards: agregada animación de entrada escalonada (`cardEnter`).
+  - Botones: agregados estados `disabled`, `loading` (con spinner), `btn--secondary` (ghost).
+  - Botones: focus-visible con double-ring, hover con `translateY(-1px)`.
+  - Formularios: estado `.is-error`, hint class, custom select/date arrows via SVG inline.
+  - Focus de inputs: border + outline sutil en lugar de glow excesivo.
+  - Alertas: animación `slideIn`, bordes semánticos consistentes.
+  - Empty state: contenedor con borde dashed y layout flex centrado.
+- **CSS Footer refinado** (`footer.css`):
+  - Eliminados magic numbers (reemplazados por `--footer-toggle-height`).
+  - Corregido selector dark mode `.footer__member-link` → `.footer__member-name`.
+  - Mejorado responsive para mobile (<480px).
+  - Headings con `letter-spacing: 0.12em` para feel editorial.
+- **CSS Simulator reescrito** (`simulator.css`):
+  - Todos los selectores scrolpeados a `#movement-form` para evitar leaking.
+  - Grid responsive: mobile 1-col → tablet 2-col → desktop 3-col.
+  - Todos los hex raw reemplazados por tokens del sistema.
+  - Custom range input styling con hover scale effect.
+  - Valores monetarios con `font-family: var(--font-mono)`.
+
+## 26 de mayo de 2026
+
+### Estado General
+En desarrollo activo. Sistema de autenticacion integrado con flujo completo de login/logout.
+
+### Completado
+- `pages/login.html`: pagina de acceso con tres vistas intercambiables (login, registro, recuperacion).
+- `base/styles/login.css`: estilos de autenticacion con gradiente de acento animado.
+- `base/styles/accessibility.css`: herramientas de accesibilidad (dislexia, daltonismo) y menu desplegable de usuario.
+- `base/scripts/login.js`: logica de autenticacion con localStorage, validaciones, mensajes en DOM.
+- `base/scripts/main.js`: manejo de menu desplegable de usuario (toggle, cierre al click fuera) y logout.
+- `index.html`, `pages/simulador.html`, `pages/resumen.html`, `pages/market-rates.html`: auth guard en `<head>` que redirige a login si no hay sesion; header con herramientas de accesibilidad, dark mode y menu de usuario (👤) con opcion de cerrar sesion.
+- Flujo: login exitoso → guarda `miniFinanceSession` → redirige a `index.html` → usuario navega libremente → click en 👤 → "Cerrar sesión" → elimina sesion → redirige a login.
+
+## 27 de mayo de 2026
+
+### Estado General
+En desarrollo activo. Modulos JavaScript financieros implementados y funcionando.
+
+### Completado
+- `base/scripts/config.js`: constantes, categorias predefinidas (ingresos/gastos), claves de storage y valores por defecto.
+- `base/scripts/state.js`: gestion de estado con localStorage (movimientos, meta de ahorro, limite de gasto), calculos financieros (ingresos, gastos, saldo, totales por categoria, progreso de ahorro) y logica de alertas visuales (limite de gasto y meta de ahorro).
+- `base/scripts/dom.js`: centralizacion de selectores del DOM.
+- `base/scripts/render.js`: renderizado dinamico de dashboard, lista de movimientos, filtros de categoria, alertas visuales y monto ajustado.
+- `base/scripts/events.js`: listeners para formulario de movimientos, cambio de tipo (actualiza categorias), filtros, eliminacion de movimientos y meta de ahorro.
+- `base/scripts/main.js`: orquestador actualizado que inicializa dark mode, accesibilidad, menu de usuario, logout y los modulos financieros.
+- `pages/simulador.html`: agregado campo de monto (`#amount`) al formulario; scripts financieros integrados.
+- `index.html`, `pages/simulador.html`, `pages/resumen.html`: scripts financieros cargados en orden correcto.
+- `base/styles/components.css`: agregados estilos para lista de movimientos (`.movements-list`, `.movement-item`, `.movement-item__delete`) con indicadores de color para ingresos/gastos.
+- Alertas visuales: se muestran en el DOM cuando se supera el limite de gasto o no se alcanza la meta de ahorro.
+
+## 27 de mayo de 2026 (documentacion)
+
+### Estado General
+Documentacion completa del proyecto creada.
+
+### Completado
+- `README.md`: documentacion completa con descripcion del proyecto, integrantes, idea elegida, tecnologias, funcionalidades detalladas, estructura de carpetas, instrucciones de uso e informacion sobre IA.
+- `docs/informe-uso-ia.md`: informe de uso de inteligencia artificial con herramientas utilizadas, prompts utiles, partes asistidas, correcciones realizadas, aprendizajes y decisiones tomadas por el grupo.
+- `.agents/skills/buenas-practica-mini-finance/SKILL.md`: agregadas reglas estrictas de Git (prohibicion de commit sin permiso y obligatoriedad de proponer titulo/descripcion antes de ejecutar).
+
 ### Pendiente (reservado para el equipo)
-- Modulos JavaScript: config, state, dom, render, events, main.
-- Logica funcional: localStorage, calculos financieros, alertas visuales (desafio obligatorio), renderizado dinamico.
 - Pagina `pages/market-rates.html`: contenido funcional de cotizaciones (fetch opcional).
 - Assets (imagenes, iconos, datos JSON).
 - README completo.
 - Informe de uso de IA en `docs/`.
 - Deploy funcional.
+
+## 27 de mayo de 2026 (asistente virtual)
+
+### Estado General
+En desarrollo activo. Asistente virtual flotante "Pesito" integrado en todas las páginas.
+
+### Completado
+- Estructura HTML de Pesito agregada a `pages/simulador.html`, `pages/resumen.html` y `pages/market-rates.html`.
+- Scripts `pesito-brain.js` y `pesito-chat.js` vinculados en las 4 páginas.
+- `base/styles/pesito.css`: ya importado en `main.css`, estilos mobile-first del chat flotante verificados.
+
+## Actualidad
+
+### Completado
+- Instalada skill `design-lab` utilizando `pnpm dlx skills add https://github.com/0xdesign/design-plugin --skill design-lab` para incorporar recursos de diseño.
