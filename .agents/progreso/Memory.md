@@ -191,6 +191,27 @@ En desarrollo activo. Asistente virtual flotante "Pesito" integrado en todas las
 - Scripts `pesito-brain.js` y `pesito-chat.js` vinculados en las 4 páginas.
 - `base/styles/pesito.css`: ya importado en `main.css`, estilos mobile-first del chat flotante verificados.
 
+## 28 de mayo de 2026
+
+### Estado General
+En desarrollo activo. Reconstrucción completa de la página de inicio (`index.html`) en la rama `feat/home-ui-refactoring`, aplicando principios de diseño de interfaz y frontend.
+
+### Completado
+- `index.html`: reconstruido con nueva estructura semántica en 5 bloques definidos:
+  1. **Hero**: contenedor azul con título, `<p id="daily-tip">` para consejo financiero del día, y botones de acción rápida (`Registrar Movimiento`, `Ver Resumen`).
+  2. **Métricas Clave**: grid de 4 tarjetas (Total Ingresos, Total Gastos, Saldo Disponible, Meta de Ahorro). La tarjeta de saldo incluye clases `.is-positive` / `.is-negative` preparadas para estados dinámicos. La tarjeta de meta incluye barra de progreso visual con tokens de acento.
+  3. **Panel de Logros**: `<section id="achievements-panel">` con empty state elegante (borde dashed, ícono de candado, texto de próximamente) listo para futura lógica de gamificación.
+  4. **Distribución de Gastos**: tarjeta con `<div class="chart-container">` de altura mínima predefinida y empty state estético para futuro gráfico.
+  5. **Últimos Movimientos**: lista compacta de 3 ítems mock diferenciando ingresos y gastos visualmente, con link "Ver historial completo" alineado a la derecha hacia `pages/resumen.html`.
+- `base/styles/home.css`: creado con estilos específicos de la home (hero gradiente, métricas responsive, progress bar, achievements empty state, chart container, movimientos compactos). Mobile-first con breakpoints en 768px y 1024px.
+- `base/styles/main.css`: actualizado para importar `home.css`.
+- Filtros desplegables eliminados de la home (permanecen únicamente en `pages/simulador.html`).
+
+### Pendiente (reservado para el equipo)
+- Página `pages/market-rates.html`: contenido funcional de cotizaciones (fetch opcional).
+- Assets (imágenes, iconos, datos JSON).
+- Deploy funcional.
+
 ## Actualidad
 
 ### Completado

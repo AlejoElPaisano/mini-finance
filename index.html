@@ -55,12 +55,18 @@
   </header>
 
   <main id="main-content">
-    <h1>Bienvenido a Mini Finance</h1>
-    <p class="text-secondary">Registrá tus ingresos y gastos de forma sencilla y mantené el control de tus finanzas.</p>
-
     <div id="alerts-container" aria-live="polite"></div>
 
-    <section class="dashboard">
+    <section class="hero" aria-labelledby="hero-title">
+      <h1 id="hero-title" class="hero__title">Bienvenido a Mini Finance</h1>
+      <p id="daily-tip" class="hero__tip">💡 Tip: Evitá los gastos hormiga hoy para acercarte a tu meta de ahorro.</p>
+      <div class="hero__actions">
+        <a href="./pages/simulador.html" class="btn btn--primary">Registrar Movimiento</a>
+        <a href="./pages/resumen.html" class="btn btn--secondary">Ver Resumen</a>
+      </div>
+    </section>
+
+    <section class="metrics" aria-label="Métricas clave">
       <article class="card card--income">
         <h2 class="card__title">Total Ingresos</h2>
         <p class="card__value" id="total-income">$0</p>
@@ -71,14 +77,70 @@
       </article>
       <article class="card">
         <h2 class="card__title">Saldo Disponible</h2>
-        <p class="card__value" id="balance">$0</p>
+        <p class="card__value is-positive" id="balance">$0</p>
+      </article>
+      <article class="card">
+        <h2 class="card__title">Meta de Ahorro</h2>
+        <p class="card__value" id="savings-goal">$500.000</p>
+        <div class="savings-progress">
+          <div class="savings-progress__track">
+            <div class="savings-progress__fill" style="width: 35%;"></div>
+          </div>
+          <div class="savings-progress__meta">
+            <span id="savings-current">$175.000 acumulados</span>
+            <span id="savings-percent">35%</span>
+          </div>
+        </div>
       </article>
     </section>
 
-    <section>
-      <h2>Movimientos Recientes</h2>
-      <div id="movements-list">
-        <p class="empty-state">No hay movimientos registrados.</p>
+    <section id="achievements-panel" class="achievements-panel" aria-labelledby="achievements-title">
+      <h2 id="achievements-title" class="achievements-panel__title">Tus Logros</h2>
+      <div class="achievements-empty">
+        <span class="achievements-empty__icon" aria-hidden="true">🔒</span>
+        <p class="achievements-empty__text">Bloqueado: Registrá tus primeros movimientos para desbloquear logros ocultos.</p>
+      </div>
+    </section>
+
+    <section class="chart-section" aria-labelledby="chart-title">
+      <h2 id="chart-title" class="chart-section__title">Distribución de Gastos</h2>
+      <div class="chart-container">
+        <div class="chart-empty">
+          <p class="chart-empty__icon" aria-hidden="true">📊</p>
+          <p>Aún no hay gastos registrados para analizar.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="recent-movements" aria-labelledby="recent-title">
+      <div class="recent-movements__header">
+        <h2 id="recent-title" class="recent-movements__title">Últimos Movimientos</h2>
+      </div>
+      <ul class="movements-list--compact">
+        <li class="movement-item movement-item--income">
+          <div class="movement-item__info">
+            <span class="movement-item__description">Sueldo Mensual</span>
+            <span class="movement-item__meta">Ingreso · Trabajo · 20/05/2026</span>
+          </div>
+          <span class="movement-item__amount">+$450.000</span>
+        </li>
+        <li class="movement-item movement-item--expense">
+          <div class="movement-item__info">
+            <span class="movement-item__description">Supermercado Coto</span>
+            <span class="movement-item__meta">Gasto · Alimentación · 22/05/2026</span>
+          </div>
+          <span class="movement-item__amount">-$68.500</span>
+        </li>
+        <li class="movement-item movement-item--expense">
+          <div class="movement-item__info">
+            <span class="movement-item__description">Netflix Subscription</span>
+            <span class="movement-item__meta">Gasto · Entretenimiento · 25/05/2026</span>
+          </div>
+          <span class="movement-item__amount">-$5.499</span>
+        </li>
+      </ul>
+      <div style="text-align: right; margin-top: var(--space-4);">
+        <a href="./pages/resumen.html" class="link-view-all">Ver historial completo</a>
       </div>
     </section>
   </main>

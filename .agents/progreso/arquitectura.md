@@ -38,11 +38,13 @@ Idea 5 - IntegrarTEC 2026: Mini Finance
 │     ├─ base.css
 │     ├─ layout.css
 │     ├─ components.css
+│     ├─ home.css
 │     ├─ footer.css
 │     ├─ accessibility.css
 │     ├─ login.css
 │     ├─ motion.css
 │     ├─ preferences.css
+│     ├─ simulator.css
 │     ├─ pesito.css
 │     └─ main.css
 ├─ assets/
@@ -119,7 +121,7 @@ Idea 5 - IntegrarTEC 2026: Mini Finance
 ### HTML
 Punto de entrada protegido: las paginas principales (`index.html`, `simulador`, `resumen`, `market-rates`) verifican la sesion mediante un auth guard en `<head>`. Si no hay sesion activa (`miniFinanceSession` en localStorage), redirigen automaticamente a `pages/login.html`.
 - `pages/login.html`: Pagina de autenticacion con tres vistas intercambiables (login, registro, recuperacion de contraseña), validacion de formularios y persistencia en localStorage. Tras login exitoso, redirige al dashboard.
-- `index.html`: Dashboard principal con saldo, metricas y alertas visuales. Accesible unicamente con sesion activa.
+- `index.html`: Dashboard principal reconstruido en 5 bloques semánticos: Hero con consejo diario y botones de acción rápida; Métricas Clave (4 tarjetas con estados de saldo y barra de progreso para meta de ahorro); Panel de Logros (empty state preparado para gamificación); Distribución de Gastos (contenedor para futuro gráfico con empty state); y Últimos Movimientos (lista compacta de 3 ítems mock con enlace al historial completo). Accesible únicamente con sesión activa.
 - `pages/simulador.html`: Formularios para agregar ingresos y gastos, clasificar por categoria, gestionar metas de ahorro y limite de gasto. Filtros dinamicos por tipo y categoria. Accesible unicamente con sesion activa.
 - `pages/resumen.html`: Resumen financiero detallado con historial completo, filtros y calculos de totales. Accesible unicamente con sesion activa.
 - `pages/market-rates.html`: Pagina de cotizaciones (adicional al equipo, contenido en desarrollo). Accesible unicamente con sesion activa.
@@ -133,6 +135,7 @@ Modularizado por responsabilidad.
 - `base.css`: estilos tipograficos y de elementos base.
 - `layout.css`: estructura de pagina, grid del dashboard, navegacion responsive con media queries.
 - `components.css`: cards, botones, formularios, alertas, filtros, lista de movimientos con items de ingreso/gasto y estilos de eliminacion.
+- `home.css`: estilos específicos del dashboard de inicio: hero con gradiente azul, grid de métricas responsive, barra de progreso para meta de ahorro, empty state de logros con borde dashed, contenedor de gráfico con altura mínima, y lista compacta de últimos movimientos.
 - `footer.css`: footer desplegable tipo cajon con glassmorphism, toggle persistente y grid de equipo; footer simplificado para paginas secundarias.
 - `accessibility.css`: herramientas de accesibilidad persistentes en header (modo dislexia con fuente OpenDyslexic y modo daltonismo con paleta segura y bordes reforzados), botones de herramientas del header y menu desplegable de usuario con animacion de aparicion.
 - `login.css`: estilos especificos de la pagina de autenticacion, diseno mobile-first con card centrada, gradiente de acento y animaciones de transicion entre vistas.
