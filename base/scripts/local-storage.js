@@ -4,7 +4,12 @@ export const STORAGE_KEYS = {
 
     totalAmount: 'totalAmount',
 
-    adjustedAmount: 'adjustedAmount'
+    adjustedAmount: 'adjustedAmount' ,
+
+
+    savingsGoal: 'savingsGoal',     // valor confirmado del slider (último "Agregar meta")
+
+    savingsMode: 'savingsMode'      // 'amount' | 'percent' al momento de confirmar
 
 }
 
