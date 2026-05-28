@@ -416,6 +416,8 @@ simulatorElements.$form.addEventListener( 'submit', (e) => {
 
     RenderMovements() ;
 
+    if ( typeof checkAchievements === 'function' ) checkAchievements() ;
+
     e.target.reset()
 
 
@@ -466,6 +468,8 @@ simulatorElements.$savingsForm.addEventListener( 'submit', (e) => {
 
     RefreshAdjusted() ;
     RenderMovements() ;
+
+    if ( typeof checkAchievements === 'function' ) checkAchievements() ;
 
 } )
 

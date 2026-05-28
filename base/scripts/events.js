@@ -97,4 +97,8 @@ function refreshAll() {
   );
   renderAdjustedAmount();
   renderAlerts();
+  renderSavingsGoal();
+  renderRecentMovements(3);
+  if (typeof checkAchievements === 'function') checkAchievements();
+  if (typeof renderAchievementsPanel === 'function') renderAchievementsPanel();
 }

@@ -122,6 +122,11 @@ function initFinancialApp() {
     renderRecentMovements(3);
   }
 
+  if (dom.achievementsPanel) {
+    renderAchievementsPanel();
+    checkAchievements();
+  }
+
   if (dom.movementsList) {
     renderMovements(
       dom.filterType ? dom.filterType.value : '',
@@ -163,8 +168,12 @@ if (cookieBanner && cookieAccept) {
   });
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initFinancialApp);
+  if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    initFinancialApp();
+    initAchievementButton();
+  });
 } else {
   initFinancialApp();
+  initAchievementButton();
 }
