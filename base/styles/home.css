@@ -104,6 +104,19 @@
   background-color: var(--brand-accent);
 }
 
+/* Flechas de tendencia en métricas del inicio */
+.metrics .card--income .card__title::before {
+  content: '▲ ';
+  color: var(--success-border);
+  font-size: 0.85em;
+}
+
+.metrics .card--expense .card__title::before {
+  content: '▼ ';
+  color: var(--danger-border);
+  font-size: 0.85em;
+}
+
 .savings-progress {
   margin-top: var(--space-3);
 }
