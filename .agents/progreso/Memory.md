@@ -234,6 +234,29 @@ Reparación de la página del simulador: funcionalidades rotas restauradas, dark
   - `.card-total` (Monto de Cuenta): fondo oscuro cyan → `#0c4a6e`.
   - Inputs, textareas, selects, botones, lista de movimientos y empty states adaptados para superficies oscuras.
 
+## 28 de mayo de 2026 (sincronizacion simulador-home)
+
+### Estado General
+En desarrollo activo. Sincronización completa entre el simulador de movimientos y el dashboard de inicio.
+
+### Completado
+- Unificación de claves de `localStorage`: `local-storage.js` ahora usa `miniFinanceMovements` y `miniFinanceSavingsGoal`, alineándose con `state.js`.
+- `simulator.js` refactorizado para usar funciones globales de `state.js` (`getMovements`, `saveMovements`, `getSavingsGoal`, `setSavingsGoal`, `getBalance`) en lugar de su propio sistema aislado.
+- `pages/simulador.html`: agregado `<script src="../base/scripts/state.js"></script>` para exponer funciones financieras globales al simulador.
+- `render.js`: nuevas funciones `renderSavingsGoal()` y `renderRecentMovements(limit = 5)` para el dashboard de inicio.
+- `dom.js`: agregados selectores `savingsGoalDisplay`, `savingsProgressFill`, `savingsCurrent`, `savingsPercent` y `recentMovementsList`.
+- `index.html`:
+  - Eliminados datos hardcodeados de métricas y últimos movimientos.
+  - Renombrado `#savings-goal` a `#savings-goal-display` para evitar conflicto con el input del simulador.
+  - Lista de últimos movimientos ahora usa `#recent-movements-list` y arranca con empty state.
+- `main.js`: `initFinancialApp()` ahora invoca `renderSavingsGoal()` y `renderRecentMovements(5)` al cargar.
+- Todos los cambios copiados al worktree real del usuario en `D:/ALEJO/AleMart/Documents/IntegrarTEC/Proyecto1`.
+
+### Pendiente
+- Página `pages/market-rates.html`: contenido funcional de cotizaciones (fetch opcional).
+- Assets (imágenes, iconos, datos JSON).
+- Deploy funcional.
+
 ## Actualidad
 
 ### Completado

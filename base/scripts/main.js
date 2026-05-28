@@ -116,6 +116,11 @@ function initFinancialApp() {
 
   renderDashboard();
   renderAlerts();
+  renderSavingsGoal();
+
+  if (dom.recentMovementsList) {
+    renderRecentMovements(3);
+  }
 
   if (dom.movementsList) {
     renderMovements(

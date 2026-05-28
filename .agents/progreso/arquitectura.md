@@ -30,6 +30,9 @@ Idea 5 - IntegrarTEC 2026: Mini Finance
 │  │  ├─ main.js
 │  │  ├─ footer.js
 │  │  ├─ login.js
+│  │  ├─ simulator.js
+│  │  ├─ local-storage.js
+│  │  ├─ helpers.js
 │  │  ├─ pesito-brain.js
 │  │  └─ pesito-chat.js
 │  └─ styles/
@@ -145,11 +148,14 @@ Modularizado por responsabilidad.
 ### JavaScript
 Arquitectura modular vanilla orientada a funcionalidades financieras. Cada modulo tiene responsabilidad unica:
 - `config.js`: constantes, categorias predefinidas, claves de storage, valores por defecto.
-- `state.js`: gestion del estado, persistencia en `localStorage`, calculos financieros (ingresos, gastos, saldo, totales por categoria) y logica de alertas visuales.
+- `state.js`: gestion del estado centralizado, persistencia en `localStorage` bajo claves unificadas (`miniFinanceMovements`, `miniFinanceSavingsGoal`, `miniFinanceSpendingLimit`), calculos financieros (ingresos, gastos, saldo, totales por categoria, progreso de ahorro) y logica de alertas visuales.
 - `dom.js`: centralizacion de selectores del DOM para evitar repeticion.
-- `render.js`: generacion dinamica de movimientos, metricas, filtros y alertas en el DOM.
+- `render.js`: generacion dinamica de movimientos, metricas, filtros, alertas, meta de ahorro con barra de progreso y lista compacta de ultimos movimientos en el DOM.
 - `events.js`: registro de listeners para formularios, filtros, eliminacion de movimientos y configuracion de alertas.
 - `main.js`: orquestador que inicializa todos los modulos al cargar el DOM. Incluye manejo del menu desplegable de usuario (toggle del dropdown, cierre al hacer click fuera) y logout: escucha el click en `#logout-btn`, elimina `miniFinanceSession` de localStorage y redirige a `pages/login.html`.
+- `simulator.js`: logica del simulador de movimientos. Utiliza las funciones globales de `state.js` para garantizar sincronización con el dashboard. Maneja formularios de registro de movimientos, meta de ahorro con slider porcentual/fijo, calculo de monto ajustado y renderizado del listado completo de movimientos.
+- `local-storage.js`: helpers de persistencia auxiliares usados por `simulator.js` para valores calculados (`adjustedAmount`, `savingsMode`).
+- `helpers.js`: helpers de formato monetario (`ParseAmount`, `FormatAmount`) importados como modulo ES por `simulator.js`.
 - `footer.js`: gestiona el estado abierto/cerrado del footer desplegable, persiste en localStorage y ajusta el padding del body dinamicamente.
 - `login.js`: logica de autenticacion vanilla con tres vistas intercambiables, validacion de formularios, persistencia de usuarios en localStorage (`miniFinanceUsers`), gestion de sesion (`miniFinanceSession`) y mensajes de estado en el DOM.
 - `pesito-brain.js`: arbol de decisiones del asistente virtual Pesito. Define nodos conversacionales con UX Writing financiero amigable (simulador, consejos, seguridad, equipo).
