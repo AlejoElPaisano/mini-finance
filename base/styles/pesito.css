@@ -379,7 +379,7 @@
 
   .pesito-chat {
     position: absolute;
-    bottom: calc(56px + var(--space-4) + var(--footer-offset, 0px)); /* Justo arriba del botón flotante */
+    bottom: calc(56px + var(--space-4));
     right: 0;
     width: 380px;
     height: 520px;

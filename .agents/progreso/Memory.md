@@ -261,3 +261,15 @@ En desarrollo activo. Sincronización completa entre el simulador de movimientos
 
 ### Completado
 - Instalada skill `design-lab` utilizando `pnpm dlx skills add https://github.com/0xdesign/design-plugin --skill design-lab` para incorporar recursos de diseño.
+
+## 28 de mayo de 2026 (pesito y footer global)
+
+### Estado General
+En desarrollo activo. Ajuste de comportamiento global del asistente virtual Pesito con el footer desplegable.
+
+### Completado
+- `base/styles/pesito.css`: corregido el posicionamiento desktop del chat para que no duplique `--footer-offset` cuando el footer de creditos esta abierto. El boton y la ventana del chat vuelven a mantener la misma separacion visual.
+- `pages/simulador.html`: completado el bloque HTML de Pesito con cierre correcto del contenedor y agregado del boton flotante `#pesito-toggle`, dejando el asistente disponible en el simulador igual que en Inicio, Resumen y Cotizaciones.
+
+### Pendiente
+- Validacion visual manual en navegador de Inicio, Resumen, Cotizaciones y Simulador con footer abierto/cerrado.
