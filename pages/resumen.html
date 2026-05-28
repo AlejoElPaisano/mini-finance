@@ -59,7 +59,140 @@
 
     <div id="alerts-container" aria-live="polite"></div>
 
-    <section class="dashboard">
+    <section class="balance-road" aria-label="Balance contable" >
+
+
+      <article class="balance-card balance-card--income" >
+
+        <h2 class="balance-card-title" >Ingresos</h2>
+
+        <p class="balance-card-value" id="total-income" >$0</p>
+
+      </article>
+
+      <article class="balance-card balance-card-expense" >
+
+        <h2 class="balance-card-value" id="total-expense" >$0</h2>
+
+      </article>
+
+      <article class="balance-card balance-card-savings" >
+
+        <h2 class="balance-card-title" >Reservas</h2>
+
+        <p class="balance-card-value" id="total-savings">$0</p>
+
+      </article>
+
+
+      <article class="balance-card balance-card-balance" >
+
+        <h2 class="balance-card-title" >Balance</h2>
+
+        <p class="balance-card-value" id="balance" data-sign="positive" >$0</p>
+
+      </article>
+
+
+    </section>
+
+
+    <section class="ledger" aria-labelledby="ledger-title" >
+
+      <header class="ledger-header">
+
+        <h2 id="ledger-title" > Historial de Movimientos </h2>
+
+        <span 
+          id="movements-count" 
+          class="ledger-count" 
+          aria-live="polite"
+        >
+          0 movimientos
+        </span>
+
+      </header>
+
+
+      <article class="ledger-filters" >
+
+        <div class="form-group" >
+
+          <label for="filter-type">Tipo</label>
+
+          <select name="filter-type" id="filter-type">
+
+            <option value="">Todos</option>
+            
+            <option value="income">Ingreso</option>
+            
+            <option value="expense">Gasto</option>
+            
+            <option value="savings">Meta de Ahorro</option>
+
+          </select>
+
+        </div>
+
+
+        <div class="form-group" >
+
+          <label for="filter-category">Categoría</label>
+
+          <select name="filter-category" id="filter-category">
+
+            <option value="">Todas</option>
+            
+            <option value="salary">Sueldo</option>
+            <option value="sales">Ventas</option>
+            <option value="food">Alimentos</option>
+            <option value="transport">Transporte</option>
+            <option value="services">Servicios</option>
+            <option value="entertainment">Entretenimiento</option>
+
+          </select>
+
+        </div>
+
+
+      </article>
+
+
+      <article class="ledger-table" role="table" aria-label="Tabla de movimientos" >
+
+        <aside class="ledger-head" role="row" >
+          
+          <span role="columnheader"> Fecha </span>
+          <span role="columnheader"> Descripción </span>
+          <span role="columnheader"> Tipo </span>
+          <span role="columnheader"> Categoría </span>
+          <span role="columnheader" class="ledger-head-right" > Monto </span>
+
+        </aside>
+
+        <ol id="movements-list" class="ledger-list" aria-live="polite" >
+
+          <li class="ledger-empty" >No hay movimientos registrados.</li>
+
+        </ol>
+
+      </article>
+
+
+    </section>
+
+
+
+  </main>
+
+
+
+
+
+
+
+<!--
+    <section class="dashboard" >
       <article class="card card--income">
         <h2 class="card__title">Total Ingresos</h2>
         <p class="card__value" id="total-income">$0</p>
@@ -135,6 +268,8 @@
       </div>
     </div>
   </footer>
+
+-->
 
   <!-- ==========================================
        PESITO — Asistente Virtual Flotante
@@ -237,14 +372,18 @@
     <span class="pesito-toggle__icon pesito-toggle__icon--close" aria-hidden="true">✕</span>
   </button>
 
+  <script src="../base/scripts/main.js"></script>
+  <script src="../base/scripts/footer.js"></script>
+  <script src="../base/scripts/pesito-brain.js"></script>
+  <script src="../base/scripts/pesito-chat.js"></script>
+  <script type="module" src="../base/scripts/resumen.js"></script>
+  <!--  
   <script src="../base/scripts/config.js"></script>
   <script src="../base/scripts/state.js"></script>
   <script src="../base/scripts/dom.js"></script>
   <script src="../base/scripts/render.js"></script>
   <script src="../base/scripts/events.js"></script>
-  <script src="../base/scripts/main.js"></script>
-  <script src="../base/scripts/footer.js"></script>
-  <script src="../base/scripts/pesito-brain.js"></script>
-  <script src="../base/scripts/pesito-chat.js"></script>
+  -->
+
 </body>
 </html>
