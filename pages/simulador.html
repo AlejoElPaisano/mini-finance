@@ -6,7 +6,7 @@
   <title>Mini Finance - Simulador</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../base/styles/main.css">
   <script>
     if (!localStorage.getItem('miniFinanceSession')) {
@@ -59,7 +59,8 @@
 
     <div id="alerts-container" aria-live="polite"></div>
 
-    <section class="card">
+    <!--
+      <section class="card">
       <h2 id="section-movement">Registrar Movimiento</h2>
 
       <form id="movement-form" class="card-form" aria-labelledby="section-movement">
@@ -75,7 +76,18 @@
 
         <div class="form-group">
           <label for="category">Categoría</label>
-          <select id="category" name="category" required></select>
+
+          <select id="category" name="category" required>
+
+            <option value="">Seleccionar categoría</option>
+            <option value="salary">Sueldo</option>
+            <option value="food">Alimentos</option>
+            <option value="transport">Transporte</option>
+            <option value="services">Servicios</option>
+            <option value="entertainment">Entretenimiento</option>
+
+          </select>
+
         </div>
 
         <div class="form-group">
@@ -91,6 +103,27 @@
           <small id="description-hint" class="form-hint">Ingresá una descripción breve del movimiento.</small>
         </div>
 
+
+        <div class="form-group" >
+
+          <label for="amount">Monto</label>
+
+          <input 
+            type="number"
+            id="amount"
+            name="amount"
+            min="1"
+            required
+            aria-describedby="amount-hint"
+            placeholder="0"
+
+          />
+
+          <strong id="amount-hint">Ingresá el monto de la operación</strong>
+
+        </div>
+        
+
         <div class="form-group">
           <label for="date">Fecha</label>
           <input
@@ -101,24 +134,10 @@
           >
         </div>
 
-        <div class="form-group">
-          <label for="amount">Monto</label>
-          <input
-            type="number"
-            id="amount"
-            name="amount"
-            required
-            min="1"
-            step="0.01"
-            placeholder="Ej. 25000"
-            aria-describedby="amount-hint"
-          >
-          <small id="amount-hint" class="form-hint">Ingresá el monto en pesos.</small>
-        </div>
-
         <div class="slider-grid">
-          <div class="range-field">
-            <label for="savings-goal">Meta de Ahorro</label>
+
+          <label class="range-field" for="savings-goal">
+            <span>Meta de Ahorro</span>
             <output id="savings-goal-output" for="savings-goal">$1000</output>
           </div>
           <input
@@ -154,9 +173,29 @@
             <span>$40k</span>
             <span>$50k</span>
           </div>
-        </div>
 
-        <button type="submit" class="btn btn--primary" id="submit-btn">Agregar Movimiento</button>
+
+          <button type="button" id="toggle-scale-btn" class="btn-scale-toggle">
+            Cambiar a escala porcentual
+          </button>
+
+
+
+
+        </div>
+        <br>
+
+        <div class="form-actions">
+
+          <button type="button" class="btn btn--reset" id="reset-btn">
+            Limpiar
+          </button>
+
+          <button type="submit" class="btn btn--primary" id="submit-btn">
+            Agregar Movimiento
+          </button>
+
+        </div>
 
       </form>
 
@@ -170,17 +209,159 @@
         </aside>
       </article>
 
-    </section>
+      </section>
+    -->
 
-    <section>
-      <h2>Movimientos recientes</h2>
 
-      <section class="filters">
+      <section class="card">
+        
+        <!-- Form de movimientos → col 1 (sin .slider-grid adentro) -->
+        <form id="movement-form" class="card-form" aria-labelledby="section-movement">
+          <h2 id="section-movement">Registrar Movimiento</h2>
+          <hr class="divider"> 
+
+          <div class="form-group">
+            <label for="type">Tipo</label>
+            <select id="type" name="type" required>
+
+              <option value="">Seleccionar tipo</option>
+              <option value="income">Ingreso</option>
+              <option value="expense">Gasto</option>
+
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="category">Categoría</label>
+            <select id="category" name="category" required>
+
+              <option value="">Seleccionar categoría</option>
+              <option value="salary">Sueldo</option>
+              <option value="food">Alimentos</option>
+              <option value="transport">Transporte</option>
+              <option value="services">Servicios</option>
+              <option value="entertainment">Entretenimiento</option>
+
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="description" id="description-hint">Descripción</label>
+            <textarea 
+              type="text" 
+              id="description" 
+              name="description"
+              rows="2" 
+              required 
+              aria-describedby="description-hint" 
+              placeholder="Ingresá una descripción breve del movimiento" 
+            ></textarea>
+            <!--<strong id="description-hint">Ingresá una descripción breve del movimiento</strong> -->
+          </div>
+
+          <div class="form-group">
+            <label for="amount" id="amount-hint">Monto</label>
+            <input 
+              type="number" 
+              id="amount" 
+              name="amount" 
+              min="1"
+              required
+              aria-describedby="amount-hint"
+              placeholder="0"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="date">Fecha</label>
+            <input type="date" id="date" name="date" required>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn--reset" id="reset-btn">Limpiar</button>
+            <button type="submit" class="btn btn--primary" id="submit-btn">Agregar Movimiento</button>
+          </div>
+
+        </form>
+
+        <!-- Form de meta de ahorro → col 2 (slider + su propio botón) -->
+        <form id="savings-form" class="card-form" aria-labelledby="savings-title">
+          <h3 id="savings-title" class="sr-only">Metas de Ahorro</h3>
+          <hr class="divider">
+
+
+          <div class="slider-grid">
+
+            <header id="savings-equiv-header" class="slider-equiv-header" hidden>
+              <small>porcentualmente equivale a: </small>
+              <output id="savings-money-equiv">$0</output>
+            </header>
+
+            <label class="range-field" for="savings-goal">
+              <span>Meta de Ahorro</span>
+              <output id="savings-goal-output" for="savings-goal">$10</output>
+            </label>
+
+            <input id="savings-goal" name="savings-goal" type="range"
+                  min="0" max="50000" step="100" value="10" list="savings-scale" />
+
+            <datalist id="savings-scale">...</datalist>
+
+            <div class="slider-scale">
+              <span>$0</span><span>$10k</span><span>$20k</span>
+              <span>$30k</span><span>$40k</span><span>$50k</span>
+            </div>
+
+            <button type="button" id="toggle-scale-btn" class="btn-scale-toggle">
+              Cambiar a escala porcentual del total
+            </button>
+
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn--primary" id="savings-submit-btn">
+              Agregar meta
+            </button>
+          </div>
+
+        </form>
+
+        <article class="card-total" >
+          <h3 id="savings-title" class="sr-only">Montos de Cuenta</h3>
+          <hr class="divider">
+          <p class="card-total-label" > Monto Total Disponible </p>
+          <p class="card-total-amount" > $10 </p>
+
+          <aside  class="card-total-footer">
+            <label for="adjusted-amount" class="card-total-footer__label">
+              MONTO DISPONIBLE DEJANDO RESERVAS DE AHORRO
+            </label>
+            <output id="adjusted-amount" class="card-total-footer__value">
+              $0
+            </output>
+          </aside >
+
+
+        </article>
+
       </section>
 
-      <div id="movements-list">
-        <p class="empty-state">No hay movimientos registrados.</p>
-      </div>
+
+
+
+    <section class="movements" aria-labelledby="movements-title">
+
+      <header class="movements__header">
+        <h2 id="movements-title">Movimientos recientes</h2>
+      </header>
+
+      <section class="filters" aria-label="Filtros de movimientos">
+      </section>
+
+      <ol id="movements-list" class="movements-list" aria-live="polite">
+        <li class="empty-state">No hay movimientos registrados.</li>
+      </ol>
+
     </section>
   </main>
 
@@ -295,42 +476,16 @@
       <div class="pesito-options" id="pesito-options"></div>
     </div>
   </div>
-
-  <button type="button" id="pesito-toggle" class="pesito-toggle" aria-expanded="false" aria-label="Abrir asistente virtual Pesito">
-    <span class="pesito-toggle__icon pesito-toggle__icon--open" aria-hidden="true">
-      <!-- Pesito mini para el botón flotante -->
-      <svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="25" cy="22" rx="11" ry="17" fill="#f59e0b" stroke="#92400e" stroke-width="3" transform="rotate(-25 25 22)"/>
-        <ellipse cx="75" cy="22" rx="11" ry="17" fill="#f59e0b" stroke="#92400e" stroke-width="3" transform="rotate(25 75 22)"/>
-        <ellipse cx="25" cy="22" rx="5" ry="9" fill="#fde68a" transform="rotate(-25 25 22)"/>
-        <ellipse cx="75" cy="22" rx="5" ry="9" fill="#fde68a" transform="rotate(25 75 22)"/>
-        <circle cx="50" cy="56" r="36" fill="url(#goldGradToggle)" stroke="#92400e" stroke-width="3"/>
-        <circle cx="38" cy="50" r="5.5" fill="#1e293b"/>
-        <circle cx="62" cy="50" r="5.5" fill="#1e293b"/>
-        <circle cx="40" cy="48" r="2" fill="white"/>
-        <circle cx="64" cy="48" r="2" fill="white"/>
-        <path d="M42 64 Q50 72 58 64" stroke="#1e293b" stroke-width="3" stroke-linecap="round" fill="none"/>
-        <ellipse cx="34" cy="28" rx="10" ry="5" fill="white" opacity="0.3" transform="rotate(-25 34 28)"/>
-        <defs>
-          <linearGradient id="goldGradToggle" x1="20" y1="20" x2="80" y2="80" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#fcd34d"/>
-            <stop offset="0.5" stop-color="#fbbf24"/>
-            <stop offset="1" stop-color="#f59e0b"/>
-          </linearGradient>
-        </defs>
-      </svg>
-    </span>
-    <span class="pesito-toggle__icon pesito-toggle__icon--close" aria-hidden="true">✕</span>
-  </button>
-
-  <script src="../base/scripts/config.js"></script>
-  <script src="../base/scripts/state.js"></script>
-  <script src="../base/scripts/dom.js"></script>
-  <script src="../base/scripts/render.js"></script>
-  <script src="../base/scripts/events.js"></script>
-  <script src="../base/scripts/main.js"></script>
-  <script src="../base/scripts/footer.js"></script>
-  <script src="../base/scripts/pesito-brain.js"></script>
-  <script src="../base/scripts/pesito-chat.js"></script>
+  <hr class="footer__divider">
+  <div class="footer__bottom">
+    <p class="footer__copy">© 2026 Mini Finance · IntegrarTEC · Módulo Web Estática</p>
+    <a href="https://fpintegrar.org" target="blank" rel="noopener" class="footer_logo-link">
+     <img src="../assets/img/logo-integrar.png" alt="Fundación Integrar" class="footer__logo-img">
+    </a>
+  </div>
+</footer>
+<script type="module" src="/base/scripts/helpers.js"></script>
+<script type="module" src="/base/scripts/simulator.js" ></script>
+<script type="module" src="/base/scripts/local-storage.js"></script>
 </body>
 </html>
