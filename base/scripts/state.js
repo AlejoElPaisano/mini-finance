@@ -1,12 +1,10 @@
 const STORAGE_KEYS = {
   movements: 'miniFinanceMovements',
-  savingsGoal: 'miniFinanceSavingsGoal',
-  spendingLimit: 'miniFinanceSpendingLimit'
+  savingsGoal: 'miniFinanceSavingsGoal'
 };
 
 const DEFAULTS = {
-  savingsGoal: 1000,
-  spendingLimit: 50000
+  savingsGoal: 1000
 };
 
 function loadData(key, fallback) {
@@ -52,15 +50,6 @@ function setSavingsGoal(value) {
   localStorage.setItem(STORAGE_KEYS.savingsGoal, String(value));
 }
 
-function getSpendingLimit() {
-  const saved = localStorage.getItem(STORAGE_KEYS.spendingLimit);
-  return saved ? Number(saved) : DEFAULTS.spendingLimit;
-}
-
-function setSpendingLimit(value) {
-  localStorage.setItem(STORAGE_KEYS.spendingLimit, String(value));
-}
-
 function getTotalIncome() {
   return getMovements()
     .filter(m => m.type === 'income')
@@ -101,17 +90,8 @@ function getSavingsProgress() {
 
 function checkAlerts() {
   const alerts = [];
-  const totalExpense = getTotalExpense();
-  const limit = getSpendingLimit();
   const balance = getBalance();
   const goal = getSavingsGoal();
-
-  if (totalExpense > limit) {
-    alerts.push({
-      type: 'danger',
-      message: `Superaste tu limite de gasto ($${formatCurrency(limit)}). Gastos actuales: $${formatCurrency(totalExpense)}.`
-    });
-  }
 
   if (balance < goal && getMovements().length > 0) {
     alerts.push({

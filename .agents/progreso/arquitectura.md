@@ -148,7 +148,7 @@ Modularizado por responsabilidad.
 ### JavaScript
 Arquitectura modular vanilla orientada a funcionalidades financieras. Cada modulo tiene responsabilidad unica:
 - `config.js`: constantes, categorias predefinidas, claves de storage, valores por defecto.
-- `state.js`: gestion del estado centralizado, persistencia en `localStorage` bajo claves unificadas (`miniFinanceMovements`, `miniFinanceSavingsGoal`, `miniFinanceSpendingLimit`), calculos financieros (ingresos, gastos, saldo, totales por categoria, progreso de ahorro) y logica de alertas visuales.
+- `state.js`: gestion del estado centralizado, persistencia en `localStorage` bajo claves unificadas (`miniFinanceMovements`, `miniFinanceSavingsGoal`), calculos financieros (ingresos, gastos, saldo, totales por categoria, progreso de ahorro) y logica de alertas visuales.
 - `dom.js`: centralizacion de selectores del DOM para evitar repeticion.
 - `render.js`: generacion dinamica de movimientos, metricas, filtros, alertas, meta de ahorro con barra de progreso y lista compacta de ultimos movimientos en el DOM.
 - `events.js`: registro de listeners para formularios, filtros, eliminacion de movimientos y configuracion de alertas.
