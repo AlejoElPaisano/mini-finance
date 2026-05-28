@@ -217,6 +217,23 @@ En desarrollo activo. Reconstrucción completa de la página de inicio (`index.h
 - Assets (imágenes, iconos, datos JSON).
 - Deploy funcional.
 
+## 28 de mayo de 2026 (rama fix/simulator-ui-components)
+
+### Estado General
+Reparación de la página del simulador: funcionalidades rotas restauradas, dark mode equilibrado y Pesito integrado.
+
+### Completado
+- `pages/simulador.html`:
+  - Eliminado fragmento de footer duplicado/roto al final del archivo.
+  - Corregidas rutas de scripts de absolutas (`/base/scripts/...`) a relativas (`../base/scripts/...`).
+  - Agregados scripts faltantes: `main.js` (dark mode, accesibilidad, menú usuario, logout), `footer.js` (footer desplegable), `pesito-brain.js` y `pesito-chat.js` (asistente virtual).
+- `base/styles/simulator.css`: agregados overrides completos de `body.dark-mode`:
+  - Fondo del body mantiene `#0f172a` (azul oscuro del sistema) igual que las demás páginas.
+  - `#movement-form` (Registrar Movimiento): fondo oscuro manteniendo identidad cromática mint → `#3d5a52`.
+  - `#savings-form` (Meta de Ahorro): fondo oscuro turquesa → `#2d4a4a`.
+  - `.card-total` (Monto de Cuenta): fondo oscuro cyan → `#0c4a6e`.
+  - Inputs, textareas, selects, botones, lista de movimientos y empty states adaptados para superficies oscuras.
+
 ## Actualidad
 
 ### Completado
