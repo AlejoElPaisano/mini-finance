@@ -47,6 +47,9 @@ function ComputeTotal ( movements ) {
 
     const compute = movements.reduce( (acc, m) => {
 
+        // Solo income/expense afectan el total. Las metas son informativas.
+        if ( m.type !== 'income' && m.type !== 'expense' ) return acc ;
+
         const amount = Number( m.amount ) || 0 ;
 
         return m.type === 'income'
@@ -93,11 +96,135 @@ function RefreshAdjusted () {
 
     const totalCurrent = ParseAmount( $totalAmount.textContent ) ;
 
-    const adjustedCurrent = ComputeAdjusted( totalCurrent, $savingsGoal.value, savingsMode ) ;
+    const savedValue = localStorage.getItem( STORAGE_KEYS.savingsGoal ) ;
+
+    const savedMode = localStorage.getItem( STORAGE_KEYS.savingsMode ) || 'amount' ;
+
+
+
+
+
+    const adjustedCurrent = savedValue !== null
+                                        ? ComputeAdjusted( totalCurrent, Number(savedValue) , savedMode  ) 
+                                        : totalCurrent 
+    ;
+
+
+
 
     $adjustedAmount.textContent = FormatAmount( adjustedCurrent ) ;
 
     SaveAmount( STORAGE_KEYS.adjustedAmount, adjustedCurrent ) ;
+}
+
+
+// ── Render del listado de movimientos ──────────────────
+
+const TYPE_LABELS = {
+    income: 'Ingreso',
+    expense: 'Gasto',
+    savings: 'Meta de ahorro',
+}
+
+const CATEGORY_LABELS = {
+    salary: 'Sueldo',
+    food: 'Alimentos',
+    transport: 'Transporte',
+    services: 'Servicios',
+    entertainment: 'Entretenimiento',
+    amount: 'Reserva fija',
+    percent: 'Reserva porcentual',
+}
+
+
+function FormatMovementDate ( isoDate ) {
+
+    if ( !isoDate ) return '—'
+
+    const d = new Date( isoDate )
+
+    return d.toLocaleDateString( 'es-AR', { day: '2-digit', month: 'short', year: 'numeric' } )
+}
+
+
+function CreateMovementNode ( m ) {
+
+    const $li = document.createElement('li')
+
+    const $article = document.createElement('article')
+    $article.className = 'movement'
+    $article.dataset.type = m.type
+
+    // Header: descripción + fecha
+    const $header = document.createElement('header')
+    $header.className = 'movement__header'
+
+    const $h3 = document.createElement('h3')
+    $h3.className = 'movement__description'
+    $h3.textContent = m.description || '(sin descripción)'
+
+    const $time = document.createElement('time')
+    $time.className = 'movement__date'
+    const dateAttr = m.date || ( m.createdAt ? m.createdAt.split('T')[0] : '' )
+    if ( dateAttr ) $time.dateTime = dateAttr
+    $time.textContent = FormatMovementDate( m.date || m.createdAt )
+
+    $header.append( $h3, $time )
+
+    // Meta: tipo y categoría como definition list
+    const $dl = document.createElement('dl')
+    $dl.className = 'movement__meta'
+
+    const $dtType = document.createElement('dt')
+    $dtType.textContent = 'Tipo'
+    const $ddType = document.createElement('dd')
+    $ddType.className = 'movement__type'
+    $ddType.textContent = TYPE_LABELS[ m.type ] || m.type
+
+    const $dtCat = document.createElement('dt')
+    $dtCat.textContent = 'Categoría'
+    const $ddCat = document.createElement('dd')
+    $ddCat.className = 'movement__category'
+    $ddCat.textContent = CATEGORY_LABELS[ m.category ] || m.category || '—'
+
+    $dl.append( $dtType, $ddType, $dtCat, $ddCat )
+
+    // Monto firmado
+    const $amount = document.createElement('p')
+    $amount.className = 'movement__amount'
+    const sign = m.type === 'income'  ? '+'
+               : m.type === 'expense' ? '−'
+               : ''                              // savings: sin signo
+    $amount.textContent = `${sign}${ FormatAmount( Number(m.amount) || 0 ) }`
+
+    $article.append( $header, $dl, $amount )
+    $li.appendChild( $article )
+
+    return $li
+}
+
+
+function RenderMovements () {
+
+    const { $movementsList } = simulatorElements
+    const movements = LoadMovements()
+
+    $movementsList.replaceChildren()
+
+    if ( movements.length === 0 ) {
+        const $empty = document.createElement('li')
+        $empty.className = 'empty-state'
+        $empty.textContent = 'No hay movimientos registrados.'
+        $movementsList.appendChild( $empty )
+        return
+    }
+
+    // Más reciente primero
+    const sorted = movements.slice().reverse()
+
+    sorted.forEach( m => {
+        $movementsList.appendChild( CreateMovementNode(m) )
+    })
 }
 
 
@@ -287,9 +414,11 @@ simulatorElements.$form.addEventListener( 'submit', (e) => {
 
     RefreshTotal() ;
 
+    RefreshAdjusted() ;
+
+    RenderMovements() ;
+
     e.target.reset()
-
-
 
 
 } )
@@ -300,13 +429,47 @@ simulatorElements.$savingsForm.addEventListener( 'submit', (e) => {
 
     e.preventDefault() ;
 
-    RefreshAdjusted()
+    const { $savingsGoal, $totalAmount } = simulatorElements ;
+
+    const sliderValue = Number( $savingsGoal.value ) || 0 ;
+    const totalCurrent = ParseAmount( $totalAmount.textContent ) ;
+
+    // Equivalente en $ y descripción según el modo activo
+    const equivAmount = savingsMode === 'percent'
+                            ? totalCurrent * sliderValue / 100
+                            : sliderValue ;
+
+    const description = savingsMode === 'percent'
+                            ? `Reserva ${sliderValue}% sobre ${ FormatAmount(totalCurrent) }`
+                            : `Reserva fija de ${ FormatAmount(sliderValue) }` ;
+
+    // Commit: el slider actual pasa a ser la meta vigente
+    SaveAmount( STORAGE_KEYS.savingsGoal, $savingsGoal.value ) ;
+    SaveAmount( STORAGE_KEYS.savingsMode, savingsMode ) ;
+
+    // Registro de la meta en el feed de movimientos
+    const savingsMovement = {
+        type: 'savings',
+        category: savingsMode,                              // 'amount' | 'percent'
+        description,
+        amount: equivAmount,
+        date: new Date().toISOString().split('T')[0],
+        createdAt: new Date().toISOString(),
+    }
+
+    const movements = LoadMovements() ;
+    movements.push( savingsMovement ) ;
+    SaveMovements( movements ) ;
+
+    RefreshAdjusted() ;
+    RenderMovements() ;
 
 } )
 
 
 // Init
 InitAmounts()
+RenderMovements()
 
 
 
