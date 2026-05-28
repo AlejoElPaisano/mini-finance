@@ -112,7 +112,7 @@ if (dailyTipElement) {
 }
 
 function initFinancialApp() {
-  if (typeof getMovements !== 'function') return;
+  if (typeof getMovements !== 'function' || typeof dom === 'undefined') return;
 
   renderDashboard();
   renderAlerts();
