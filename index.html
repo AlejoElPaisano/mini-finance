@@ -75,11 +75,11 @@
         <h2 class="card__title">Total Gastos</h2>
         <p class="card__value" id="total-expense">$0</p>
       </article>
-      <article class="card">
+      <article class="card card--balance">
         <h2 class="card__title">Saldo Disponible</h2>
         <p class="card__value is-positive" id="balance">$0</p>
       </article>
-      <article class="card">
+      <article class="card card--savings">
         <h2 class="card__title">Meta de Ahorro</h2>
         <p class="card__value" id="savings-goal">$500.000</p>
         <div class="savings-progress">
@@ -283,6 +283,11 @@
     </span>
     <span class="pesito-toggle__icon pesito-toggle__icon--close" aria-hidden="true">✕</span>
   </button>
+
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Aviso de cookies" hidden>
+    <p class="cookie-banner__text">Utilizamos cookies y almacenamiento local para mejorar tu experiencia. Al continuar navegando, aceptás su uso.</p>
+    <button type="button" id="cookie-accept" class="btn btn--primary">Entendido</button>
+  </div>
 
   <script src="./base/scripts/config.js"></script>
   <script src="./base/scripts/state.js"></script>

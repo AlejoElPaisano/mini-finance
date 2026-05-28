@@ -207,6 +207,11 @@ En desarrollo activo. Reconstrucción completa de la página de inicio (`index.h
 - `base/styles/main.css`: actualizado para importar `home.css`.
 - Filtros desplegables eliminados de la home (permanecen únicamente en `pages/simulador.html`).
 
+### Completado (correcciones y mejoras posteriores)
+- **Fix modo oscuro en Hero**: agregados overrides en `home.css` para `body.dark-mode .hero` usando tonos azules oscuros fijos (`#172554` → `#1e3a8a`) que mantienen contraste con el texto blanco y los botones claros.
+- **Decoración lateral**: agregados pseudo-elementos `body::before` y `body::after` con radial-gradients difusos (`filter: blur(80px)`) en los laterales del viewport, usando `--brand-primary` y `--brand-accent` con opacidad sutil. Llenan el espacio vacío en pantallas anchas sin competir con el contenido.
+- **Banner de cookies**: implementado en `index.html` con componente `.cookie-banner` fijo al pie, mensaje informativo sobre uso de localStorage/cookies, botón "Entendido" y persistencia en `localStorage` (`cookiesAccepted`). Lógica agregada en `base/scripts/main.js`.
+
 ### Pendiente (reservado para el equipo)
 - Página `pages/market-rates.html`: contenido funcional de cotizaciones (fetch opcional).
 - Assets (imágenes, iconos, datos JSON).
