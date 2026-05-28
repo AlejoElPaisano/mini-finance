@@ -17,7 +17,12 @@
 .balance-card {
 
     background-color: var( --bg-surface ) ;
-
-    border: 1px
+    border: 0.0625 em solid var(--border-subtle) ;
+    border-radius: var(--radius-md);
+    padding: 1.1 rem 1.25rem;
+    display: flex ;
+    flex-direction: column;
+    gap: 0.4rem ;
+    
 
 }
