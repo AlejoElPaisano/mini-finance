@@ -98,7 +98,8 @@ function refreshAll() {
   renderAdjustedAmount();
   renderAlerts();
   renderSavingsGoal();
-  renderRecentMovements(3);
+  renderRecentMovements(5);
+  renderExpenseDistribution();
   if (typeof checkAchievements === 'function') checkAchievements();
   if (typeof renderAchievementsPanel === 'function') renderAchievementsPanel();
 }

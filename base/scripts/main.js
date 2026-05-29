@@ -119,7 +119,11 @@ function initFinancialApp() {
   renderSavingsGoal();
 
   if (dom.recentMovementsList) {
-    renderRecentMovements(3);
+    renderRecentMovements(5);
+  }
+
+  if (dom.expenseDistributionContainer) {
+    renderExpenseDistribution();
   }
 
   if (dom.achievementsPanel) {

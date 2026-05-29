@@ -20,6 +20,10 @@ Idea 5 - IntegrarTEC 2026: Mini Finance
 - Cumplimiento del desafio obligatorio: alertas visuales en el DOM para limite de gasto y meta de ahorro.
 - Asistente virtual "Pesito" integrado en todas las paginas protegidas (`pesito-brain.js`, `pesito-chat.js`).
 - Reconstruccion de la home con 5 bloques: Hero, Metricas Clave, Panel de Logros, Distribucion de Gastos y Ultimos Movimientos.
+- Dashboard: Distribucion de Gastos con insight de categoria mayor y barras de progreso por categoria (Vanilla CSS/JS).
+- Orden cronologico inverso y limite de 5 movimientos en Inicio y Simulador.
+- Meta de Ahorro: visualizacion adaptativa (% o $) segun modo configurado en el simulador.
+- Fix: boton Limpiar del formulario del simulador funcional.
 - Dark mode global y herramientas de accesibilidad (dislexia, daltonismo) en header.
 - Footer desplegable tipo cajon con persistencia de estado.
 - Banner de cookies con aceptacion y persistencia en `localStorage`.
