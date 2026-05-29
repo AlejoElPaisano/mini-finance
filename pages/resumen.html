@@ -72,7 +72,8 @@
 
       <article class="balance-card balance-card-expense" >
 
-        <h2 class="balance-card-value" id="total-expense" >$0</h2>
+        <h2 class="balance-card-title">Gastos</h2>
+        <p class="balance-card-value" id="total-expense">$0</p>
 
       </article>
 
@@ -175,6 +176,25 @@
           <li class="ledger-empty" >No hay movimientos registrados.</li>
 
         </ol>
+
+        <template id="ledger-row-template">
+
+          <li class="ledger-row">
+
+            <time class="ledger-row-date"></time>
+
+            
+            <span class="ledger-row-description"></span>
+            
+            <span class="ledger-row-type"></span>
+            
+            <span class="ledger-row-category"></span>
+            
+            <span class="ledger-row-amount"></span>
+          
+          </li>
+        
+        </template>
 
       </article>
 
