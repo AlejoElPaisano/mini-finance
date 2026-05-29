@@ -286,3 +286,17 @@ En desarrollo activo. Correcciones de interaccion y pulido visual global.
 
 ### Pendiente
 - Validacion visual manual del banner de cookies en mobile/desktop y del login en modo oscuro con escritura y autocompletado del navegador.
+
+## 28 de mayo de 2026 (rebalanceo de logros)
+
+### Estado General
+En desarrollo activo. Sistema de logros ajustado para premiar habitos financieros progresivos y no desbloquear multiples logros por un unico movimiento grande.
+
+### Completado
+- `base/scripts/achievements.js`: versionada la clave de almacenamiento a `miniFinanceAchievementsV2` para separar el nuevo balance de logros del progreso anterior.
+- Condiciones de logros endurecidas: ahora varios premios requieren mezcla de ingresos y gastos, cantidad minima de movimientos, multiples registros o meta de ahorro alcanzada.
+- Los movimientos de tipo `savings` ya no cuentan como movimientos financieros para logros de ingresos/gastos, evitando desbloqueos indirectos por registrar metas.
+- Agregados helpers internos para movimientos financieros, ingresos, gastos y saneo de IDs de logros vigentes.
+
+### Pendiente
+- Validar manualmente con escenarios de prueba: un ingreso grande aislado, ingreso + gasto, 5 movimientos, 10 movimientos y meta alcanzada.

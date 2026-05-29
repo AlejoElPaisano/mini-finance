@@ -1,4 +1,4 @@
-const ACHIEVEMENTS_KEY = 'miniFinanceAchievements';
+const ACHIEVEMENTS_KEY = 'miniFinanceAchievementsV2';
 
 const ACHIEVEMENTS_LIST = [
   {
@@ -6,30 +6,30 @@ const ACHIEVEMENTS_LIST = [
     title: 'Primeros Pasos',
     description: 'Registraste tu primer movimiento.',
     icon: '📋',
-    condition: () => getMovements().length >= 1
+    condition: () => getFinancialMovements().length >= 1
   },
   {
     id: 'first_income',
-    title: 'Entrada de Capital',
-    description: 'Registraste tu primer ingreso.',
+    title: 'Flujo Inicial',
+    description: 'Registraste al menos 1 ingreso y 1 gasto.',
     icon: '💰',
-    condition: () => getMovements().filter(m => m.type === 'income').length >= 1
+    condition: () => getIncomeMovements().length >= 1 && getExpenseMovements().length >= 1
   },
   {
     id: 'first_expense',
-    title: 'Control de Gastos',
-    description: 'Registraste tu primer gasto.',
+    title: 'Gastos Mapeados',
+    description: 'Registraste 3 gastos distintos.',
     icon: '📝',
-    condition: () => getMovements().filter(m => m.type === 'expense').length >= 1
+    condition: () => getExpenseMovements().length >= 3
   },
   {
     id: 'first_savings_goal',
-    title: 'Visionario',
-    description: 'Estableciste tu primera meta de ahorro.',
+    title: 'Meta Intencional',
+    description: 'Definiste una meta de ahorro de al menos $10.000 con 3 movimientos cargados.',
     icon: '🎯',
     condition: () => {
       const goal = getSavingsGoal();
-      return goal > 0 && goal !== 1000;
+      return goal >= 10000 && getFinancialMovements().length >= 3;
     }
   },
   {
@@ -37,55 +37,64 @@ const ACHIEVEMENTS_LIST = [
     title: 'Constancia',
     description: 'Registraste 5 movimientos.',
     icon: '5️⃣',
-    condition: () => getMovements().length >= 5
+    condition: () => getFinancialMovements().length >= 5
   },
   {
     id: 'ten_movements',
     title: 'Hábito Financiero',
     description: 'Registraste 10 movimientos.',
     icon: '🔟',
-    condition: () => getMovements().length >= 10
+    condition: () => getFinancialMovements().length >= 10
   },
   {
     id: 'big_income',
-    title: 'Gran Ingreso',
-    description: 'Registraste un ingreso mayor a $100.000.',
+    title: 'Estrategia de Ingresos',
+    description: 'Acumulaste $1.000.000 en ingresos repartidos en al menos 3 registros.',
     icon: '💵',
-    condition: () => getMovements().some(m => m.type === 'income' && m.amount >= 100000)
+    condition: () => getIncomeMovements().length >= 3 && getTotalIncome() >= 1000000
   },
   {
     id: 'big_expense',
-    title: 'Gran Gasto',
-    description: 'Registraste un gasto mayor a $50.000.',
+    title: 'Gasto Bajo Control',
+    description: 'Registraste 4 gastos y mantuviste el total gastado por debajo del 75% de tus ingresos.',
     icon: '💸',
-    condition: () => getMovements().some(m => m.type === 'expense' && m.amount >= 50000)
+    condition: () => {
+      const income = getTotalIncome();
+      const expense = getTotalExpense();
+      return getExpenseMovements().length >= 4 && income > 0 && expense > 0 && expense <= income * 0.75;
+    }
   },
   {
     id: 'positive_balance',
-    title: 'En Positivo',
-    description: 'Tu saldo disponible es positivo.',
+    title: 'Ciclo en Positivo',
+    description: 'Con 5 movimientos y actividad de ingresos/gastos, tu saldo sigue positivo.',
     icon: '📈',
-    condition: () => getBalance() > 0
+    condition: () => {
+      return getFinancialMovements().length >= 5
+        && getIncomeMovements().length >= 2
+        && getExpenseMovements().length >= 2
+        && getBalance() > 0;
+    }
   },
   {
     id: 'savings_50_percent',
-    title: 'Ahorrador Natto',
-    description: 'Ahorraste más del 50% de tus ingresos.',
+    title: 'Meta Alcanzada',
+    description: 'Alcanzaste tu meta de ahorro con al menos 5 movimientos registrados.',
     icon: '🐷',
     condition: () => {
-      const income = getTotalIncome();
-      const balance = getBalance();
-      return income > 0 && (balance / income) > 0.5;
+      const goal = getSavingsGoal();
+      return goal > 1000 && getFinancialMovements().length >= 5 && getBalance() >= goal;
     }
   },
   {
     id: 'three_categories',
     title: 'Organizado',
-    description: 'Usaste 3 categorías distintas.',
+    description: 'Usaste 3 categorías distintas en al menos 6 movimientos.',
     icon: '🗂️',
     condition: () => {
-      const categories = new Set(getMovements().map(m => m.category));
-      return categories.size >= 3;
+      const movements = getFinancialMovements();
+      const categories = new Set(movements.map(m => m.category));
+      return movements.length >= 6 && categories.size >= 3;
     }
   },
   {
@@ -96,7 +105,7 @@ const ACHIEVEMENTS_LIST = [
     icon: '🦉',
     secret: true,
     condition: () => {
-      return getMovements().some(m => {
+      return getFinancialMovements().some(m => {
         const hour = new Date(m.createdAt).getHours();
         return hour >= 22 || hour < 5;
       });
@@ -106,10 +115,34 @@ const ACHIEVEMENTS_LIST = [
 
 let achievementsModalKeydownHandler = null;
 
+function getFinancialMovements() {
+  return getMovements().filter(m => m.type === 'income' || m.type === 'expense');
+}
+
+function getIncomeMovements() {
+  return getMovements().filter(m => m.type === 'income');
+}
+
+function getExpenseMovements() {
+  return getMovements().filter(m => m.type === 'expense');
+}
+
+function getValidAchievementIds() {
+  return ACHIEVEMENTS_LIST.map(achievement => achievement.id);
+}
+
 function getUnlockedAchievements() {
   try {
     const data = localStorage.getItem(ACHIEVEMENTS_KEY);
-    return data ? JSON.parse(data) : [];
+    const unlocked = data ? JSON.parse(data) : [];
+    const validIds = getValidAchievementIds();
+    const current = unlocked.filter(id => validIds.includes(id));
+
+    if (current.length !== unlocked.length) {
+      saveUnlockedAchievements(current);
+    }
+
+    return current;
   } catch {
     return [];
   }

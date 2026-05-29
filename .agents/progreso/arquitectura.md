@@ -152,7 +152,7 @@ Arquitectura modular vanilla orientada a funcionalidades financieras. Cada modul
 - `dom.js`: centralizacion de selectores del DOM para evitar repeticion.
 - `render.js`: generacion dinamica de movimientos, metricas, filtros, alertas, meta de ahorro con barra de progreso y lista compacta de ultimos movimientos en el DOM.
 - `events.js`: registro de listeners para formularios, filtros, eliminacion de movimientos y configuracion de alertas.
-- `achievements.js`: sistema de logros con evaluacion de condiciones, persistencia en `localStorage`, toast de desbloqueo, panel de resumen y modal unico del centro de logros.
+- `achievements.js`: sistema de logros con evaluacion de condiciones progresivas, persistencia versionada en `localStorage`, helpers para separar movimientos financieros de metas, toast de desbloqueo, panel de resumen y modal unico del centro de logros.
 - `main.js`: orquestador que inicializa todos los modulos al cargar el DOM. Incluye manejo del menu desplegable de usuario (toggle del dropdown, cierre al hacer click fuera) y logout: escucha el click en `#logout-btn`, elimina `miniFinanceSession` de localStorage y redirige a `pages/login.html`.
 - `simulator.js`: logica del simulador de movimientos. Utiliza las funciones globales de `state.js` para garantizar sincronización con el dashboard. Maneja formularios de registro de movimientos, meta de ahorro con slider porcentual/fijo, calculo de monto ajustado y renderizado del listado completo de movimientos.
 - `local-storage.js`: helpers de persistencia auxiliares usados por `simulator.js` para valores calculados (`adjustedAmount`, `savingsMode`).
