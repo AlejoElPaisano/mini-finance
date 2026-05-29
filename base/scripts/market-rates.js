@@ -5,7 +5,7 @@
 //   Histórico   → frankfurter.app (solo monedas del BCE)
 //   Cripto      → CoinGecko
 // ============================================================
-
+// Chart.js — histórico 30 días via frankfurter.app
 // ── Constantes ───────────────────────────────────────────────
 
 const CRYPTO_IDS = ['bitcoin', 'ethereum', 'solana', 'binancecoin'];
