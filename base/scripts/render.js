@@ -22,7 +22,10 @@ function renderDashboard() {
     dom.totalExpense.textContent = `$${formatCurrency(getTotalExpense())}`;
   }
   if (dom.balance) {
-    dom.balance.textContent = `$${formatCurrency(getBalance())}`;
+    const balance = getBalance();
+    dom.balance.textContent = `$${formatCurrency(balance)}`;
+    dom.balance.classList.remove('is-positive', 'is-negative');
+    dom.balance.classList.add(balance >= 0 ? 'is-positive' : 'is-negative');
   }
 }
 
@@ -155,21 +158,29 @@ function renderSavingsGoal() {
   if (!dom.savingsGoalDisplay) return;
 
   const goal = getSavingsGoal();
-  const progress = getSavingsProgress();
+  const savingsMode = localStorage.getItem('savingsMode') || 'amount';
+  const isPercent = savingsMode === 'percent';
+  const totalIncome = getTotalIncome();
   const balance = getBalance();
 
-  dom.savingsGoalDisplay.textContent = `$${formatCurrency(goal)}`;
-
-  if (dom.savingsProgressFill) {
-    dom.savingsProgressFill.style.width = `${progress.percentage}%`;
-  }
-
-  if (dom.savingsCurrent) {
+  let progressPercentage;
+  if (isPercent) {
+    const targetAmount = totalIncome * (goal / 100);
+    progressPercentage = targetAmount > 0 ? Math.min((balance / targetAmount) * 100, 100) : 0;
+    dom.savingsGoalDisplay.textContent = `${goal}%`;
+    dom.savingsCurrent.textContent = `$${formatCurrency(balance)} acumulados · Meta: ${goal}% de $${formatCurrency(totalIncome)}`;
+  } else {
+    progressPercentage = goal > 0 ? Math.min((balance / goal) * 100, 100) : 0;
+    dom.savingsGoalDisplay.textContent = `$${formatCurrency(goal)}`;
     dom.savingsCurrent.textContent = `$${formatCurrency(balance)} acumulados`;
   }
 
+  if (dom.savingsProgressFill) {
+    dom.savingsProgressFill.style.width = `${progressPercentage}%`;
+  }
+
   if (dom.savingsPercent) {
-    dom.savingsPercent.textContent = `${Math.round(progress.percentage)}%`;
+    dom.savingsPercent.textContent = `${Math.round(progressPercentage)}%`;
   }
 }
 
@@ -178,7 +189,11 @@ function renderRecentMovements(limit = 5) {
 
   let movements = getMovements();
 
-  movements = movements.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
+  movements = movements.slice().sort((a, b) => {
+    const dateA = new Date(a.createdAt || a.date);
+    const dateB = new Date(b.createdAt || b.date);
+    return dateB - dateA;
+  });
 
   const recent = movements.slice(0, limit);
 
@@ -212,4 +227,64 @@ function renderRecentMovements(limit = 5) {
 
     dom.recentMovementsList.appendChild(li);
   });
+}
+
+function renderExpenseDistribution() {
+  if (!dom.expenseDistributionContainer) return;
+
+  const totalExpense = getTotalExpense();
+
+  if (totalExpense === 0) {
+    dom.expenseDistributionContainer.innerHTML = `
+      <div class="chart-empty">
+        <p class="chart-empty__icon" aria-hidden="true">📊</p>
+        <p>Aún no hay gastos registrados para analizar.</p>
+      </div>`;
+    return;
+  }
+
+  const categoryTotals = getCategoryTotals();
+  const expenseCategories = Object.entries(categoryTotals)
+    .filter(([_, data]) => data.expense > 0)
+    .sort((a, b) => b[1].expense - a[1].expense);
+
+  if (expenseCategories.length === 0) {
+    dom.expenseDistributionContainer.innerHTML = `
+      <div class="chart-empty">
+        <p class="chart-empty__icon" aria-hidden="true">📊</p>
+        <p>Aún no hay gastos registrados para analizar.</p>
+      </div>`;
+    return;
+  }
+
+  const [topId, topData] = expenseCategories[0];
+  const topLabel = getCategoryLabel('expense', topId);
+  const topPercent = Math.round((topData.expense / totalExpense) * 100);
+
+  let html = `<p class="expense-insight">💡 Tu mayor gasto es en <strong>${topLabel}</strong> (${topPercent}% del total)</p>`;
+  html += '<div class="expense-list">';
+
+  expenseCategories.forEach(([categoryId, data]) => {
+    const label = getCategoryLabel('expense', categoryId);
+    const percent = ((data.expense / totalExpense) * 100).toFixed(1);
+    const percentRounded = Math.round(percent);
+
+    html += `
+      <div class="expense-item">
+        <div class="expense-item__header">
+          <span class="expense-item__label">${label}</span>
+          <div>
+            <span class="expense-item__amount">$${formatCurrency(data.expense)}</span>
+            <span class="expense-item__percent">(${percentRounded}%)</span>
+          </div>
+        </div>
+        <div class="expense-item__track">
+          <div class="expense-item__fill" style="width: ${percent}%;"></div>
+        </div>
+      </div>
+    `;
+  });
+
+  html += '</div>';
+  dom.expenseDistributionContainer.innerHTML = html;
 }

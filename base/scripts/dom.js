@@ -27,5 +27,7 @@ const dom = {
   savingsCurrent: document.getElementById('savings-current'),
   savingsPercent: document.getElementById('savings-percent'),
   recentMovementsList: document.getElementById('recent-movements-list'),
-  achievementsPanel: document.getElementById('achievements-panel')
+  achievementsPanel: document.getElementById('achievements-panel'),
+  expenseDistributionContainer: document.getElementById('expense-distribution-container'),
+  resetBtn: document.getElementById('reset-btn')
 };

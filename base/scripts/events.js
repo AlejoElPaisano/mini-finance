@@ -20,7 +20,8 @@ function initFormEvents() {
       description,
       amount,
       category,
-      date
+      date,
+      createdAt: new Date().toISOString()
     };
 
     addMovement(movement);
@@ -99,6 +100,7 @@ function refreshAll() {
   renderAlerts();
   renderSavingsGoal();
   renderRecentMovements(3);
+  renderExpenseDistribution();
   if (typeof checkAchievements === 'function') checkAchievements();
   if (typeof renderAchievementsPanel === 'function') renderAchievementsPanel();
 }

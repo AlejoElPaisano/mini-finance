@@ -36,6 +36,7 @@ export const simulatorElements = {
 
     // UI global
     $darkModeToggle: document.querySelector('#dark-mode-toggle'),
+    $resetBtn: document.querySelector('#reset-btn'),
 
 }
 
@@ -216,8 +217,12 @@ function RenderMovements () {
         return
     }
 
-    // Más reciente primero
-    const sorted = movements.slice().reverse()
+    // Más reciente primero, máximo 5
+    const sorted = movements.slice().sort((a, b) => {
+        const dateA = new Date(a.createdAt || a.date);
+        const dateB = new Date(b.createdAt || b.date);
+        return dateB - dateA;
+    }).slice(0, 5)
 
     sorted.forEach( m => {
         $movementsList.appendChild( CreateMovementNode(m) )
@@ -367,6 +372,14 @@ function UpdateSavingsOutput () {
 simulatorElements.$toggleScaleBtn.addEventListener( 'click', ToggleSavingsScale ) ;
 
 simulatorElements.$savingsGoal.addEventListener( 'input', UpdateSavingsOutput ) ;
+
+if (simulatorElements.$resetBtn) {
+    simulatorElements.$resetBtn.addEventListener('click', () => {
+        if (simulatorElements.$form) {
+            simulatorElements.$form.reset();
+        }
+    });
+}
 
 
 

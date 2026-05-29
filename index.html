@@ -108,7 +108,7 @@
 
     <section class="chart-section" aria-labelledby="chart-title">
       <h2 id="chart-title" class="chart-section__title">Distribución de Gastos</h2>
-      <div class="chart-container">
+      <div class="chart-container" id="expense-distribution-container">
         <div class="chart-empty">
           <p class="chart-empty__icon" aria-hidden="true">📊</p>
           <p>Aún no hay gastos registrados para analizar.</p>
@@ -137,33 +137,33 @@
     <div class="footer-drawer" id="footer-drawer">
       <div class="footer-drawer__inner">
         <div class="footer__grid">
-          <div>
-            <p class="footer__brand-name"><span aria-hidden="true">📈</span> Mini Finance</p>
-            <p class="footer__brand-tagline">Tu suite interactiva para simular metas y planificar tu futuro financiero.</p>
-          </div>
-          <div>
-            <p class="footer__heading">Proyecto</p>
-            <ul class="footer__links">
-              <li><a href="https://github.com/AlejoElPaisano/integrartec-proyecto-1" target="_blank" rel="noopener">Repositorio</a></li>
-              <li><a href="#">Deploy</a></li>
-              <li><a href="https://github.com/AlejoElPaisano/integrartec-proyecto-1/blob/develop/README.md" target="_blank" rel="noopener">README</a></li>
-            </ul>
-          </div>
-          <div>
-            <p class="footer__heading">Desarrollado por:</p>
-            <div class="footer__team">
-              <a href="https://www.linkedin.com/in/karenledesma08" target="_blank" rel="noopener" class="footer__member-name">Karen Ledesma</a>
-              <a href="https://www.linkedin.com/in/francisco-thomas-chiressi-8b55b01a0" target="_blank" rel="noopener" class="footer__member-name">Francisco Chiressi</a>
-              <a href="https://www.linkedin.com/in/alejo-martinez-olmedo-877004283/" target="_blank" rel="noopener" class="footer__member-name">Alejo Martinez Olmedo</a>
-            </div>
+        <div>
+          <p class="footer__brand-name"><span aria-hidden="true">📈</span> Mini Finance</p>
+          <p class="footer__brand-tagline">Tu suite interactiva para simular metas y planificar tu futuro financiero.</p>
+        </div>
+        <div>
+          <p class="footer__heading">Proyecto</p>
+          <ul class="footer__links">
+            <li><a href="https://github.com/AlejoElPaisano/integrartec-proyecto-1" target="_blank" rel="noopener">Repositorio</a></li>
+            <li><a href="#">Deploy</a></li>
+            <li><a href="https://github.com/AlejoElPaisano/integrartec-proyecto-1/blob/develop/README.md" target="_blank" rel="noopener">README</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer__heading">Desarrollado por:</p>
+          <div class="footer__team">
+            <a href="https://www.linkedin.com/in/karenledesma08" target="_blank" rel="noopener" class="footer__member-name">Karen Ledesma</a>
+            <a href="https://www.linkedin.com/in/francisco-thomas-chiressi-8b55b01a0" target="_blank" rel="noopener" class="footer__member-name">Francisco Chiressi</a>
+            <a href="https://www.linkedin.com/in/alejo-martinez-olmedo-877004283/" target="_blank" rel="noopener" class="footer__member-name">Alejo Martinez Olmedo</a>
           </div>
         </div>
-        <hr class="footer__divider">
-        <div class="footer__bottom">
-          <p class="footer__copy">© 2026 Mini Finance · IntegrarTEC · Módulo Web Estática · Desarrollado por DevCore</p>
-          <a href="https://fpintegrar.org" target="_blank" rel="noopener" class="footer__logo-link">
-            <img src="./assets/img/logo-integrar.png" alt="Fundación Integrar" class="footer__logo-img" loading="lazy">
-          </a>
+      </div>
+      <hr class="footer__divider">
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2026 Mini Finance · IntegrarTEC · Módulo Web Estática · Desarrollado por DevCore</p>
+        <a href="https://fpintegrar.org" target="_blank" rel="noopener" class="footer__logo-link">
+          <img src="./assets/img/logo-integrar.png" alt="Fundación Integrar" class="footer__logo-img" loading="lazy">
+        </a>
         </div>
       </div>
     </div>
@@ -270,15 +270,9 @@
     <span class="pesito-toggle__icon pesito-toggle__icon--close" aria-hidden="true">✕</span>
   </button>
 
-  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Aviso de privacidad y almacenamiento" hidden>
-    <span class="cookie-banner__badge" aria-hidden="true">$</span>
-    <div class="cookie-banner__content">
-      <p class="cookie-banner__title">Tu panel recuerda lo importante</p>
-      <p class="cookie-banner__text">Usamos almacenamiento local para guardar tu sesión, preferencias y progreso financiero en este dispositivo.</p>
-    </div>
-    <div class="cookie-banner__actions">
-      <button type="button" id="cookie-accept" class="btn btn--primary cookie-banner__button">Entendido</button>
-    </div>
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Aviso de cookies" hidden>
+    <p class="cookie-banner__text">Utilizamos cookies y almacenamiento local para mejorar tu experiencia. Al continuar navegando, aceptás su uso.</p>
+    <button type="button" id="cookie-accept" class="btn btn--primary">Entendido</button>
   </div>
 
   <script src="./base/scripts/config.js"></script>

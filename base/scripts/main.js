@@ -122,6 +122,10 @@ function initFinancialApp() {
     renderRecentMovements(3);
   }
 
+  if (dom.expenseDistributionContainer) {
+    renderExpenseDistribution();
+  }
+
   if (dom.achievementsPanel) {
     renderAchievementsPanel();
     checkAchievements();
