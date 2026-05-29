@@ -184,11 +184,11 @@ function playUnlockSound() {
 }
 
 function showAchievementToast(achievement) {
-  let container = document.querySelector('.achievement-toast-container');
+  let container = document.querySelector('.toast-container');
 
   if (!container) {
     container = document.createElement('div');
-    container.className = 'achievement-toast-container';
+    container.className = 'toast-container';
     document.body.appendChild(container);
   }
 
