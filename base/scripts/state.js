@@ -28,6 +28,13 @@ export const CATEGORY_LABELS = {
 }
 
 
+export const SIGN_BY_TYPE = {
+    income:  '+',
+    expense: '−',
+    savings: '⊘',
+}
+
+
 
 
 function loadData(key, fallback) {
