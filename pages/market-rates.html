@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../base/styles/main.css">
   <link rel="stylesheet" href="../base/styles/market-rates.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
   <script>
     if (!localStorage.getItem('miniFinanceSession')) {
       window.location.replace('./login.html');
@@ -127,88 +128,124 @@
         <!-- Error general de API (oculto por defecto) -->
         <p class="mkt-error" id="forex-form-error" role="alert" hidden></p>
 
-        <form class="mkt-forex-form" id="forex-form" novalidate>
+        <!-- Layout: formulario izquierda, gráfico derecha -->
+        <div class="mkt-forex-layout">
 
-          <div class="mkt-forex-form__fields">
+          <!-- Columna izquierda: formulario -->
+          <div class="mkt-forex-left">
+            <form class="mkt-forex-form" id="forex-form" novalidate>
 
-            <!-- Monto -->
-            <div class="form-group" id="group-amount">
-              <label for="forex-amount">Monto</label>
-              <input
-                type="number"
-                id="forex-amount"
-                name="amount"
-                min="0.01"
-                step="any"
-                placeholder="Ej: 100"
-                autocomplete="off"
-                aria-describedby="error-amount"
-              />
-              <p class="form-group__error" id="error-amount" role="alert"></p>
-            </div>
+              <div class="mkt-forex-form__fields">
 
-            <!-- Botón invertir -->
-            <div class="mkt-forex-swap">
-              <button
-                type="button"
-                class="mkt-forex-swap__btn"
-                id="forex-swap"
-                aria-label="Invertir monedas"
-                title="Invertir monedas"
-              >⇄</button>
-            </div>
+                <!-- Monto -->
+                <div class="form-group">
+                  <label for="forex-amount">Monto</label>
+                  <input
+                    type="number"
+                    id="forex-amount"
+                    name="amount"
+                    min="0.01"
+                    step="any"
+                    placeholder="Ej: 100"
+                    autocomplete="off"
+                    aria-describedby="error-amount"
+                  />
+                  <p class="form-group__error" id="error-amount" role="alert"></p>
+                </div>
 
-            <!-- Moneda destino (va segundo visualmente pero tercero en el form) -->
-            <div class="form-group" id="group-to">
-              <label for="forex-to">Convertir a</label>
-              <select id="forex-to" name="to" aria-describedby="error-to">
-                <option value="">Seleccionar moneda</option>
-                <option value="USD">🇺🇸 USD — Dólar Estadounidense</option>
-                <option value="EUR" selected>🇪🇺 EUR — Euro</option>
-                <option value="ARS">🇦🇷 ARS — Peso Argentino</option>
-                <option value="BRL">🇧🇷 BRL — Real Brasileño</option>
-                <option value="GBP">🇬🇧 GBP — Libra Esterlina</option>
-                <option value="JPY">🇯🇵 JPY — Yen Japonés</option>
-                <option value="MXN">🇲🇽 MXN — Peso Mexicano</option>
-                <option value="CLP">🇨🇱 CLP — Peso Chileno</option>
-                <option value="UYU">🇺🇾 UYU — Peso Uruguayo</option>
-              </select>
-              <p class="form-group__error" id="error-to" role="alert"></p>
-            </div>
+                <!-- Botón invertir -->
+                <div class="mkt-forex-swap">
+                  <button
+                    type="button"
+                    class="mkt-forex-swap__btn"
+                    id="forex-swap"
+                    aria-label="Invertir monedas"
+                    title="Invertir monedas"
+                  >⇄</button>
+                </div>
 
+                <!-- Moneda destino -->
+                <div class="form-group">
+                  <label for="forex-to">Convertir a</label>
+                  <select id="forex-to" name="to" aria-describedby="error-to">
+                    <option value="">Seleccionar moneda</option>
+                    <option value="USD">🇺🇸 USD — Dólar Estadounidense</option>
+                    <option value="EUR" selected>🇪🇺 EUR — Euro</option>
+                    <option value="ARS">🇦🇷 ARS — Peso Argentino</option>
+                    <option value="BRL">🇧🇷 BRL — Real Brasileño</option>
+                    <option value="GBP">🇬🇧 GBP — Libra Esterlina</option>
+                    <option value="JPY">🇯🇵 JPY — Yen Japonés</option>
+                    <option value="MXN">🇲🇽 MXN — Peso Mexicano</option>
+                    <option value="CLP">🇨🇱 CLP — Peso Chileno</option>
+                    <option value="UYU">🇺🇾 UYU — Peso Uruguayo</option>
+                  </select>
+                  <p class="form-group__error" id="error-to" role="alert"></p>
+                </div>
+
+              </div>
+
+              <!-- Moneda origen -->
+              <div class="form-group">
+                <label for="forex-from">Moneda de origen</label>
+                <select id="forex-from" name="from" aria-describedby="error-from">
+                  <option value="">Seleccionar moneda</option>
+                  <option value="USD" selected>🇺🇸 USD — Dólar Estadounidense</option>
+                  <option value="EUR">🇪🇺 EUR — Euro</option>
+                  <option value="ARS">🇦🇷 ARS — Peso Argentino</option>
+                  <option value="BRL">🇧🇷 BRL — Real Brasileño</option>
+                  <option value="GBP">🇬🇧 GBP — Libra Esterlina</option>
+                  <option value="JPY">🇯🇵 JPY — Yen Japonés</option>
+                  <option value="MXN">🇲🇽 MXN — Peso Mexicano</option>
+                  <option value="CLP">🇨🇱 CLP — Peso Chileno</option>
+                  <option value="UYU">🇺🇾 UYU — Peso Uruguayo</option>
+                </select>
+                <p class="form-group__error" id="error-from" role="alert"></p>
+              </div>
+
+              <button type="submit" class="btn btn--primary mkt-forex-form__submit">
+                Consultar cotización
+              </button>
+
+            </form>
+
+            <!-- Resultado -->
+            <div class="mkt-result" id="forex-result" aria-live="polite" hidden></div>
           </div>
 
-          <!-- Moneda origen (debajo del grid para mejor UX en mobile) -->
-          <div class="form-group" id="group-from">
-            <label for="forex-from">Moneda de origen</label>
-            <select id="forex-from" name="from" aria-describedby="error-from">
-              <option value="">Seleccionar moneda</option>
-              <option value="USD" selected>🇺🇸 USD — Dólar Estadounidense</option>
-              <option value="EUR">🇪🇺 EUR — Euro</option>
-              <option value="ARS">🇦🇷 ARS — Peso Argentino</option>
-              <option value="BRL">🇧🇷 BRL — Real Brasileño</option>
-              <option value="GBP">🇬🇧 GBP — Libra Esterlina</option>
-              <option value="JPY">🇯🇵 JPY — Yen Japonés</option>
-              <option value="MXN">🇲🇽 MXN — Peso Mexicano</option>
-              <option value="CLP">🇨🇱 CLP — Peso Chileno</option>
-              <option value="UYU">🇺🇾 UYU — Peso Uruguayo</option>
-            </select>
-            <p class="form-group__error" id="error-from" role="alert"></p>
+          <!-- Columna derecha: gráfico histórico -->
+          <div class="mkt-chart-section" id="forex-chart-section" hidden>
+            <div class="mkt-chart-card">
+              <div class="mkt-chart-card__header">
+                <p class="mkt-chart-card__title" id="forex-chart-title">Histórico — 30 días</p>
+                <p class="mkt-chart-card__subtitle">Fuente: frankfurter.app</p>
+              </div>
+
+              <!-- Loading del gráfico -->
+              <div class="mkt-loading" id="forex-chart-loading" hidden>
+                <span class="mkt-spinner" aria-hidden="true"></span>
+                Cargando historial…
+              </div>
+
+              <!-- Error del gráfico -->
+              <p class="mkt-error" id="forex-chart-error" role="alert" hidden></p>
+
+              <!-- Canvas del gráfico -->
+              <div class="mkt-chart-wrap">
+                <canvas id="forex-chart" aria-label="Gráfico histórico del par de divisas"></canvas>
+              </div>
+            </div>
           </div>
 
-          <button type="submit" class="btn btn--primary mkt-forex-form__submit">
-            Consultar cotización
-          </button>
+          <!-- Placeholder cuando el gráfico no fue consultado aún -->
+          <div class="mkt-chart-section" id="forex-chart-placeholder">
+            <div class="mkt-chart-placeholder">
+              <span class="mkt-chart-placeholder__icon" aria-hidden="true">📈</span>
+              <p>Consultá una divisa para ver el historial de los últimos 30 días.</p>
+            </div>
+          </div>
 
-        </form>
-
-        <!-- Resultado (oculto hasta hacer la consulta) -->
-        <div
-          class="mkt-result"
-          id="forex-result"
-          aria-live="polite"
-          hidden
-        ></div>
+        </div>
+        <!-- /mkt-forex-layout -->
 
       </div>
       <!-- /panel-forex -->
