@@ -104,8 +104,17 @@
    * el mensaje del bot y finalmente los botones de opciones.
    * @param {string} nodeKey - Clave del nodo en pesitoBrain.
    */
+  function getBrain() {
+    const path = window.location.pathname;
+    if (path.includes('simulador')) {
+      return window.pesitoBrainSimulator;
+    }
+    return window.pesitoBrainHome;
+  }
+
   function renderNode(nodeKey) {
-    const node = window.pesitoBrain && window.pesitoBrain[nodeKey];
+    const brain = getBrain();
+    const node = brain && brain[nodeKey];
     if (!node) {
       console.warn('[Pesito] Nodo no encontrado:', nodeKey);
       return;

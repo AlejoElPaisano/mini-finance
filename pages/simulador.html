@@ -476,6 +476,33 @@
 
       <div class="pesito-options" id="pesito-options"></div>
     </div>
+  </div>
+
+  <button type="button" id="pesito-toggle" class="pesito-toggle" aria-expanded="false" aria-label="Abrir asistente virtual Pesito">
+    <span class="pesito-toggle__icon pesito-toggle__icon--open" aria-hidden="true">
+      <svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="25" cy="22" rx="11" ry="17" fill="#f59e0b" stroke="#92400e" stroke-width="3" transform="rotate(-25 25 22)"/>
+        <ellipse cx="75" cy="22" rx="11" ry="17" fill="#f59e0b" stroke="#92400e" stroke-width="3" transform="rotate(25 75 22)"/>
+        <ellipse cx="25" cy="22" rx="5" ry="9" fill="#fde68a" transform="rotate(-25 25 22)"/>
+        <ellipse cx="75" cy="22" rx="5" ry="9" fill="#fde68a" transform="rotate(25 75 22)"/>
+        <circle cx="50" cy="56" r="36" fill="url(#goldGradToggle)" stroke="#92400e" stroke-width="3"/>
+        <circle cx="38" cy="50" r="5.5" fill="#1e293b"/>
+        <circle cx="62" cy="50" r="5.5" fill="#1e293b"/>
+        <circle cx="40" cy="48" r="2" fill="white"/>
+        <circle cx="64" cy="48" r="2" fill="white"/>
+        <path d="M42 64 Q50 72 58 64" stroke="#1e293b" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <ellipse cx="34" cy="28" rx="10" ry="5" fill="white" opacity="0.3" transform="rotate(-25 34 28)"/>
+        <defs>
+          <linearGradient id="goldGradToggle" x1="20" y1="20" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#fcd34d"/>
+            <stop offset="0.5" stop-color="#fbbf24"/>
+            <stop offset="1" stop-color="#f59e0b"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </span>
+    <span class="pesito-toggle__icon pesito-toggle__icon--close" aria-hidden="true">✕</span>
+  </button>
 
   <script src="../base/scripts/state.js"></script>
   <script src="../base/scripts/achievements.js"></script>

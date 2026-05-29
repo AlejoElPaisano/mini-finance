@@ -4,7 +4,7 @@ const STORAGE_KEYS = {
 };
 
 const DEFAULTS = {
-  savingsGoal: 1000
+  savingsGoal: 0
 };
 
 function loadData(key, fallback) {
