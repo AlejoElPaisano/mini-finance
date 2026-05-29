@@ -218,7 +218,11 @@ function RenderMovements () {
     }
 
     // Más reciente primero, máximo 5
-    const sorted = movements.slice().reverse().slice(0, 5)
+    const sorted = movements.slice().sort((a, b) => {
+        const dateA = new Date(a.createdAt || a.date);
+        const dateB = new Date(b.createdAt || b.date);
+        return dateB - dateA;
+    }).slice(0, 5)
 
     sorted.forEach( m => {
         $movementsList.appendChild( CreateMovementNode(m) )

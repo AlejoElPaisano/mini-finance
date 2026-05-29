@@ -22,7 +22,10 @@ function renderDashboard() {
     dom.totalExpense.textContent = `$${formatCurrency(getTotalExpense())}`;
   }
   if (dom.balance) {
-    dom.balance.textContent = `$${formatCurrency(getBalance())}`;
+    const balance = getBalance();
+    dom.balance.textContent = `$${formatCurrency(balance)}`;
+    dom.balance.classList.remove('is-positive', 'is-negative');
+    dom.balance.classList.add(balance >= 0 ? 'is-positive' : 'is-negative');
   }
 }
 
@@ -186,7 +189,11 @@ function renderRecentMovements(limit = 5) {
 
   let movements = getMovements();
 
-  movements = movements.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
+  movements = movements.slice().sort((a, b) => {
+    const dateA = new Date(a.createdAt || a.date);
+    const dateB = new Date(b.createdAt || b.date);
+    return dateB - dateA;
+  });
 
   const recent = movements.slice(0, limit);
 

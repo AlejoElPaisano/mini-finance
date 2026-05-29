@@ -92,11 +92,14 @@ function checkAlerts() {
   const alerts = [];
   const balance = getBalance();
   const goal = getSavingsGoal();
+  const savingsMode = localStorage.getItem('savingsMode') || 'amount';
+  const isPercent = savingsMode === 'percent';
 
   if (balance < goal && getMovements().length > 0) {
+    const goalLabel = isPercent ? `%${goal}` : `$${formatCurrency(goal)}`;
     alerts.push({
       type: 'warning',
-      message: `No alcanzaste tu meta de ahorro ($${formatCurrency(goal)}). Saldo actual: $${formatCurrency(balance)}.`
+      message: `No alcanzaste tu meta de ahorro (${goalLabel}). Saldo actual: $${formatCurrency(balance)}.`
     });
   }
 
