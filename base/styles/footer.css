@@ -196,6 +196,15 @@
   transform: translateX(0);
 }
 
+.footer__links li > span {
+  font-size: var(--text-sm);
+  color: var(--fg-tertiary);
+  padding: var(--space-1) 0;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
 .footer__team {
   display: flex;
   flex-direction: column;

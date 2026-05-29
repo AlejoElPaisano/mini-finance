@@ -15,13 +15,11 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 4px;
+  width: 3px;
   height: 100%;
-  background: linear-gradient(180deg, var(--brand-primary) 0%, var(--brand-accent) 100%);
-  border-radius: 0 2px 2px 0;
-  box-shadow: 0 0 12px rgba(30, 58, 138, 0.35);
+  background-color: var(--brand-primary);
   transform: scaleY(0);
-  transform-origin: bottom;
+  transform-origin: top;
   transition: transform var(--duration-base) var(--ease-out-expo);
 }
 
@@ -381,8 +379,8 @@
 }
 
 .movement-item:hover {
-  border-color: var(--border-default);
   box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
 }
 
 .movement-item--income {
@@ -459,8 +457,4 @@
 .movement-item__delete:focus-visible {
   outline: none;
   box-shadow: 0 0 0 2px var(--bg-base), 0 0 0 4px var(--danger-border);
-}
-
-body.dark-mode .card::before {
-  box-shadow: 0 0 12px rgba(147, 197, 253, 0.4);
 }
