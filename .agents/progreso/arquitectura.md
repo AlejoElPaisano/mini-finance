@@ -138,10 +138,10 @@ Modularizado por responsabilidad.
 - `base.css`: estilos tipograficos y de elementos base.
 - `layout.css`: estructura de pagina, grid del dashboard, navegacion responsive con media queries.
 - `components.css`: cards, botones, formularios, alertas, filtros, lista de movimientos con items de ingreso/gasto y estilos de eliminacion.
-- `home.css`: estilos específicos del dashboard de inicio: hero con gradiente azul, grid de métricas responsive, barra de progreso para meta de ahorro, empty state de logros con borde dashed, contenedor de gráfico con altura mínima, y lista compacta de últimos movimientos.
+- `home.css`: estilos específicos del dashboard de inicio: hero con gradiente azul, grid de métricas responsive, barra de progreso para meta de ahorro, empty state y modal de logros, contenedor de gráfico con altura mínima, lista compacta de últimos movimientos y aviso de cookies como tarjeta flotante responsive.
 - `footer.css`: footer desplegable tipo cajon con glassmorphism, toggle persistente y grid de equipo; footer simplificado para paginas secundarias.
 - `accessibility.css`: herramientas de accesibilidad persistentes en header (modo dislexia con fuente OpenDyslexic y modo daltonismo con paleta segura y bordes reforzados), botones de herramientas del header y menu desplegable de usuario con animacion de aparicion.
-- `login.css`: estilos especificos de la pagina de autenticacion, diseno mobile-first con card centrada, gradiente de acento y animaciones de transicion entre vistas.
+- `login.css`: estilos especificos de la pagina de autenticacion, diseno mobile-first con card centrada, gradiente de acento, animaciones de transicion entre vistas y tratamiento de inputs/autofill legible en modo oscuro.
 - `pesito.css`: estilos dedicados del asistente flotante. Ventana tipo bottom-sheet en mobile y ventana flotante en desktop (breakpoint 768px). El toggle respeta el desplazamiento del footer desplegable mediante `--footer-offset`, mientras que la ventana desktop se ancla al contenedor para evitar desplazamientos duplicados. Incluye header con avatar SVG, burbujas de mensaje, typing indicator, botones de opciones guiadas y toggle flotante con microinteracciones.
 - `main.css`: importa todos los modulos anteriores.
 
@@ -152,6 +152,7 @@ Arquitectura modular vanilla orientada a funcionalidades financieras. Cada modul
 - `dom.js`: centralizacion de selectores del DOM para evitar repeticion.
 - `render.js`: generacion dinamica de movimientos, metricas, filtros, alertas, meta de ahorro con barra de progreso y lista compacta de ultimos movimientos en el DOM.
 - `events.js`: registro de listeners para formularios, filtros, eliminacion de movimientos y configuracion de alertas.
+- `achievements.js`: sistema de logros con evaluacion de condiciones, persistencia en `localStorage`, toast de desbloqueo, panel de resumen y modal unico del centro de logros.
 - `main.js`: orquestador que inicializa todos los modulos al cargar el DOM. Incluye manejo del menu desplegable de usuario (toggle del dropdown, cierre al hacer click fuera) y logout: escucha el click en `#logout-btn`, elimina `miniFinanceSession` de localStorage y redirige a `pages/login.html`.
 - `simulator.js`: logica del simulador de movimientos. Utiliza las funciones globales de `state.js` para garantizar sincronización con el dashboard. Maneja formularios de registro de movimientos, meta de ahorro con slider porcentual/fijo, calculo de monto ajustado y renderizado del listado completo de movimientos.
 - `local-storage.js`: helpers de persistencia auxiliares usados por `simulator.js` para valores calculados (`adjustedAmount`, `savingsMode`).

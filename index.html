@@ -270,9 +270,15 @@
     <span class="pesito-toggle__icon pesito-toggle__icon--close" aria-hidden="true">✕</span>
   </button>
 
-  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Aviso de cookies" hidden>
-    <p class="cookie-banner__text">Utilizamos cookies y almacenamiento local para mejorar tu experiencia. Al continuar navegando, aceptás su uso.</p>
-    <button type="button" id="cookie-accept" class="btn btn--primary">Entendido</button>
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Aviso de privacidad y almacenamiento" hidden>
+    <span class="cookie-banner__badge" aria-hidden="true">$</span>
+    <div class="cookie-banner__content">
+      <p class="cookie-banner__title">Tu panel recuerda lo importante</p>
+      <p class="cookie-banner__text">Usamos almacenamiento local para guardar tu sesión, preferencias y progreso financiero en este dispositivo.</p>
+    </div>
+    <div class="cookie-banner__actions">
+      <button type="button" id="cookie-accept" class="btn btn--primary cookie-banner__button">Entendido</button>
+    </div>
   </div>
 
   <script src="./base/scripts/config.js"></script>

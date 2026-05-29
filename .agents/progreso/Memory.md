@@ -273,3 +273,16 @@ En desarrollo activo. Ajuste de comportamiento global del asistente virtual Pesi
 
 ### Pendiente
 - Validacion visual manual en navegador de Inicio, Resumen, Cotizaciones y Simulador con footer abierto/cerrado.
+
+## 28 de mayo de 2026 (logros, login y cookies)
+
+### Estado General
+En desarrollo activo. Correcciones de interaccion y pulido visual global.
+
+### Completado
+- `base/scripts/achievements.js`: el boton de Logros ahora reutiliza el modal existente si ya esta abierto, evitando overlays duplicados al hacer varios clicks. Tambien se limpia el listener de Escape al cerrar.
+- `base/styles/login.css`: reforzado el contraste del texto, placeholder, caret y autofill de inputs en modo oscuro para login, registro y recuperacion de contrasena.
+- `index.html` y `base/styles/home.css`: redisenado el aviso de cookies como tarjeta flotante responsive con badge monetario, titulo, texto explicativo y boton alineado al sistema visual de Mini Finance.
+
+### Pendiente
+- Validacion visual manual del banner de cookies en mobile/desktop y del login en modo oscuro con escritura y autocompletado del navegador.

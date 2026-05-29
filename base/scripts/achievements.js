@@ -104,6 +104,8 @@ const ACHIEVEMENTS_LIST = [
   }
 ];
 
+let achievementsModalKeydownHandler = null;
+
 function getUnlockedAchievements() {
   try {
     const data = localStorage.getItem(ACHIEVEMENTS_KEY);
@@ -240,6 +242,12 @@ function renderAchievementsPanel() {
 ══════════════════════════════════════════ */
 
 function renderAchievementsModal() {
+  const existingModal = document.querySelector('.achievements-modal-overlay');
+  if (existingModal) {
+    existingModal.querySelector('.achievements-modal__close')?.focus();
+    return;
+  }
+
   const unlocked = getUnlockedAchievements();
   const total = ACHIEVEMENTS_LIST.length;
   const percentage = Math.round((unlocked.length / total) * 100);
@@ -294,15 +302,23 @@ function renderAchievementsModal() {
     if (e.target === modal) closeAchievementsModal(modal);
   });
 
-  document.addEventListener('keydown', function escHandler(e) {
+  achievementsModalKeydownHandler = function escHandler(e) {
     if (e.key === 'Escape') {
       closeAchievementsModal(modal);
-      document.removeEventListener('keydown', escHandler);
     }
-  });
+  };
+
+  document.addEventListener('keydown', achievementsModalKeydownHandler);
 }
 
 function closeAchievementsModal(modal) {
+  if (!modal || modal.classList.contains('achievements-modal-overlay--exit')) return;
+
+  if (achievementsModalKeydownHandler) {
+    document.removeEventListener('keydown', achievementsModalKeydownHandler);
+    achievementsModalKeydownHandler = null;
+  }
+
   modal.classList.add('achievements-modal-overlay--exit');
   modal.addEventListener('animationend', () => {
     modal.remove();
@@ -316,4 +332,3 @@ function initAchievementButton() {
 
   btn.addEventListener('click', renderAchievementsModal);
 }
-
