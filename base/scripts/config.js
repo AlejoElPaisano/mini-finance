@@ -1,14 +1,3 @@
-const STORAGE_KEYS = {
-  movements: 'miniFinanceMovements',
-  savingsGoal: 'miniFinanceSavingsGoal',
-  spendingLimit: 'miniFinanceSpendingLimit'
-};
-
-const DEFAULTS = {
-  savingsGoal: 1000,
-  spendingLimit: 50000
-};
-
 const CATEGORIES = {
   income: [
     { id: 'salary', label: 'Salario' },
@@ -20,6 +9,7 @@ const CATEGORIES = {
   expense: [
     { id: 'food', label: 'Comida' },
     { id: 'transport', label: 'Transporte' },
+    { id: 'services', label: 'Servicios' },
     { id: 'housing', label: 'Vivienda' },
     { id: 'entertainment', label: 'Entretenimiento' },
     { id: 'health', label: 'Salud' },

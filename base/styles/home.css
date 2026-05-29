@@ -104,6 +104,19 @@
   background-color: var(--brand-accent);
 }
 
+/* Flechas de tendencia en métricas del inicio */
+.metrics .card--income .card__title::before {
+  content: '▲ ';
+  color: var(--success-border);
+  font-size: 0.85em;
+}
+
+.metrics .card--expense .card__title::before {
+  content: '▼ ';
+  color: var(--danger-border);
+  font-size: 0.85em;
+}
+
 .savings-progress {
   margin-top: var(--space-3);
 }
@@ -334,30 +347,541 @@ body.dark-mode::after {
 
 .cookie-banner {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: var(--bg-surface-elevated);
-  border-top: 1px solid var(--border-default);
-  padding: var(--space-4) var(--space-5);
-  display: flex;
-  flex-wrap: wrap;
+  left: var(--space-4);
+  right: var(--space-4);
+  bottom: calc(var(--space-4) + var(--footer-toggle-height));
+  display: grid;
+  grid-template-columns: auto 1fr;
   align-items: center;
-  justify-content: space-between;
   gap: var(--space-3);
-  z-index: 100;
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: var(--space-4);
+  background:
+    linear-gradient(135deg, rgba(30, 58, 138, 0.08), rgba(245, 158, 11, 0.12)),
+    var(--bg-surface-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
+  z-index: 100;
+  animation: cookieBannerIn var(--duration-slow) var(--ease-out-expo) both;
 }
 
 .cookie-banner[hidden] {
   display: none;
 }
 
+.cookie-banner__badge {
+  width: 2.75rem;
+  height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: start;
+  border-radius: 50%;
+  background-color: var(--brand-accent);
+  color: #451a03;
+  font-family: var(--font-mono);
+  font-size: var(--text-xl);
+  font-weight: var(--font-weight-bold);
+  box-shadow: 0 10px 24px rgba(245, 158, 11, 0.24);
+}
+
+.cookie-banner__content {
+  min-width: 0;
+}
+
+.cookie-banner__title {
+  margin: 0 0 var(--space-1);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--fg-primary);
+  line-height: 1.2;
+}
+
 .cookie-banner__text {
   margin: 0;
   font-size: var(--text-sm);
   color: var(--fg-secondary);
-  flex: 1;
-  min-width: 260px;
   line-height: 1.5;
+}
+
+.cookie-banner__actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cookie-banner__button {
+  min-width: 8.5rem;
+}
+
+@keyframes cookieBannerIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (min-width: 640px) {
+  .cookie-banner {
+    grid-template-columns: auto 1fr auto;
+    padding: var(--space-4) var(--space-5);
+  }
+
+  .cookie-banner__actions {
+    grid-column: auto;
+  }
+}
+
+body.dark-mode .cookie-banner {
+  background:
+    linear-gradient(135deg, rgba(147, 197, 253, 0.1), rgba(251, 191, 36, 0.12)),
+    #162033;
+  border-color: rgba(248, 250, 252, 0.14);
+}
+
+body.dark-mode .cookie-banner__badge {
+  background-color: var(--brand-accent);
+  color: #1f1300;
+}
+
+/* ══════════════════════════════════════════
+   Sistema de Logros
+══════════════════════════════════════════ */
+
+.achievements-progress {
+  margin-bottom: var(--space-5);
+}
+
+.achievements-progress__track {
+  width: 100%;
+  height: 10px;
+  background-color: var(--border-subtle);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  margin-bottom: var(--space-2);
+}
+
+.achievements-progress__fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--success-border) 0%, var(--brand-accent) 100%);
+  border-radius: var(--radius-xl);
+  transition: width 0.8s var(--ease-out-expo);
+}
+
+.achievements-progress__text {
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--fg-tertiary);
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+
+@media (min-width: 768px) {
+  .achievements-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .achievements-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.achievement-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-3);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  transition: transform var(--duration-fast) var(--ease-out-quart),
+              box-shadow var(--duration-fast) var(--ease-out-quart);
+}
+
+.achievement-card--unlocked {
+  border-color: var(--success-border);
+  background-color: var(--success-bg);
+}
+
+.achievement-card--unlocked:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.achievement-card--locked {
+  opacity: 0.5;
+  filter: grayscale(1);
+}
+
+.achievement-card__icon {
+  font-size: var(--text-2xl);
+  line-height: 1;
+}
+
+.achievement-card__title {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--fg-primary);
+  margin: 0;
+}
+
+.achievement-card__desc {
+  font-size: var(--text-xs);
+  color: var(--fg-tertiary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.achievement-card__desc--hint {
+  font-style: italic;
+  color: var(--fg-muted);
+}
+
+/* Toast de logro */
+.achievement-toast-container {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+.achievement-toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 1rem 1.25rem;
+  border-radius: 0.875rem;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 2px solid #fbbf24;
+  box-shadow: 0 12px 28px rgba(251, 191, 36, 0.2), 0 4px 8px rgba(0, 0, 0, 0.08);
+  transform: translateX(120%) scale(0.9);
+  opacity: 0;
+  animation: achievementSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  max-width: 22rem;
+}
+
+.achievement-toast--exit {
+  animation: achievementSlideOut 0.35s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+}
+
+.achievement-toast__badge {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  border-radius: 50%;
+  font-size: 1.25rem;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+}
+
+.achievement-toast__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.achievement-toast__label {
+  font-size: 0.6875rem;
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #92400e;
+  margin: 0;
+}
+
+.achievement-toast__title {
+  font-size: 0.9375rem;
+  font-weight: var(--font-weight-semibold);
+  color: #451a03;
+  margin: 0;
+}
+
+.achievement-toast__desc {
+  font-size: 0.8125rem;
+  color: #92400e;
+  margin: 0;
+}
+
+@keyframes achievementSlideIn {
+  from {
+    transform: translateX(120%) scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes achievementSlideOut {
+  from {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(120%) scale(0.9);
+    opacity: 0;
+  }
+}
+
+body.dark-mode .achievement-card--unlocked {
+  background-color: rgba(34, 197, 94, 0.08);
+  border-color: rgba(34, 197, 94, 0.4);
+}
+
+body.dark-mode .achievement-toast {
+  background: linear-gradient(135deg, #451a03 0%, #78350f 100%);
+  border-color: #fbbf24;
+}
+
+body.dark-mode .achievement-toast__label {
+  color: #fcd34d;
+}
+
+body.dark-mode .achievement-toast__title {
+  color: #fef3c7;
+}
+
+body.dark-mode .achievement-toast__desc {
+  color: #fbbf24;
+}
+
+/* ══════════════════════════════════════════
+   Panel de Logros — Solo Desbloqueados
+══════════════════════════════════════════ */
+
+.achievements-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.achievements-header-row .achievements-panel__title {
+  margin-bottom: 0;
+}
+
+.achievements-progress-inline {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.achievements-progress__track-inline {
+  width: 120px;
+  height: 8px;
+  background-color: var(--border-subtle);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+.achievements-progress__fill-inline {
+  height: 100%;
+  background: linear-gradient(90deg, var(--success-border) 0%, var(--brand-accent) 100%);
+  border-radius: var(--radius-xl);
+  transition: width 0.8s var(--ease-out-expo);
+}
+
+.achievements-progress__text-inline {
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--fg-tertiary);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+.achievements-empty-inline {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-6) var(--space-4);
+  text-align: center;
+  color: var(--fg-muted);
+  font-size: var(--text-sm);
+}
+
+.achievements-empty-inline span {
+  font-size: var(--text-3xl);
+  opacity: 0.5;
+}
+
+/* ══════════════════════════════════════════
+   Modal de Todos los Logros
+══════════════════════════════════════════ */
+
+.achievements-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background-color: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  animation: modalFadeIn 0.25s ease forwards;
+}
+
+.achievements-modal-overlay--exit {
+  animation: modalFadeOut 0.2s ease forwards;
+}
+
+.achievements-modal {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 720px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.achievements-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-5) var(--space-3);
+  border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+
+.achievements-modal__header h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--fg-primary);
+  margin: 0;
+}
+
+.achievements-modal__progress {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: auto;
+  margin-right: var(--space-4);
+}
+
+.achievements-modal__progress span {
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--fg-tertiary);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+.achievements-modal__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  font-size: 1.25rem;
+  color: var(--fg-muted);
+  background: none;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-out-quart),
+              color var(--duration-fast) var(--ease-out-quart);
+}
+
+.achievements-modal__close:hover {
+  background-color: var(--bg-base);
+  color: var(--fg-primary);
+}
+
+.achievements-modal__body {
+  overflow-y: auto;
+  padding: var(--space-4) var(--space-5) var(--space-5);
+}
+
+.achievements-grid-modal {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+
+@media (min-width: 640px) {
+  .achievements-grid-modal {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .achievements-grid-modal {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalFadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+body.dark-mode .achievements-modal-overlay {
+  background-color: rgba(0, 0, 0, 0.65);
+}
+
+body.dark-mode .achievements-modal {
+  background-color: #1e293b;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .achievements-modal__header {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .achievements-modal__close:hover {
+  background-color: rgba(255, 255, 255, 0.06);
 }

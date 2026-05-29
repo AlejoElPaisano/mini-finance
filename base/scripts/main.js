@@ -112,10 +112,20 @@ if (dailyTipElement) {
 }
 
 function initFinancialApp() {
-  if (typeof getMovements !== 'function') return;
+  if (typeof getMovements !== 'function' || typeof dom === 'undefined') return;
 
   renderDashboard();
   renderAlerts();
+  renderSavingsGoal();
+
+  if (dom.recentMovementsList) {
+    renderRecentMovements(3);
+  }
+
+  if (dom.achievementsPanel) {
+    renderAchievementsPanel();
+    checkAchievements();
+  }
 
   if (dom.movementsList) {
     renderMovements(
@@ -158,8 +168,12 @@ if (cookieBanner && cookieAccept) {
   });
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initFinancialApp);
+  if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    initFinancialApp();
+    initAchievementButton();
+  });
 } else {
   initFinancialApp();
+  initAchievementButton();
 }

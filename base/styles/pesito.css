@@ -301,11 +301,11 @@
 }
 
 /* ----------------------------------------------------------------
-   8. BOTÓN FLOTANTE TOGGLE
-   ---------------------------------------------------------------- */
+    8. BOTÓN FLOTANTE TOGGLE
+    ---------------------------------------------------------------- */
 .pesito-toggle {
   position: fixed;
-  bottom: calc(var(--space-5) + var(--footer-toggle-height) + var(--space-2));
+  bottom: calc(var(--space-5) + var(--footer-toggle-height) + var(--space-2) + var(--footer-offset, 0px));
   right: var(--space-4);
   z-index: 101;
   width: 56px;
@@ -372,14 +372,14 @@
   .pesito-container {
     inset: auto;
     right: var(--space-5);
-    bottom: calc(var(--space-6) + var(--footer-toggle-height));
+    bottom: calc(var(--space-6) + var(--footer-toggle-height) + var(--footer-offset, 0px));
     width: 380px;
     height: auto;
   }
 
   .pesito-chat {
     position: absolute;
-    bottom: calc(56px + var(--space-4)); /* Justo arriba del botón flotante */
+    bottom: calc(56px + var(--space-4));
     right: 0;
     width: 380px;
     height: 520px;
@@ -396,7 +396,7 @@
   }
 
   .pesito-toggle {
-    bottom: calc(var(--space-4) + var(--footer-toggle-height));
+    bottom: calc(var(--space-4) + var(--footer-toggle-height) + var(--footer-offset, 0px));
     right: var(--space-4);
   }
 }

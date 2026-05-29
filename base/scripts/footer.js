@@ -6,9 +6,12 @@ function updateBodyPadding() {
   if (!footer || !drawer) return;
 
   if (footer.classList.contains('open')) {
-    document.body.style.paddingBottom = `${drawer.offsetHeight + 36}px`;
+    const drawerHeight = drawer.offsetHeight;
+    document.body.style.paddingBottom = `${drawerHeight + 36}px`;
+    document.documentElement.style.setProperty('--footer-offset', `${drawerHeight}px`);
   } else {
     document.body.style.paddingBottom = '36px';
+    document.documentElement.style.setProperty('--footer-offset', '0px');
   }
 }
 

@@ -26,6 +26,10 @@
         <li><a href="./pages/market-rates.html">Cotizaciones</a></li>
       </ul>
       <div class="header-tools">
+        <button type="button" id="achievements-toggle" class="btn-tool" aria-label="Centro de logros" title="Ver todos los logros">
+          <span aria-hidden="true">🏆</span>
+          <span class="btn-tool__label">Logros</span>
+        </button>
         <div class="accessibility-tools">
           <button type="button" id="dyslexic-toggle" class="btn-tool" aria-pressed="false" title="Fuente para dislexia">
             <span aria-hidden="true">👁️</span>
@@ -81,14 +85,14 @@
       </article>
       <article class="card card--savings">
         <h2 class="card__title">Meta de Ahorro</h2>
-        <p class="card__value" id="savings-goal">$500.000</p>
+        <p class="card__value" id="savings-goal-display">$0</p>
         <div class="savings-progress">
           <div class="savings-progress__track">
-            <div class="savings-progress__fill" style="width: 35%;"></div>
+            <div class="savings-progress__fill" id="savings-progress-fill" style="width: 0%;"></div>
           </div>
           <div class="savings-progress__meta">
-            <span id="savings-current">$175.000 acumulados</span>
-            <span id="savings-percent">35%</span>
+            <span id="savings-current">$0 acumulados</span>
+            <span id="savings-percent">0%</span>
           </div>
         </div>
       </article>
@@ -116,28 +120,8 @@
       <div class="recent-movements__header">
         <h2 id="recent-title" class="recent-movements__title">Últimos Movimientos</h2>
       </div>
-      <ul class="movements-list--compact">
-        <li class="movement-item movement-item--income">
-          <div class="movement-item__info">
-            <span class="movement-item__description">Sueldo Mensual</span>
-            <span class="movement-item__meta">Ingreso · Trabajo · 20/05/2026</span>
-          </div>
-          <span class="movement-item__amount">+$450.000</span>
-        </li>
-        <li class="movement-item movement-item--expense">
-          <div class="movement-item__info">
-            <span class="movement-item__description">Supermercado Coto</span>
-            <span class="movement-item__meta">Gasto · Alimentación · 22/05/2026</span>
-          </div>
-          <span class="movement-item__amount">-$68.500</span>
-        </li>
-        <li class="movement-item movement-item--expense">
-          <div class="movement-item__info">
-            <span class="movement-item__description">Netflix Subscription</span>
-            <span class="movement-item__meta">Gasto · Entretenimiento · 25/05/2026</span>
-          </div>
-          <span class="movement-item__amount">-$5.499</span>
-        </li>
+      <ul class="movements-list--compact" id="recent-movements-list">
+        <li class="empty-state">No hay movimientos registrados.</li>
       </ul>
       <div style="text-align: right; margin-top: var(--space-4);">
         <a href="./pages/resumen.html" class="link-view-all">Ver historial completo</a>
@@ -151,34 +135,36 @@
       <span class="footer-toggle-text">CERRAR</span>
     </button>
     <div class="footer-drawer" id="footer-drawer">
-      <div class="footer__grid">
-        <div>
-          <p class="footer__brand-name"><span aria-hidden="true">📈</span> Mini Finance</p>
-          <p class="footer__brand-tagline">Tu suite interactiva para simular metas y planificar tu futuro financiero.</p>
-        </div>
-        <div>
-          <p class="footer__heading">Proyecto</p>
-          <ul class="footer__links">
-            <li><a href="https://github.com/AlejoElPaisano/integrartec-proyecto-1" target="_blank" rel="noopener">Repositorio</a></li>
-            <li><a href="#">Deploy</a></li>
-            <li><a href="https://github.com/AlejoElPaisano/integrartec-proyecto-1/blob/develop/README.md" target="_blank" rel="noopener">README</a></li>
-          </ul>
-        </div>
-        <div>
-          <p class="footer__heading">Desarrollado por:</p>
-          <div class="footer__team">
-            <a href="https://www.linkedin.com/in/karenledesma08" target="_blank" rel="noopener" class="footer__member-name">Karen Ledesma</a>
-            <a href="https://www.linkedin.com/in/francisco-thomas-chiressi-8b55b01a0" target="_blank" rel="noopener" class="footer__member-name">Francisco Chiressi</a>
-            <a href="https://www.linkedin.com/in/alejo-martinez-olmedo-877004283/" target="_blank" rel="noopener" class="footer__member-name">Alejo Martinez Olmedo</a>
+      <div class="footer-drawer__inner">
+        <div class="footer__grid">
+          <div>
+            <p class="footer__brand-name"><span aria-hidden="true">📈</span> Mini Finance</p>
+            <p class="footer__brand-tagline">Tu suite interactiva para simular metas y planificar tu futuro financiero.</p>
+          </div>
+          <div>
+            <p class="footer__heading">Proyecto</p>
+            <ul class="footer__links">
+              <li><a href="https://github.com/AlejoElPaisano/integrartec-proyecto-1" target="_blank" rel="noopener">Repositorio</a></li>
+              <li><a href="#">Deploy</a></li>
+              <li><a href="https://github.com/AlejoElPaisano/integrartec-proyecto-1/blob/develop/README.md" target="_blank" rel="noopener">README</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="footer__heading">Desarrollado por:</p>
+            <div class="footer__team">
+              <a href="https://www.linkedin.com/in/karenledesma08" target="_blank" rel="noopener" class="footer__member-name">Karen Ledesma</a>
+              <a href="https://www.linkedin.com/in/francisco-thomas-chiressi-8b55b01a0" target="_blank" rel="noopener" class="footer__member-name">Francisco Chiressi</a>
+              <a href="https://www.linkedin.com/in/alejo-martinez-olmedo-877004283/" target="_blank" rel="noopener" class="footer__member-name">Alejo Martinez Olmedo</a>
+            </div>
           </div>
         </div>
-      </div>
-      <hr class="footer__divider">
-      <div class="footer__bottom">
-        <p class="footer__copy">© 2026 Mini Finance · IntegrarTEC · Módulo Web Estática · Desarrollado por DevCore</p>
-        <a href="https://fpintegrar.org" target="_blank" rel="noopener" class="footer__logo-link">
-          <img src="./assets/img/logo-integrar.png" alt="Fundación Integrar" class="footer__logo-img" loading="lazy">
-        </a>
+        <hr class="footer__divider">
+        <div class="footer__bottom">
+          <p class="footer__copy">© 2026 Mini Finance · IntegrarTEC · Módulo Web Estática · Desarrollado por DevCore</p>
+          <a href="https://fpintegrar.org" target="_blank" rel="noopener" class="footer__logo-link">
+            <img src="./assets/img/logo-integrar.png" alt="Fundación Integrar" class="footer__logo-img" loading="lazy">
+          </a>
+        </div>
       </div>
     </div>
   </footer>
@@ -284,13 +270,20 @@
     <span class="pesito-toggle__icon pesito-toggle__icon--close" aria-hidden="true">✕</span>
   </button>
 
-  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Aviso de cookies" hidden>
-    <p class="cookie-banner__text">Utilizamos cookies y almacenamiento local para mejorar tu experiencia. Al continuar navegando, aceptás su uso.</p>
-    <button type="button" id="cookie-accept" class="btn btn--primary">Entendido</button>
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Aviso de privacidad y almacenamiento" hidden>
+    <span class="cookie-banner__badge" aria-hidden="true">$</span>
+    <div class="cookie-banner__content">
+      <p class="cookie-banner__title">Tu panel recuerda lo importante</p>
+      <p class="cookie-banner__text">Usamos almacenamiento local para guardar tu sesión, preferencias y progreso financiero en este dispositivo.</p>
+    </div>
+    <div class="cookie-banner__actions">
+      <button type="button" id="cookie-accept" class="btn btn--primary cookie-banner__button">Entendido</button>
+    </div>
   </div>
 
   <script src="./base/scripts/config.js"></script>
   <script src="./base/scripts/state.js"></script>
+  <script src="./base/scripts/achievements.js"></script>
   <script src="./base/scripts/dom.js"></script>
   <script src="./base/scripts/render.js"></script>
   <script src="./base/scripts/events.js"></script>

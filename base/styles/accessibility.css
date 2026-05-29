@@ -169,3 +169,7 @@ body.colorblind-mode .alert {
   color: var(--brand-primary);
   box-shadow: 0 0 0 2px var(--bg-base), 0 0 0 4px var(--brand-primary);
 }
+
+body.dark-mode .user-menu__trigger span[aria-hidden="true"] {
+  filter: brightness(1.4);
+}

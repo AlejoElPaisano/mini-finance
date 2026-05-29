@@ -1,15 +1,15 @@
 export const STORAGE_KEYS = {
 
-    movements: 'userMovements' ,
+    movements: 'miniFinanceMovements' ,
 
     totalAmount: 'totalAmount',
 
     adjustedAmount: 'adjustedAmount' ,
 
 
-    savingsGoal: 'savingsGoal',     // valor confirmado del slider (último "Agregar meta")
+    savingsGoal: 'miniFinanceSavingsGoal',
 
-    savingsMode: 'savingsMode'      // 'amount' | 'percent' al momento de confirmar
+    savingsMode: 'savingsMode'
 
 }
 

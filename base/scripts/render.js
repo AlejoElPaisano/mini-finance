@@ -127,9 +127,17 @@ function renderAdjustedAmount() {
 }
 
 function getCategoryLabel(type, categoryId) {
-  const categories = type === 'income' ? CATEGORIES.income : CATEGORIES.expense;
-  const found = categories.find(c => c.id === categoryId);
-  return found ? found.label : categoryId;
+  const allCategories = [...CATEGORIES.income, ...CATEGORIES.expense];
+  const found = allCategories.find(c => c.id === categoryId);
+  if (found) return found.label;
+
+  const fallbackLabels = {
+    services: 'Servicios',
+    amount: 'Reserva fija',
+    percent: 'Reserva porcentual'
+  };
+
+  return fallbackLabels[categoryId] || categoryId;
 }
 
 function formatDate(dateString) {
@@ -141,4 +149,67 @@ function escapeHtml(text) {
   const div = document.createElement('div');
   div.textContent = text;
   return div.innerHTML;
+}
+
+function renderSavingsGoal() {
+  if (!dom.savingsGoalDisplay) return;
+
+  const goal = getSavingsGoal();
+  const progress = getSavingsProgress();
+  const balance = getBalance();
+
+  dom.savingsGoalDisplay.textContent = `$${formatCurrency(goal)}`;
+
+  if (dom.savingsProgressFill) {
+    dom.savingsProgressFill.style.width = `${progress.percentage}%`;
+  }
+
+  if (dom.savingsCurrent) {
+    dom.savingsCurrent.textContent = `$${formatCurrency(balance)} acumulados`;
+  }
+
+  if (dom.savingsPercent) {
+    dom.savingsPercent.textContent = `${Math.round(progress.percentage)}%`;
+  }
+}
+
+function renderRecentMovements(limit = 5) {
+  if (!dom.recentMovementsList) return;
+
+  let movements = getMovements();
+
+  movements = movements.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  const recent = movements.slice(0, limit);
+
+  dom.recentMovementsList.innerHTML = '';
+
+  if (recent.length === 0) {
+    const li = document.createElement('li');
+    li.className = 'empty-state';
+    li.textContent = 'No hay movimientos registrados.';
+    dom.recentMovementsList.appendChild(li);
+    return;
+  }
+
+  recent.forEach(movement => {
+    const li = document.createElement('li');
+    li.className = `movement-item movement-item--${movement.type}`;
+
+    const categoryLabel = getCategoryLabel(movement.type, movement.category);
+    const typeLabel = movement.type === 'income' ? 'Ingreso'
+                    : movement.type === 'expense' ? 'Gasto'
+                    : 'Meta de ahorro';
+    const sign = movement.type === 'income' ? '+' : movement.type === 'expense' ? '−' : '';
+
+    li.innerHTML = `
+      <div class="movement-item__info">
+        <span class="movement-item__description">${escapeHtml(movement.description)}</span>
+        <span class="movement-item__meta">${typeLabel} · ${categoryLabel} · ${formatDate(movement.date)}</span>
+      </div>
+      <span class="movement-item__amount">${sign}$${formatCurrency(movement.amount)}</span>
+    `;
+
+    dom.recentMovementsList.appendChild(li);
+  });
 }

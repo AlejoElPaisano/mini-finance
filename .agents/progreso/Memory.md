@@ -217,7 +217,86 @@ En desarrollo activo. Reconstrucción completa de la página de inicio (`index.h
 - Assets (imágenes, iconos, datos JSON).
 - Deploy funcional.
 
+## 28 de mayo de 2026 (rama fix/simulator-ui-components)
+
+### Estado General
+Reparación de la página del simulador: funcionalidades rotas restauradas, dark mode equilibrado y Pesito integrado.
+
+### Completado
+- `pages/simulador.html`:
+  - Eliminado fragmento de footer duplicado/roto al final del archivo.
+  - Corregidas rutas de scripts de absolutas (`/base/scripts/...`) a relativas (`../base/scripts/...`).
+  - Agregados scripts faltantes: `main.js` (dark mode, accesibilidad, menú usuario, logout), `footer.js` (footer desplegable), `pesito-brain.js` y `pesito-chat.js` (asistente virtual).
+- `base/styles/simulator.css`: agregados overrides completos de `body.dark-mode`:
+  - Fondo del body mantiene `#0f172a` (azul oscuro del sistema) igual que las demás páginas.
+  - `#movement-form` (Registrar Movimiento): fondo oscuro manteniendo identidad cromática mint → `#3d5a52`.
+  - `#savings-form` (Meta de Ahorro): fondo oscuro turquesa → `#2d4a4a`.
+  - `.card-total` (Monto de Cuenta): fondo oscuro cyan → `#0c4a6e`.
+  - Inputs, textareas, selects, botones, lista de movimientos y empty states adaptados para superficies oscuras.
+
+## 28 de mayo de 2026 (sincronizacion simulador-home)
+
+### Estado General
+En desarrollo activo. Sincronización completa entre el simulador de movimientos y el dashboard de inicio.
+
+### Completado
+- Unificación de claves de `localStorage`: `local-storage.js` ahora usa `miniFinanceMovements` y `miniFinanceSavingsGoal`, alineándose con `state.js`.
+- `simulator.js` refactorizado para usar funciones globales de `state.js` (`getMovements`, `saveMovements`, `getSavingsGoal`, `setSavingsGoal`, `getBalance`) en lugar de su propio sistema aislado.
+- `pages/simulador.html`: agregado `<script src="../base/scripts/state.js"></script>` para exponer funciones financieras globales al simulador.
+- `render.js`: nuevas funciones `renderSavingsGoal()` y `renderRecentMovements(limit = 5)` para el dashboard de inicio.
+- `dom.js`: agregados selectores `savingsGoalDisplay`, `savingsProgressFill`, `savingsCurrent`, `savingsPercent` y `recentMovementsList`.
+- `index.html`:
+  - Eliminados datos hardcodeados de métricas y últimos movimientos.
+  - Renombrado `#savings-goal` a `#savings-goal-display` para evitar conflicto con el input del simulador.
+  - Lista de últimos movimientos ahora usa `#recent-movements-list` y arranca con empty state.
+- `main.js`: `initFinancialApp()` ahora invoca `renderSavingsGoal()` y `renderRecentMovements(5)` al cargar.
+- Todos los cambios copiados al worktree real del usuario en `D:/ALEJO/AleMart/Documents/IntegrarTEC/Proyecto1`.
+
+### Pendiente
+- Página `pages/market-rates.html`: contenido funcional de cotizaciones (fetch opcional).
+- Assets (imágenes, iconos, datos JSON).
+- Deploy funcional.
+
 ## Actualidad
 
 ### Completado
 - Instalada skill `design-lab` utilizando `pnpm dlx skills add https://github.com/0xdesign/design-plugin --skill design-lab` para incorporar recursos de diseño.
+
+## 28 de mayo de 2026 (pesito y footer global)
+
+### Estado General
+En desarrollo activo. Ajuste de comportamiento global del asistente virtual Pesito con el footer desplegable.
+
+### Completado
+- `base/styles/pesito.css`: corregido el posicionamiento desktop del chat para que no duplique `--footer-offset` cuando el footer de creditos esta abierto. El boton y la ventana del chat vuelven a mantener la misma separacion visual.
+- `pages/simulador.html`: completado el bloque HTML de Pesito con cierre correcto del contenedor y agregado del boton flotante `#pesito-toggle`, dejando el asistente disponible en el simulador igual que en Inicio, Resumen y Cotizaciones.
+
+### Pendiente
+- Validacion visual manual en navegador de Inicio, Resumen, Cotizaciones y Simulador con footer abierto/cerrado.
+
+## 28 de mayo de 2026 (logros, login y cookies)
+
+### Estado General
+En desarrollo activo. Correcciones de interaccion y pulido visual global.
+
+### Completado
+- `base/scripts/achievements.js`: el boton de Logros ahora reutiliza el modal existente si ya esta abierto, evitando overlays duplicados al hacer varios clicks. Tambien se limpia el listener de Escape al cerrar.
+- `base/styles/login.css`: reforzado el contraste del texto, placeholder, caret y autofill de inputs en modo oscuro para login, registro y recuperacion de contrasena.
+- `index.html` y `base/styles/home.css`: redisenado el aviso de cookies como tarjeta flotante responsive con badge monetario, titulo, texto explicativo y boton alineado al sistema visual de Mini Finance.
+
+### Pendiente
+- Validacion visual manual del banner de cookies en mobile/desktop y del login en modo oscuro con escritura y autocompletado del navegador.
+
+## 28 de mayo de 2026 (rebalanceo de logros)
+
+### Estado General
+En desarrollo activo. Sistema de logros ajustado para premiar habitos financieros progresivos y no desbloquear multiples logros por un unico movimiento grande.
+
+### Completado
+- `base/scripts/achievements.js`: versionada la clave de almacenamiento a `miniFinanceAchievementsV2` para separar el nuevo balance de logros del progreso anterior.
+- Condiciones de logros endurecidas: ahora varios premios requieren mezcla de ingresos y gastos, cantidad minima de movimientos, multiples registros o meta de ahorro alcanzada.
+- Los movimientos de tipo `savings` ya no cuentan como movimientos financieros para logros de ingresos/gastos, evitando desbloqueos indirectos por registrar metas.
+- Agregados helpers internos para movimientos financieros, ingresos, gastos y saneo de IDs de logros vigentes.
+
+### Pendiente
+- Validar manualmente con escenarios de prueba: un ingreso grande aislado, ingreso + gasto, 5 movimientos, 10 movimientos y meta alcanzada.
