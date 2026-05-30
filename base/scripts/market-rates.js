@@ -5,7 +5,7 @@
 //   Histórico   → frankfurter.app (solo monedas del BCE)
 //   Cripto      → CoinGecko
 // ============================================================
-// Chart.js — histórico 30 días via frankfurter.app
+
 // ── Constantes ───────────────────────────────────────────────
 
 const CRYPTO_IDS = ['bitcoin', 'ethereum', 'solana', 'binancecoin'];
@@ -264,7 +264,7 @@ async function loadForexHistory(from, to) {
   })();
 
   try {
-    const url = `https://api.frankfurter.app/${startDate}..${endDate}?from=${histFrom}&to=${histTo}`;
+    const url = `https://api.frankfurter.dev/v1/${startDate}..${endDate}?base=${histFrom}&symbols=${histTo}`;
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
