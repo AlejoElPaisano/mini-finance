@@ -16,7 +16,30 @@ section.card {
   padding: 1rem;
   border-radius: 0.75rem;
   background-color: #e0e7ff;
-  margin-top: 0 ;
+  margin-top: 0;
+}
+
+section.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--brand-primary) 0%, var(--brand-accent) 100%);
+  border-radius: 0 2px 2px 0;
+  box-shadow: 0 0 12px rgba(30, 58, 138, 0.35);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform var(--duration-base) var(--ease-out-expo);
+}
+
+section.card:hover::before {
+  transform: scaleY(1);
+}
+
+body.dark-mode section.card::before {
+  box-shadow: 0 0 12px rgba(147, 197, 253, 0.4);
 }
 
 section.card > h2 {
