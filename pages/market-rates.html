@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mini Finance - Cotizaciones</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -19,12 +20,17 @@
 
   <header>
     <nav>
-      <ul>
-        <li><a href="../index.html">Inicio</a></li>
-        <li><a href="./simulador.html">Simulador</a></li>
-        <li><a href="./resumen.html">Resumen</a></li>
-        <li><a href="./market-rates.html" aria-current="page">Cotizaciones</a></li>
-      </ul>
+      <div class="nav-left">
+        <div class="brand-logo">
+          <img src="../assets/logo-mf.svg" alt="Mini Finance Logo" style="width: 48px; height: 48px;">
+        </div>
+        <ul>
+          <li><a href="../index.html">Inicio</a></li>
+          <li><a href="./simulador.html">Simulador</a></li>
+          <li><a href="./resumen.html">Resumen</a></li>
+          <li><a href="./market-rates.html" aria-current="page">Cotizaciones</a></li>
+        </ul>
+      </div>
       <div class="header-tools">
         <div class="accessibility-tools">
           <button type="button" id="dyslexic-toggle" class="btn-tool" aria-pressed="false" title="Fuente para dislexia">
@@ -65,7 +71,8 @@
       <span class="footer-toggle-text">CERRAR</span>
     </button>
     <div class="footer-drawer" id="footer-drawer">
-      <div class="footer__grid">
+      <div class="footer-drawer__inner">
+        <div class="footer__grid">
         <div>
           <p class="footer__brand-name"><span aria-hidden="true">📈</span> Mini Finance</p>
           <p class="footer__brand-tagline">Tu suite interactiva para simular metas y planificar tu futuro financiero.</p>
@@ -93,6 +100,7 @@
         <a href="https://fpintegrar.org" target="_blank" rel="noopener" class="footer__logo-link">
           <img src="../assets/img/logo-integrar.png" alt="Fundación Integrar" class="footer__logo-img" loading="lazy">
         </a>
+        </div>
       </div>
     </div>
   </footer>
@@ -105,46 +113,25 @@
       <header class="pesito-header">
         <div class="pesito-header__info">
           <div class="pesito-header__avatar" aria-hidden="true">
-            <!-- Pesito: Moneda-cerdito animada, identidad visual de Mini Finance -->
+            <!-- Pesito: Moneda animada, identidad visual de Mini Finance -->
             <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- Orejas -->
-              <ellipse cx="25" cy="22" rx="11" ry="17" fill="#f59e0b" stroke="#b45309" stroke-width="3" transform="rotate(-25 25 22)"/>
-              <ellipse cx="75" cy="22" rx="11" ry="17" fill="#f59e0b" stroke="#b45309" stroke-width="3" transform="rotate(25 75 22)"/>
-              <!-- Interior orejas -->
-              <ellipse cx="25" cy="22" rx="5" ry="9" fill="#fde68a" transform="rotate(-25 25 22)"/>
-              <ellipse cx="75" cy="22" rx="5" ry="9" fill="#fde68a" transform="rotate(25 75 22)"/>
-
-              <!-- Moneda / Cara -->
-              <circle cx="50" cy="56" r="36" fill="url(#goldGradient)" stroke="#b45309" stroke-width="3"/>
-              <!-- Relieve borde moneda -->
-              <circle cx="50" cy="56" r="32" stroke="#b45309" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.5"/>
-
-              <!-- Ojos -->
-              <circle cx="38" cy="50" r="5.5" fill="#1e293b"/>
-              <circle cx="62" cy="50" r="5.5" fill="#1e293b"/>
-              <circle cx="40" cy="48" r="2" fill="white"/>
-              <circle cx="64" cy="48" r="2" fill="white"/>
-
-              <!-- Mejillas -->
-              <circle cx="30" cy="60" r="4.5" fill="#fca5a5" opacity="0.5"/>
-              <circle cx="70" cy="60" r="4.5" fill="#fca5a5" opacity="0.5"/>
-
-              <!-- Sonrisa -->
-              <path d="M42 64 Q50 72 58 64" stroke="#1e293b" stroke-width="3" stroke-linecap="round" fill="none"/>
-              <path d="M40 63 Q42 65 44 63" stroke="#1e293b" stroke-width="2" stroke-linecap="round" fill="none"/>
-              <path d="M56 63 Q58 65 60 63" stroke="#1e293b" stroke-width="2" stroke-linecap="round" fill="none"/>
-
-              <!-- Letra P de Pesito (marca de la moneda) -->
-              <text x="50" y="42" text-anchor="middle" font-family="'Playfair Display', Georgia, serif" font-weight="700" font-size="13" fill="#92400e" opacity="0.35">P</text>
-
-              <!-- Reflejo metálico -->
-              <ellipse cx="34" cy="28" rx="10" ry="5" fill="white" opacity="0.3" transform="rotate(-25 34 28)"/>
-
+              <circle cx="50" cy="50" r="46" fill="url(#goldGradient)" stroke="#b45309" stroke-width="4"/>
+              <circle cx="50" cy="50" r="38" stroke="#b45309" stroke-width="2" stroke-dasharray="6 4" opacity="0.6"/>
+              <circle cx="50" cy="50" r="34" fill="#fbbf24" opacity="0.4"/>
+              <path d="M 18,35 A 40,40 0 0,1 35,18" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+              <circle cx="36" cy="46" r="6" fill="#1e293b"/>
+              <circle cx="64" cy="46" r="6" fill="#1e293b"/>
+              <circle cx="38" cy="44" r="2.5" fill="white"/>
+              <circle cx="66" cy="44" r="2.5" fill="white"/>
+              <ellipse cx="26" cy="54" rx="5" ry="3" fill="#f43f5e" opacity="0.6"/>
+              <ellipse cx="74" cy="54" rx="5" ry="3" fill="#f43f5e" opacity="0.6"/>
+              <path d="M 42,58 Q 50,68 58,58" stroke="#1e293b" stroke-width="4" stroke-linecap="round" fill="none"/>
               <defs>
-                <linearGradient id="goldGradient" x1="20" y1="20" x2="80" y2="80" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#fcd34d"/>
-                  <stop offset="0.5" stop-color="#fbbf24"/>
-                  <stop offset="1" stop-color="#f59e0b"/>
+                <linearGradient id="goldGradient" x1="10" y1="10" x2="90" y2="90" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#fef08a"/>
+                  <stop offset="0.3" stop-color="#fcd34d"/>
+                  <stop offset="0.8" stop-color="#f59e0b"/>
+                  <stop offset="1" stop-color="#d97706"/>
                 </linearGradient>
               </defs>
             </svg>
@@ -175,22 +162,23 @@
     <span class="pesito-toggle__icon pesito-toggle__icon--open" aria-hidden="true">
       <!-- Pesito mini para el botón flotante -->
       <svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="25" cy="22" rx="11" ry="17" fill="#f59e0b" stroke="#92400e" stroke-width="3" transform="rotate(-25 25 22)"/>
-        <ellipse cx="75" cy="22" rx="11" ry="17" fill="#f59e0b" stroke="#92400e" stroke-width="3" transform="rotate(25 75 22)"/>
-        <ellipse cx="25" cy="22" rx="5" ry="9" fill="#fde68a" transform="rotate(-25 25 22)"/>
-        <ellipse cx="75" cy="22" rx="5" ry="9" fill="#fde68a" transform="rotate(25 75 22)"/>
-        <circle cx="50" cy="56" r="36" fill="url(#goldGradToggle)" stroke="#92400e" stroke-width="3"/>
-        <circle cx="38" cy="50" r="5.5" fill="#1e293b"/>
-        <circle cx="62" cy="50" r="5.5" fill="#1e293b"/>
-        <circle cx="40" cy="48" r="2" fill="white"/>
-        <circle cx="64" cy="48" r="2" fill="white"/>
-        <path d="M42 64 Q50 72 58 64" stroke="#1e293b" stroke-width="3" stroke-linecap="round" fill="none"/>
-        <ellipse cx="34" cy="28" rx="10" ry="5" fill="white" opacity="0.3" transform="rotate(-25 34 28)"/>
+        <circle cx="50" cy="50" r="46" fill="url(#goldGradToggle)" stroke="#92400e" stroke-width="4"/>
+        <circle cx="50" cy="50" r="38" stroke="#92400e" stroke-width="2" stroke-dasharray="6 4" opacity="0.6"/>
+        <circle cx="50" cy="50" r="34" fill="#fbbf24" opacity="0.4"/>
+        <path d="M 18,35 A 40,40 0 0,1 35,18" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+        <circle cx="36" cy="46" r="6" fill="#1e293b"/>
+        <circle cx="64" cy="46" r="6" fill="#1e293b"/>
+        <circle cx="38" cy="44" r="2.5" fill="white"/>
+        <circle cx="66" cy="44" r="2.5" fill="white"/>
+        <ellipse cx="26" cy="54" rx="5" ry="3" fill="#f43f5e" opacity="0.6"/>
+        <ellipse cx="74" cy="54" rx="5" ry="3" fill="#f43f5e" opacity="0.6"/>
+        <path d="M 42,58 Q 50,68 58,58" stroke="#1e293b" stroke-width="4" stroke-linecap="round" fill="none"/>
         <defs>
-          <linearGradient id="goldGradToggle" x1="20" y1="20" x2="80" y2="80" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#fcd34d"/>
-            <stop offset="0.5" stop-color="#fbbf24"/>
-            <stop offset="1" stop-color="#f59e0b"/>
+          <linearGradient id="goldGradToggle" x1="10" y1="10" x2="90" y2="90" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#fef08a"/>
+            <stop offset="0.3" stop-color="#fcd34d"/>
+            <stop offset="0.8" stop-color="#f59e0b"/>
+            <stop offset="1" stop-color="#d97706"/>
           </linearGradient>
         </defs>
       </svg>
@@ -204,3 +192,4 @@
   <script src="../base/scripts/pesito-chat.js"></script>
 </body>
 </html>
+

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+  <defs>
+    <style>
+      .navy { fill: #0f172a; }
+      .amber { fill: #f59e0b; }
+    </style>
+  </defs>
+  <g transform="translate(0, 85) scale(1)">
+    <!-- Navy M part -->
+    <path class="navy" d="M0,330 L0,0 L180,180 L290,70 L210,150 L100,260 L80,240 L80,330 Z" />
+    <!-- Navy F part -->
+    <path class="navy" d="M320,330 L320,150 L500,150 L420,230 L400,230 L400,330 Z" />
+    <!-- Amber upward arrow/slash -->
+    <path class="amber" d="M320,120 L400,40 L500,40 L380,160 Z" />
+  </g>
+</svg>

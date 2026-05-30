@@ -1,22 +1,36 @@
 const toggle = document.getElementById('dark-mode-toggle');
+const brandLogoImg = document.querySelector('.brand-logo img');
+
+function updateLogoTheme(isDark) {
+  if (!brandLogoImg) return;
+  const isInPages = window.location.pathname.includes('/pages/');
+  const basePath = isInPages ? '../assets/' : './assets/';
+  brandLogoImg.src = isDark ? `${basePath}logo-mf-dark.svg` : `${basePath}logo-mf.svg`;
+}
 
 const savedMode = localStorage.getItem('dark-mode');
 if (savedMode === 'enabled') {
   document.body.classList.add('dark-mode');
   if (toggle) toggle.textContent = '☀️';
+  updateLogoTheme(true);
+} else {
+  updateLogoTheme(false);
 }
 
 if (toggle) {
   toggle.addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
 
-    if (document.body.classList.contains('dark-mode')) {
+    if (isDark) {
       localStorage.setItem('dark-mode', 'enabled');
       toggle.textContent = '☀️';
     } else {
       localStorage.setItem('dark-mode', 'disabled');
       toggle.textContent = '🌙';
     }
+    
+    updateLogoTheme(isDark);
   });
 }
 
@@ -94,11 +108,42 @@ if (logoutBtn) {
   });
 }
 
+const dailyTips = [
+  'Evitá los gastos hormiga hoy para acercarte a tu meta de ahorro.',
+  'Registrá cada ingreso, por pequeño que sea. La transparencia es el primer paso.',
+  'Antes de comprar algo que no necesitás, esperá 24 horas.',
+  'Separá tus gastos en categorías para detectar fugas de dinero.',
+  'Automatizá una transferencia fija a tu cuenta de ahorro cada mes.',
+  'Revisá tus suscripciones mensuales: ¿las usás todas?',
+  'Un presupuesto realista es mejor que uno perfecto que no cumplís.',
+  'Celebrá cada pequeño logro financiero: la constancia gana la carrera.'
+];
+
+const dailyTipElement = document.getElementById('daily-tip');
+if (dailyTipElement) {
+  const tipIndex = Math.floor(Math.random() * dailyTips.length);
+  dailyTipElement.textContent = `💡 Tip: ${dailyTips[tipIndex]}`;
+}
+
 function initFinancialApp() {
-  if (typeof getMovements !== 'function') return;
+  if (typeof getMovements !== 'function' || typeof dom === 'undefined') return;
 
   renderDashboard();
   renderAlerts();
+  renderSavingsGoal();
+
+  if (dom.recentMovementsList) {
+    renderRecentMovements(3);
+  }
+
+  if (dom.expenseDistributionContainer) {
+    renderExpenseDistribution();
+  }
+
+  if (dom.achievementsPanel) {
+    renderAchievementsPanel();
+    checkAchievements();
+  }
 
   if (dom.movementsList) {
     renderMovements(
@@ -127,8 +172,26 @@ function initFinancialApp() {
   initSavingsGoalEvent();
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initFinancialApp);
+const cookieBanner = document.getElementById('cookie-banner');
+const cookieAccept = document.getElementById('cookie-accept');
+
+if (cookieBanner && cookieAccept) {
+  const accepted = localStorage.getItem('cookiesAccepted') === 'true';
+  if (!accepted) {
+    cookieBanner.hidden = false;
+  }
+  cookieAccept.addEventListener('click', () => {
+    localStorage.setItem('cookiesAccepted', 'true');
+    cookieBanner.hidden = true;
+  });
+}
+
+  if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    initFinancialApp();
+    initAchievementButton();
+  });
 } else {
   initFinancialApp();
+  initAchievementButton();
 }

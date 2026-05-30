@@ -255,19 +255,22 @@ Evitar saturar el código con comentarios explicativos innecesarios u obvios. Bu
 - Si no hay una lógica compleja, devolvé el código completamente limpio de comentarios.
 
 ## Automatización de Contexto Interno (Bitácora y Arquitectura)
-En cada interacción donde el usuario solicite crear, modificar o eliminar archivos del proyecto, o cuando se avance en el desarrollo de cualquier funcionalidad, DEBO actualizar automáticamente los siguientes archivos de contexto antes de entregar la respuesta final:
+En cada interacción donde el usuario solicite crear, modificar o eliminar archivos del proyecto, o cuando se avance en el desarrollo de cualquier funcionalidad, DEBO actualizar automáticamente los siguientes archivos de contexto antes de entregar la respuesta final. **REGLA CRÍTICA: Mantener estricta brevedad extrema para no consumir tokens de contexto excesivos.**
 
 1. `.agents/progreso/Memory.md`:
-   - Registrar la fecha y una descripción concisa de lo realizado en la sesión actual.
-   - Actualizar la sección "Estado General" si el proyecto cambia de fase.
-   - Mover tareas completadas a la sección "Completado" y nuevas tareas a "Pendiente".
+   - **PROHIBIDO** crear un historial cronológico, "diario íntimo" o registro día por día de los cambios.
+   - **PROHIBIDO** registrar cambios menores, refactorizaciones de CSS (ej. ajustes de colores hexadecimales), correcciones de rutas o bugs menores.
+   - Mantener ÚNICAMENTE una lista plana, breve y consolidada de "Funcionalidades Completadas" y "Pendientes".
+   - Registrar solo hitos arquitectónicos o funcionales de alto nivel (ej. "Sistema de logros V2 implementado").
 
 2. `.agents/progreso/arquitectura.md`:
-   - Si se crean, renombran o eliminan carpetas o archivos significativos, actualizar el diagrama de estructura.
-   - Si cambia la lógica modular o la forma en que interactúan los componentes, reflejarlo en la "Descripción Conceptual".
+   - **PROHIBIDO** duplicar el árbol de estructura de carpetas. El diagrama del repositorio debe existir una sola vez en todo el documento.
+   - Las descripciones de los módulos JS y CSS deben tener un MÁXIMO estricto de 15 palabras por archivo.
+   - Describir solo *qué* hace el archivo a nivel general, evitando explicar *cómo* funciona la lógica interna.
+   - Si se crean, renombran o eliminan carpetas, actualizar el único diagrama de estructura existente.
 
 3. `AGENTS.md` (En la raíz del proyecto):
-   - Si la estructura modular cambia permanentemente (nuevas carpetas clave) o si el equipo define nuevas restricciones técnicas globales (ej. nuevas herramientas de JavaScript vanilla), actualizar las secciones correspondientes de este documento para que las futuras sesiones de la IA hereden las reglas correctas.
+   - Si la estructura modular cambia permanentemente (nuevas carpetas clave) o si el equipo define nuevas restricciones técnicas globales, actualizar las secciones correspondientes de este documento para que las futuras sesiones de la IA hereden las reglas correctas.
 
 Reglas para esta actualización:
 - No esperar a que el usuario lo pida explícitamente.
@@ -289,3 +292,50 @@ Reglas para esta actualización:
   - Persist expenses to localStorage with unique IDs
   ```
 - Sólo tras la confirmación explícita del usuario (`"dale"`, `"hacelo"`, `"sí"`, `"ok"`, etc.) se debe ejecutar el commit.
+
+## Flujo de Trabajo con Worktrees Múltiples (Crítico)
+
+Cuando el usuario indica que está trabajando sobre una rama específica (ej. `feat/home-ui-refactoring`) y esa rama está asociada a un worktree diferente del directorio actual de OpenCode, DEBO seguir este protocolo obligatorio:
+
+### Contexto del Problema
+OpenCode ejecuta sus operaciones en un worktree interno (ej. `opencode/eager-meadow` o similar). Sin embargo, el usuario real desarrolla en su propio worktree local (ej. `D:/ALEJO/AleMart/Documents/IntegrarTEC/Proyecto1`). Si OpenCode solo guarda los cambios en su worktree interno, el usuario **no verá los cambios** en su rama de trabajo real.
+
+### Protocolo Obligatorio
+
+1. **Identificar la rama y el directorio real del usuario:**
+   - El usuario DEBE indicar en qué rama está trabajando (ej. `"estoy en feat/home-ui-refactoring"`).
+   - Si la rama indicada ya está asociada a otro worktree (aparece en `git branch -vv` con una ruta como `D:/...`), anotar esa ruta como `WORKTREE_REAL`.
+   - Si el usuario no especifica la ruta pero sí la rama, preguntar: `"¿Dónde está tu repositorio local?"` antes de continuar.
+
+2. **Realizar los cambios en el worktree de OpenCode:**
+   - Crear, modificar y editar todos los archivos normalmente en el directorio de trabajo actual de OpenCode.
+   - Verificar que los cambios sean correctos (sintaxis, estructura, coherencia).
+
+3. **Sincronización al worktree real del usuario (PASO CRÍTICO):**
+   - Una vez finalizados todos los cambios y verificaciones, DEBO copiar **todos los archivos modificados y nuevos** desde el worktree de OpenCode hacia el `WORKTREE_REAL` del usuario.
+   - Para cada archivo modificado: usar `copy` o `xcopy` con la ruta absoluta del archivo en el worktree de OpenCode → ruta absoluta del archivo en el `WORKTREE_REAL`.
+   - Para archivos nuevos (untracked): crear el archivo en el `WORKTREE_REAL` con el mismo contenido.
+   - NUNCA asumir que el usuario ya tiene los cambios. Siempre ejecutar la copia explícitamente.
+
+4. **Verificación en el worktree real:**
+   - Ejecutar `git status` en el `WORKTREE_REAL` para confirmar que los archivos aparecen como "modified" o "untracked".
+   - Mostrar al usuario el resultado de `git status` como prueba de que los cambios llegaron correctamente.
+
+5. **Excepción - Si no hay worktree separado:**
+   - Si la rama indicada no tiene un worktree separado y OpenCode está trabajando directamente en ella, omitir la sincronización (los cambios ya están en el lugar correcto).
+
+### Ejemplo de Aplicación
+```
+Usuario: "Estoy en feat/home-ui-refactoring"
+OpenCode detecta: feat/home-ui-refactoring → D:/ALEJO/AleMart/Documents/IntegrarTEC/Proyecto1
+
+1. OpenCode realiza todos los cambios en su worktree interno.
+2. Al finalizar, ejecuta:
+   copy "C:\...\opencode\worktree\...\index.html" "D:\ALEJO\AleMart\Documents\IntegrarTEC\Proyecto1\index.html"
+   copy "C:\...\opencode\worktree\...\base\styles\home.css" "D:\ALEJO\AleMart\Documents\IntegrarTEC\Proyecto1\base\styles\home.css"
+   (y así con cada archivo modificado o nuevo)
+3. Verifica con git status en D:/ALEJO/AleMart/Documents/IntegrarTEC/Proyecto1
+4. Confirma al usuario: "Los cambios ya están en tu rama feat/home-ui-refactoring"
+```
+
+**IMPORTANTE:** Esta regla aplica a TODA interacción futura donde el usuario mencione estar trabajando en una rama específica que tenga un worktree separado. Es responsabilidad de OpenCode garantizar que los cambios lleguen al directorio correcto del usuario.

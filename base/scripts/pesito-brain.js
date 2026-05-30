@@ -1,130 +1,179 @@
 /**
  * pesito-brain.js
- * Cerebro del Asistente Virtual Pesito.
- * Árbol de decisiones con UX Writing financiero amigable.
+ * Cerebros del Asistente Virtual Pesito por contexto de pagina.
  * Mini Finance - IntegrarTEC 2026.
  */
 
-var pesitoBrain = {
-  /**
-   * Nodo Raíz: Menú Principal
-   * Saludo inicial y opciones de primer nivel.
-   */
+/* ================================================================
+   CEREBRO: PAGINA DE INICIO
+   ================================================================ */
+var pesitoBrainHome = {
   root: {
     message:
-      "¡Hola! Soy Pesito, tu asistente financiero en Mini Finance. 🐷✨ " +
-      "Estoy aquí para ayudarte a sacarle el máximo provecho a la app. ¿Qué te gustaría saber?",
+      "Hola! Soy Pesito, tu asistente financiero. Estoy aqui para ayudarte con Mini Finance. Que queres saber?",
     options: [
-      { label: "¿Cómo uso el simulador de ahorros?", next: "simulador_menu" },
-      { label: "¿Qué es DevCore?", next: "devcore" },
-      { label: "¿Mis datos están seguros?", next: "seguridad" },
-      { label: "Consejos rápidos de finanzas", next: "consejos_menu" }
+      { label: "Como hago mi primer movimiento?", next: "primer_movimiento" },
+      { label: "Como veo las cotizaciones?", next: "cotizaciones" },
+      { label: "Que son los logros y como los desbloqueo?", next: "logros" },
+      { label: "Como utilizo la pagina?", next: "uso_pagina" },
+      { label: "Consejos rapidos de finanzas", next: "consejos_menu" }
     ]
   },
 
-  /**
-   * Submenú: Simulador de Ahorros
-   */
-  simulador_menu: {
+  primer_movimiento: {
     message:
-      "El simulador es una herramienta clave para planificar. " +
-      "Te permite calcular cuánto necesitás ahorrar por mes para llegar a una meta (un viaje, un auto, etc.). " +
-      "¿Sobre qué parte querés saber más?",
+      "Para registrar tu primer movimiento, hace clic en 'Registrar Movimiento' en el inicio o anda a la pestana Simulador. Ahi podes elegir si es un ingreso o gasto, completar los datos y guardarlo.",
     options: [
-      { label: "Cómo crear una simulación", next: "simulador_crear" },
-      { label: "Entender los resultados", next: "simulador_resultados" },
-      { label: "Volver al menú principal", next: "root" }
+      { label: "Volver al menu", next: "root" }
     ]
   },
 
-  simulador_crear: {
+  cotizaciones: {
     message:
-      "Es muy fácil: andá a la pestaña 'Simulador', escribí el monto total que necesitás, " +
-      "indicá en cuántos meses querés lograrlo, y listo. La app te calculará automáticamente el ahorro mensual recomendado. " +
-      "¡Podés guardar varias metas!",
+      "Anda a la pestana 'Cotizaciones' en el menu principal. Ahi vas a encontrar los valores actualizados de monedas y mercados.",
     options: [
-      { label: "Entendido, volver", next: "simulador_menu" }
+      { label: "Volver al menu", next: "root" }
     ]
   },
 
-  simulador_resultados: {
+  logros: {
     message:
-      "Los resultados te muestran el monto mensual exacto que deberías destinar. " +
-      "Si ves que es muy alto, probá aumentar la cantidad de meses. El objetivo es que tu meta sea realista y no te estrés.",
+      "Los logros son recompensas que desbloqueas al usar la app. Por ejemplo, registrando tu primer movimiento o alcanzando una meta de ahorro. Anda al Centro de Logros haciendo clic en el icono de trofeo.",
     options: [
-      { label: "Gracias, volver", next: "simulador_menu" }
+      { label: "Volver al menu", next: "root" }
     ]
   },
 
-  /**
-   * Nodo: DevCore
-   */
-  devcore: {
+  uso_pagina: {
     message:
-      "DevCore es el equipo de desarrollo detrás de Mini Finance. " +
-      "Somos un grupo de estudiantes apasionados por la tecnología y las finanzas personales, " +
-      "creado para el proyecto de IntegrarTEC 2026. ¡Trabajamos para que manejar tu plata sea simple y visual!",
+      "La pagina de inicio te muestra un resumen de tus finanzas: ingresos, gastos, saldo y meta de ahorro. Usa el menu de arriba para navegar entre las secciones.",
     options: [
-      { label: "Volver al menú principal", next: "root" }
+      { label: "Volver al menu", next: "root" }
     ]
   },
 
-  /**
-   * Nodo: Seguridad
-   */
-  seguridad: {
-    message:
-      "Tus datos están 100% seguros. Mini Finance no usa servidores externos: " +
-      "toda tu información se guarda localmente en tu navegador mediante localStorage. " +
-      "Esto significa que solo vos tenés acceso a tus movimientos desde este dispositivo. Nadie más puede verlos.",
-    options: [
-      { label: "Volver al menú principal", next: "root" }
-    ]
-  },
-
-  /**
-   * Submenú: Consejos Rápidos de Finanzas
-   */
   consejos_menu: {
     message:
-      "¡Me encanta que quieras mejorar tus hábitos! Elegí un tema y te doy un consejo rapidito:",
+      "Me encanta que quieras mejorar tus habitos! Elegi un tema y te doy un consejo rapidito:",
     options: [
       { label: "Ahorro mensual", next: "consejo_ahorro" },
       { label: "Evitar gastos hormiga", next: "consejo_hormiga" },
       { label: "Regla 50/30/20", next: "consejo_502030" },
-      { label: "Volver al menú principal", next: "root" }
+      { label: "Volver al menu principal", next: "root" }
     ]
   },
 
   consejo_ahorro: {
     message:
-      "Consejo de oro: automatizá tu ahorro. El día que cobrás, transferí automáticamente un porcentaje fijo a una cuenta separada. " +
-      "Si no lo ves, no lo gastás. Empezá con un 10% y aumentalo cada 3 meses.",
+      "Consejo de oro: automatiza tu ahorro. El dia que cobras, transferi automaticamente un porcentaje fijo a una cuenta separada. Si no lo ves, no lo gastas. Empeza con un 10% y aumentalo cada 3 meses.",
     options: [
       { label: "Quiero otro consejo", next: "consejos_menu" },
-      { label: "Volver al menú principal", next: "root" }
+      { label: "Volver al menu principal", next: "root" }
     ]
   },
 
   consejo_hormiga: {
     message:
-      "Los 'gastos hormiga' son esos pequeños gastos diarios que parecen inofensivos: un café, una app, un snack. " +
-      "Juntos pueden robar hasta el 15% de tu sueldo. Mi recomendación: registrá TODO en Mini Finance durante una semana. " +
-      "Ver los números en frío es un despertador brutal.",
+      "Los 'gastos hormiga' son esos pequenos gastos diarios que parecen inofensivos: un cafe, una app, un snack. Juntos pueden robar hasta el 15% de tu sueldo. Mi recomendacion: registra TODO en Mini Finance durante una semana. Ver los numeros en frio es un despertador brutal.",
     options: [
       { label: "Quiero otro consejo", next: "consejos_menu" },
-      { label: "Volver al menú principal", next: "root" }
+      { label: "Volver al menu principal", next: "root" }
     ]
   },
 
   consejo_502030: {
     message:
-      "La regla 50/30/20 es un clásico infalible: el 50% de tus ingresos va a necesidades (alquiler, comida), " +
-      "el 30% a deseos (salidas, hobbies) y el 20% a ahorro o deuda. " +
-      "Usá Mini Finance para etiquetar tus movimientos y ver si estás cerca de esos porcentajes.",
+      "La regla 50/30/20 es un clasico infalible: el 50% de tus ingresos va a necesidades (alquiler, comida), el 30% a deseos (salidas, hobbies) y el 20% a ahorro o deuda. Usa Mini Finance para etiquetar tus movimientos y ver si estas cerca de esos porcentajes.",
     options: [
       { label: "Quiero otro consejo", next: "consejos_menu" },
-      { label: "Volver al menú principal", next: "root" }
+      { label: "Volver al menu principal", next: "root" }
+    ]
+  }
+};
+
+/* ================================================================
+   CEREBRO: PAGINA DEL SIMULADOR
+   ================================================================ */
+var pesitoBrainSimulator = {
+  root: {
+    message:
+      "Hola! Soy Pesito. Estoy aqui para ayudarte con el Simulador. Que queres saber?",
+    options: [
+      { label: "Como registro un movimiento?", next: "registrar_movimiento" },
+      { label: "Como registro una meta de ahorro?", next: "registrar_meta" },
+      { label: "Como funcionan los montos de cuenta?", next: "montos_cuenta" },
+      { label: "Que es la escala porcentual y en pesos?", next: "escala" },
+      { label: "Consejos rapidos de finanzas", next: "consejos_menu" }
+    ]
+  },
+
+  registrar_movimiento: {
+    message:
+      "Completa el formulario 'Registrar Movimiento'. Elegi si es un ingreso o gasto, selecciona la categoria, escribi una descripcion, el monto y la fecha. Luego hace clic en 'Agregar Movimiento'.",
+    options: [
+      { label: "Volver al menu", next: "root" }
+    ]
+  },
+
+  registrar_meta: {
+    message:
+      "Usa el slider de 'Meta de Ahorro' a la derecha del formulario. Desliza para elegir el monto que queres ahorrar y hace clic en 'Agregar meta'.",
+    options: [
+      { label: "Volver al menu", next: "root" }
+    ]
+  },
+
+  montos_cuenta: {
+    message:
+      "El 'Monto Total Disponible' es la suma de todos tus ingresos menos tus gastos. El 'Monto disponible dejando reservas de ahorro' te muestra cuanto te queda si respetas tu meta de ahorro.",
+    options: [
+      { label: "Volver al menu", next: "root" }
+    ]
+  },
+
+  escala: {
+    message:
+      "La escala en pesos te permite fijar una meta fija (ej. $10.000). La escala porcentual te permite fijar un porcentaje de tus ingresos totales (ej. 20%). Podes cambiar entre ambas con el boton 'Cambiar a escala porcentual'.",
+    options: [
+      { label: "Volver al menu", next: "root" }
+    ]
+  },
+
+  consejos_menu: {
+    message:
+      "Me encanta que quieras mejorar tus habitos! Elegi un tema y te doy un consejo rapidito:",
+    options: [
+      { label: "Ahorro mensual", next: "consejo_ahorro" },
+      { label: "Evitar gastos hormiga", next: "consejo_hormiga" },
+      { label: "Regla 50/30/20", next: "consejo_502030" },
+      { label: "Volver al menu principal", next: "root" }
+    ]
+  },
+
+  consejo_ahorro: {
+    message:
+      "Consejo de oro: automatiza tu ahorro. El dia que cobras, transferi automaticamente un porcentaje fijo a una cuenta separada. Si no lo ves, no lo gastas. Empeza con un 10% y aumentalo cada 3 meses.",
+    options: [
+      { label: "Quiero otro consejo", next: "consejos_menu" },
+      { label: "Volver al menu principal", next: "root" }
+    ]
+  },
+
+  consejo_hormiga: {
+    message:
+      "Los 'gastos hormiga' son esos pequenos gastos diarios que parecen inofensivos: un cafe, una app, un snack. Juntos pueden robar hasta el 15% de tu sueldo. Mi recomendacion: registra TODO en Mini Finance durante una semana. Ver los numeros en frio es un despertador brutal.",
+    options: [
+      { label: "Quiero otro consejo", next: "consejos_menu" },
+      { label: "Volver al menu principal", next: "root" }
+    ]
+  },
+
+  consejo_502030: {
+    message:
+      "La regla 50/30/20 es un clasico infalible: el 50% de tus ingresos va a necesidades (alquiler, comida), el 30% a deseos (salidas, hobbies) y el 20% a ahorro o deuda. Usa Mini Finance para etiquetar tus movimientos y ver si estas cerca de esos porcentajes.",
+    options: [
+      { label: "Quiero otro consejo", next: "consejos_menu" },
+      { label: "Volver al menu principal", next: "root" }
     ]
   }
 };

@@ -311,10 +311,10 @@
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background-color: var(--brand-accent);
+  background-color: transparent;
   color: var(--fg-primary);
   border: none;
-  box-shadow: var(--shadow-lg);
+  box-shadow: none;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -327,7 +327,7 @@
 
 .pesito-toggle:hover {
   transform: scale(1.08) rotate(-4deg);
-  box-shadow: 0 12px 24px -4px rgba(245, 158, 11, 0.35);
+  box-shadow: none;
 }
 
 .pesito-toggle:active {
@@ -339,6 +339,16 @@
   box-shadow: 0 0 0 3px var(--bg-base), 0 0 0 6px var(--brand-accent);
 }
 
+/* Estado abierto: muestra el boton naranja solido con la cruz */
+.pesito-toggle.is-open {
+  background-color: var(--brand-accent);
+  box-shadow: var(--shadow-lg);
+}
+
+.pesito-toggle.is-open:hover {
+  box-shadow: 0 12px 24px -4px rgba(245, 158, 11, 0.35);
+}
+
 /* Iconos del toggle (cruz / chat) */
 .pesito-toggle__icon {
   position: absolute;
@@ -346,6 +356,22 @@
     opacity   var(--duration-fast) var(--ease-out-quart),
     transform var(--duration-fast) var(--ease-out-quart);
   font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.pesito-toggle__icon--open svg {
+  width: 56px;
+  height: 56px;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
+  transition: filter var(--duration-fast) var(--ease-out-quart);
+}
+
+.pesito-toggle:hover .pesito-toggle__icon--open svg {
+  filter: drop-shadow(0 8px 16px rgba(245, 158, 11, 0.35));
 }
 
 .pesito-toggle__icon--close {
