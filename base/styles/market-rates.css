@@ -460,16 +460,30 @@
   height: 260px;
   gap: var(--space-3);
   color: var(--fg-muted);
-  font-size: var(--text-sm);
   border: 1px dashed var(--border-default);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   text-align: center;
-  padding: var(--space-5);
+  padding: var(--space-6);
+  background-color: var(--bg-surface);
 }
 
 .mkt-chart-placeholder__icon {
-  font-size: var(--text-3xl);
-  opacity: 0.4;
+  font-size: var(--text-4xl);
+  opacity: 0.5;
+}
+
+.mkt-chart-placeholder__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--fg-secondary);
+}
+
+.mkt-chart-placeholder__hint {
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+  max-width: 280px;
+  line-height: 1.6;
 }
 
 /* ── Responsive del layout forex ───────────────────────────── */
