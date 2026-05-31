@@ -2,7 +2,6 @@
 // market-rates.js — Cotizaciones del Mercado · Mini Finance
 // APIs:
 //   Conversión  → exchangerate-api.com (sin key, CORS abierto)
-//   Histórico   → frankfurter.app (solo monedas del BCE)
 //   Cripto      → CoinGecko
 // ============================================================
 
@@ -21,13 +20,6 @@ const CURRENCIES = {
   CLP: { name: 'Peso Chileno',          flag: '🇨🇱', symbol: '$'  },
   UYU: { name: 'Peso Uruguayo',         flag: '🇺🇾', symbol: '$'  },
 };
-
-// Monedas soportadas por frankfurter (historial)
-// ARS, BRL, MXN, CLP, UYU no están — usamos USD como proxy
-const FRANKFURTER_SUPPORTED = ['USD','EUR','GBP','JPY','CHF','CAD','AUD','SEK','NOK','DKK'];
-
-// Referencia al chart activo para destruirlo antes de crear uno nuevo
-let forexChart = null;
 
 // ── Utilidades ───────────────────────────────────────────────
 
@@ -64,21 +56,9 @@ function escapeHtml(text) {
   return div.innerHTML;
 }
 
-// Genera las últimas N fechas en formato YYYY-MM-DD
-function lastNDates(n) {
-  return Array.from({ length: n }, (_, i) => {
-    const d = new Date();
-    d.setDate(d.getDate() - (n - 1 - i));
-    return d.toISOString().split('T')[0];
-  });
-}
-
 // ── Selectores del DOM ────────────────────────────────────────
 
 const dom = {
-  tabBtns:       () => document.querySelectorAll('.mkt-tab'),
-  tabPanels:     () => document.querySelectorAll('.mkt-panel'),
-
   cryptoGrid:    () => document.getElementById('crypto-grid'),
   cryptoError:   () => document.getElementById('crypto-error'),
   cryptoUpdated: () => document.getElementById('crypto-updated'),
@@ -91,47 +71,11 @@ const dom = {
   resultBox:     () => document.getElementById('forex-result'),
   forexError:    () => document.getElementById('forex-form-error'),
   forexUpdated:  () => document.getElementById('forex-updated'),
-  chartSection:  () => document.getElementById('forex-chart-section'),
-  chartCanvas:   () => document.getElementById('forex-chart'),
-  chartTitle:    () => document.getElementById('forex-chart-title'),
-  chartLoading:  () => document.getElementById('forex-chart-loading'),
-  chartError:    () => document.getElementById('forex-chart-error'),
 
   errorAmount:   () => document.getElementById('error-amount'),
   errorFrom:     () => document.getElementById('error-from'),
   errorTo:       () => document.getElementById('error-to'),
 };
-
-// ── Tabs ──────────────────────────────────────────────────────
-
-function initTabs() {
-  const tabs   = dom.tabBtns();
-  const panels = dom.tabPanels();
-
-  tabs.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const target = btn.dataset.tab;
-
-      tabs.forEach(t => {
-        t.classList.remove('mkt-tab--active');
-        t.setAttribute('aria-selected', 'false');
-      });
-      panels.forEach(p => {
-        p.hidden = true;
-        p.classList.remove('mkt-panel--active');
-      });
-
-      btn.classList.add('mkt-tab--active');
-      btn.setAttribute('aria-selected', 'true');
-
-      const panel = document.getElementById(`panel-${target}`);
-      if (panel) {
-        panel.hidden = false;
-        panel.classList.add('mkt-panel--active');
-      }
-    });
-  });
-}
 
 // ── CRIPTO — CoinGecko ────────────────────────────────────────
 
@@ -209,8 +153,6 @@ function renderCryptoCards(coins) {
 }
 
 // ── FOREX — Conversión (exchangerate-api.com) ─────────────────
-// Esta API es pública, sin key y con CORS abierto.
-// Devuelve todas las tasas desde una moneda base de una vez.
 
 async function fetchForexRate(from, to) {
   if (from === to) return 1;
@@ -225,169 +167,7 @@ async function fetchForexRate(from, to) {
   return rate;
 }
 
-// ── FOREX — Histórico (frankfurter.app) ──────────────────────
-// frankfurter solo soporta monedas del BCE.
-// Si la moneda no está soportada, usamos USD como proxy
-// y aclaramos en el título del gráfico.
-
-async function loadForexHistory(from, to) {
-  const chartSection = dom.chartSection();
-  const chartLoading = dom.chartLoading();
-  const chartError   = dom.chartError();
-  const chartTitle   = dom.chartTitle();
-
-  if (!chartSection) return;
-
-  // Mostrar la sección del gráfico, ocultar el placeholder
-  chartSection.hidden = false;
-  const placeholder = document.getElementById('forex-chart-placeholder');
-  if (placeholder) placeholder.hidden = true;
-  if (chartLoading) chartLoading.hidden = false;
-  if (chartError)   chartError.hidden   = true;
-
-  // Destruir chart anterior si existe
-  if (forexChart) {
-    forexChart.destroy();
-    forexChart = null;
-  }
-
-  // Decidir qué par mostrar en el historial
-  const histFrom = FRANKFURTER_SUPPORTED.includes(from) ? from : 'USD';
-  const histTo   = FRANKFURTER_SUPPORTED.includes(to)   ? to   : 'EUR';
-  const isProxy  = histFrom !== from || histTo !== to;
-
-  const endDate   = new Date().toISOString().split('T')[0];
-  const startDate = (() => {
-    const d = new Date();
-    d.setDate(d.getDate() - 29);
-    return d.toISOString().split('T')[0];
-  })();
-
-  try {
-    const url = `https://api.frankfurter.dev/v1/${startDate}..${endDate}?base=${histFrom}&symbols=${histTo}`;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-
-    const labels = Object.keys(data.rates).sort();
-    const values = labels.map(date => data.rates[date][histTo]);
-
-    // Título descriptivo
-    if (chartTitle) {
-      chartTitle.textContent = isProxy
-        ? `Histórico ${histFrom}/${histTo} — 30 días (referencia para ${from}/${to})`
-        : `Histórico ${from}/${to} — 30 días`;
-    }
-
-    renderForexChart(labels, values, histFrom, histTo);
-
-  } catch (err) {
-    console.error('Frankfurter history error:', err);
-    if (chartError) {
-      chartError.hidden = false;
-      chartError.textContent = 'No se pudo cargar el historial del par seleccionado.';
-    }
-  } finally {
-    if (chartLoading) chartLoading.hidden = true;
-  }
-}
-
-function renderForexChart(labels, values, from, to) {
-  const canvas = dom.chartCanvas();
-  if (!canvas) return;
-
-  // Formatear fechas en etiquetas cortas (DD/MM)
-  const shortLabels = labels.map(d => {
-    const [, month, day] = d.split('-');
-    return `${day}/${month}`;
-  });
-
-  const first = values[0];
-  const last  = values[values.length - 1];
-  const isUp  = last >= first;
-
-  // Color dinámico según tendencia
-  const lineColor = isUp
-    ? getComputedStyle(document.documentElement).getPropertyValue('--success-border').trim() || '#16a34a'
-    : getComputedStyle(document.documentElement).getPropertyValue('--danger-border').trim()  || '#dc2626';
-
-  const ctx = canvas.getContext('2d');
-
-  // Gradiente de área bajo la línea
-  const gradient = ctx.createLinearGradient(0, 0, 0, canvas.offsetHeight || 260);
-  gradient.addColorStop(0, lineColor + '33');
-  gradient.addColorStop(1, lineColor + '00');
-
-  forexChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: shortLabels,
-      datasets: [{
-        label: `${from}/${to}`,
-        data: values,
-        borderColor: lineColor,
-        borderWidth: 2,
-        backgroundColor: gradient,
-        pointRadius: 0,
-        pointHoverRadius: 5,
-        pointHoverBackgroundColor: lineColor,
-        fill: true,
-        tension: 0.35,
-      }],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      interaction: { mode: 'index', intersect: false },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          backgroundColor: getComputedStyle(document.documentElement)
-            .getPropertyValue('--bg-surface').trim() || '#1e293b',
-          borderColor: getComputedStyle(document.documentElement)
-            .getPropertyValue('--border-default').trim() || 'rgba(255,255,255,0.12)',
-          borderWidth: 1,
-          titleColor: getComputedStyle(document.documentElement)
-            .getPropertyValue('--fg-tertiary').trim() || '#94a3b8',
-          bodyColor: getComputedStyle(document.documentElement)
-            .getPropertyValue('--fg-primary').trim() || '#f8fafc',
-          padding: 10,
-          callbacks: {
-            label: ctx => ` ${formatNumber(ctx.parsed.y, 4)} ${to}`,
-          },
-        },
-      },
-      scales: {
-        x: {
-          grid: { display: false },
-          ticks: {
-            color: getComputedStyle(document.documentElement)
-              .getPropertyValue('--fg-muted').trim() || '#64748b',
-            font: { size: 11 },
-            maxTicksLimit: 8,
-          },
-          border: { display: false },
-        },
-        y: {
-          position: 'right',
-          grid: {
-            color: getComputedStyle(document.documentElement)
-              .getPropertyValue('--border-subtle').trim() || 'rgba(255,255,255,0.06)',
-          },
-          ticks: {
-            color: getComputedStyle(document.documentElement)
-              .getPropertyValue('--fg-muted').trim() || '#64748b',
-            font: { size: 11 },
-            callback: v => formatNumber(v, 4),
-          },
-          border: { display: false },
-        },
-      },
-    },
-  });
-}
-
-// ── FOREX — Validación y submit ───────────────────────────────
+// ── FOREX — Validación ────────────────────────────────────────
 
 function validateForexForm() {
   let valid = true;
@@ -432,6 +212,8 @@ function validateForexForm() {
   return valid;
 }
 
+// ── FOREX — Submit ────────────────────────────────────────────
+
 async function handleForexSubmit(e) {
   e.preventDefault();
   if (!validateForexForm()) return;
@@ -473,9 +255,6 @@ async function handleForexSubmit(e) {
     const updated = dom.forexUpdated();
     if (updated) updated.textContent = `Tasa obtenida: ${new Date().toLocaleTimeString('es-AR')}`;
 
-    // Cargar historial para el gráfico
-    loadForexHistory(from, to);
-
   } catch (err) {
     console.error('ExchangeRate error:', err);
     if (error) {
@@ -491,7 +270,6 @@ function handleSwap() {
   const from = dom.selectFrom();
   const to   = dom.selectTo();
   if (!from || !to) return;
-
   [from.value, to.value] = [to.value, from.value];
 
   const result = dom.resultBox();
@@ -499,11 +277,6 @@ function handleSwap() {
     result.classList.remove('mkt-result--visible');
     setTimeout(() => { result.hidden = true; }, 250);
   }
-
-  // Ocultar gráfico al invertir (se regenera en el próximo submit)
-  const chartSection = dom.chartSection();
-  if (chartSection) chartSection.hidden = true;
-  if (forexChart) { forexChart.destroy(); forexChart = null; }
 }
 
 function initForexForm() {
@@ -516,7 +289,6 @@ function initForexForm() {
 // ── Init ──────────────────────────────────────────────────────
 
 function initMarketRates() {
-  initTabs();
   loadCrypto();
   initForexForm();
 }

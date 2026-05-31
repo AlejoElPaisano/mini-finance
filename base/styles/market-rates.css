@@ -28,72 +28,26 @@
   color: var(--fg-tertiary);
 }
 
-/* ── Tabs ──────────────────────────────────────────────────── */
+/* ── Secciones ─────────────────────────────────────────────── */
 
-.mkt-tabs {
-  display: flex;
-  gap: var(--space-1);
-  border-bottom: 2px solid var(--border-subtle);
-  margin-bottom: var(--space-6);
+.mkt-section {
+  margin-bottom: var(--space-8);
 }
 
-.mkt-tab {
-  padding: var(--space-3) var(--space-5);
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-weight: var(--font-weight-semibold);
-  color: var(--fg-tertiary);
-  background: none;
-  border: none;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -2px;
-  cursor: pointer;
-  transition:
-    color var(--duration-fast) var(--ease-out-quart),
-    border-color var(--duration-fast) var(--ease-out-quart);
-  min-height: 44px;
-}
-
-.mkt-tab:hover {
-  color: var(--fg-primary);
-}
-
-.mkt-tab--active {
-  color: var(--brand-primary);
-  border-bottom-color: var(--brand-primary);
-}
-
-.mkt-tab:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px var(--bg-base), 0 0 0 4px var(--brand-primary);
-  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-}
-
-/* ── Panels ────────────────────────────────────────────────── */
-
-.mkt-panel {
-  animation: mktFadeIn var(--duration-base) var(--ease-out-expo) both;
-}
-
-@keyframes mktFadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ── Panel header (título + timestamp) ─────────────────────── */
-
-.mkt-panel__header {
+.mkt-section__header {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: var(--space-2);
   margin-bottom: var(--space-5);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
-.mkt-panel__title {
+.mkt-section__title {
   font-family: var(--font-display);
-  font-size: var(--text-xl);
+  font-size: var(--text-2xl);
   font-weight: var(--font-weight-bold);
   color: var(--fg-primary);
 }
@@ -125,6 +79,10 @@
   flex-shrink: 0;
 }
 
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 /* ── Error inline ───────────────────────────────────────────── */
 
 .mkt-error {
@@ -147,7 +105,7 @@
   gap: var(--space-4);
 }
 
-/* ── Tarjeta de cripto (extiende .card de components.css) ───── */
+/* ── Tarjeta de cripto ──────────────────────────────────────── */
 
 .mkt-crypto-card {
   display: flex;
@@ -199,8 +157,6 @@
   gap: var(--space-1);
 }
 
-/* ── Cambio porcentual (reutilizable) ───────────────────────── */
-
 .mkt-change--positive { color: var(--success-border); }
 .mkt-change--negative { color: var(--danger-border);  }
 .mkt-change--neutral  { color: var(--fg-muted);       }
@@ -227,11 +183,16 @@
   color: var(--fg-secondary);
 }
 
-/* ── Formulario forex ───────────────────────────────────────── */
+/* ── Layout forex: form arriba, resultado abajo ─────────────── */
 
-.mkt-forex-form {
+.mkt-forex-layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
   max-width: 560px;
 }
+
+/* ── Formulario forex ───────────────────────────────────────── */
 
 .mkt-forex-form__fields {
   display: grid;
@@ -287,12 +248,11 @@
 /* ── Resultado de conversión ────────────────────────────────── */
 
 .mkt-result {
-  margin-top: var(--space-5);
-  padding: var(--space-5);
   background-color: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-left: 3px solid var(--brand-primary);
   border-radius: var(--radius-md);
+  padding: var(--space-5);
   box-shadow: var(--shadow-sm);
   opacity: 0;
   transform: translateY(6px);
@@ -375,21 +335,6 @@
     transform: rotate(270deg);
   }
 
-  .mkt-tabs {
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-
-  .mkt-tabs::-webkit-scrollbar {
-    display: none;
-  }
-}
-
-@media (max-width: 480px) {
-  .mkt-crypto-grid {
-    grid-template-columns: 1fr;
-  }
-
   .mkt-result__conversion {
     flex-direction: column;
     align-items: flex-start;
@@ -397,103 +342,8 @@
   }
 }
 
-/* ── Layout forex: formulario + gráfico lado a lado ─────────── */
-
-.mkt-forex-layout {
-  display: grid;
-  grid-template-columns: 420px 1fr;
-  gap: var(--space-6);
-  align-items: start;
-}
-
-/* ── Sección del gráfico ────────────────────────────────────── */
-
-.mkt-chart-section {
-  position: sticky;
-  top: var(--space-5);
-}
-
-.mkt-chart-card {
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  padding: var(--space-5);
-  box-shadow: var(--shadow-sm);
-  transition: box-shadow var(--duration-base) var(--ease-out-expo);
-}
-
-.mkt-chart-card:hover {
-  box-shadow: var(--shadow-md);
-}
-
-.mkt-chart-card__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  margin-bottom: var(--space-4);
-}
-
-.mkt-chart-card__title {
-  font-family: var(--font-display);
-  font-size: var(--text-base);
-  font-weight: var(--font-weight-bold);
-  color: var(--fg-primary);
-}
-
-.mkt-chart-card__subtitle {
-  font-size: var(--text-xs);
-  color: var(--fg-muted);
-}
-
-.mkt-chart-wrap {
-  position: relative;
-  height: 260px;
-}
-
-.mkt-chart-placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 260px;
-  gap: var(--space-3);
-  color: var(--fg-muted);
-  border: 1px dashed var(--border-default);
-  border-radius: var(--radius-md);
-  text-align: center;
-  padding: var(--space-6);
-  background-color: var(--bg-surface);
-}
-
-.mkt-chart-placeholder__icon {
-  font-size: var(--text-4xl);
-  opacity: 0.5;
-}
-
-.mkt-chart-placeholder__title {
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-  font-weight: var(--font-weight-bold);
-  color: var(--fg-secondary);
-}
-
-.mkt-chart-placeholder__hint {
-  font-size: var(--text-sm);
-  color: var(--fg-muted);
-  max-width: 280px;
-  line-height: 1.6;
-}
-
-/* ── Responsive del layout forex ───────────────────────────── */
-
-@media (max-width: 900px) {
-  .mkt-forex-layout {
+@media (max-width: 480px) {
+  .mkt-crypto-grid {
     grid-template-columns: 1fr;
-  }
-
-  .mkt-chart-section {
-    position: static;
   }
 }
