@@ -110,7 +110,7 @@
 
 .footer__brand-tagline {
   font-size: var(--text-sm);
-  color: var(--fg-tertiary);
+  color: var(--fg-quaternary);
   margin: var(--space-2) 0 0;
   line-height: 1.6;
   max-width: 320px;
@@ -166,7 +166,7 @@
 
 .footer__links a {
   font-size: var(--text-sm);
-  color: var(--fg-tertiary);
+  color: var(--fg-quaternary);
   text-decoration: none;
   transition: color var(--duration-fast) var(--ease-out-quart),
               transform var(--duration-fast) var(--ease-out-quart);
@@ -214,7 +214,7 @@
 
 .footer__member-name {
   font-size: var(--text-sm);
-  color: var(--fg-tertiary);
+  color: var(--fg-quaternary);
   font-weight: var(--font-weight-medium);
   text-decoration: none;
   transition: color var(--duration-fast) var(--ease-out-quart);
