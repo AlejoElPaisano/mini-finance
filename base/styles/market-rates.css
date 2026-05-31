@@ -339,11 +339,11 @@
   }
 }
 
-/* ── Layout forex con gráfico ───────────────────────────────── */
+/* ── Layout forex: formulario (40%) + dashboard (60%) ───────── */
 
 .mkt-forex-layout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 2fr 3fr;
   gap: var(--space-6);
   align-items: start;
 }
@@ -354,75 +354,125 @@
   gap: var(--space-5);
 }
 
-/* ── Columna del gráfico ────────────────────────────────────── */
-
-.mkt-chart-col {
-  position: sticky;
-  top: var(--space-5);
+.mkt-forex-right {
+  min-width: 0; /* evita que el gráfico desborde la celda del grid */
 }
 
-.mkt-chart-placeholder {
+/* ── Dashboard de Métricas Históricas (ApexCharts) ──────────── */
+
+.mkt-history {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 280px;
-  gap: var(--space-3);
-  border: 1px dashed var(--border-default);
-  border-radius: var(--radius-md);
-  background-color: var(--bg-surface);
-  text-align: center;
-  padding: var(--space-6);
-}
-
-.mkt-chart-placeholder__icon { font-size: var(--text-4xl); opacity: 0.5; }
-
-.mkt-chart-placeholder__title {
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-  font-weight: var(--font-weight-bold);
-  color: var(--fg-secondary);
-}
-
-.mkt-chart-placeholder__hint {
-  font-size: var(--text-sm);
-  color: var(--fg-muted);
-  max-width: 260px;
-  line-height: 1.6;
-}
-
-.mkt-chart-card {
+  min-height: 360px;
   background-color: var(--bg-surface);
   border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   padding: var(--space-5);
   box-shadow: var(--shadow-sm);
 }
 
-.mkt-chart-card__header {
+.mkt-history__data {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  margin-bottom: var(--space-4);
+  flex-direction: column;
+  flex: 1 1 auto;
 }
 
-.mkt-chart-card__title {
-  font-family: var(--font-display);
-  font-size: var(--text-base);
+.mkt-history__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.mkt-history__eyebrow {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--fg-muted);
+  margin-bottom: var(--space-2);
+}
+
+.mkt-history__rate {
+  font-family: var(--font-mono);
+  font-size: var(--text-3xl);
   font-weight: var(--font-weight-bold);
   color: var(--fg-primary);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
 }
 
-.mkt-chart-card__subtitle {
+.mkt-history__pair {
+  margin-top: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--fg-tertiary);
+}
+
+.mkt-history__delta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+}
+
+.mkt-history__delta.mkt-change--positive {
+  background-color: var(--success-bg);
+  color: var(--success-fg);
+}
+
+.mkt-history__delta.mkt-change--negative {
+  background-color: var(--danger-bg);
+  color: var(--danger-fg);
+}
+
+.mkt-history__chart {
+  min-height: 260px;
+  margin: 0 calc(var(--space-2) * -1);
+}
+
+.mkt-history__foot {
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-subtle);
   font-size: var(--text-xs);
+  font-family: var(--font-mono);
   color: var(--fg-muted);
 }
 
-.mkt-chart-wrap {
-  position: relative;
-  height: 220px;
+/* ── Estados del panel (cargando / error / aviso) ───────────── */
+
+.mkt-history__state {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  min-height: 260px;
+  padding: var(--space-5);
+  text-align: center;
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: var(--fg-tertiary);
+}
+
+.mkt-history__state--error { color: var(--danger-fg); }
+
+.mkt-history__state--config {
+  border: 1px dashed var(--border-default);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-base);
+  color: var(--fg-secondary);
+}
+
+/* `hidden` debe ganarle al display:flex de estos bloques (si no, se ven a la vez) */
+.mkt-history__data[hidden],
+.mkt-history__state[hidden] {
+  display: none;
 }
 
 /* ── Responsive ─────────────────────────────────────────────── */
@@ -431,28 +481,4 @@
   .mkt-forex-layout {
     grid-template-columns: 1fr;
   }
-  .mkt-chart-col { position: static; }
-}
-
-/* ── Badge estimación ───────────────────────────────────────── */
-
-.mkt-chart-card__title-row {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  flex-wrap: wrap;
-}
-
-.mkt-badge-estimate {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px 8px;
-  border-radius: var(--radius-sm);
-  font-size: var(--text-xs);
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-semibold);
-  background-color: var(--warning-bg);
-  color: var(--warning-fg);
-  border: 1px solid var(--warning-border);
-  cursor: help;
 }

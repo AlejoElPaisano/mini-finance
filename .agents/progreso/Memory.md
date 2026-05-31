@@ -36,9 +36,10 @@ Idea 5 - IntegrarTEC 2026: Mini Finance
 - Boton de logros agregado a headers de `resumen.html` y `market-rates.html` con script `achievements.js`.
 - Fix modo daltónico: paleta accesible completa en claro/oscuro y colores hardcodeados de estado reemplazados por variables CSS en `resumen.css` y `simulator.css`.
 - Removido brillo del botón Pesito por decisión de diseño.
+- Cotizaciones: convertidor + grilla cripto + Dashboard de Métricas Históricas (30 días) con FastForex `/time-series` y ApexCharts (estilo Google, dark-aware), layout 40/60 mobile-first.
+- API key gestionada vía `base/scripts/env.js` (gitignored), patrón `.env` viable en sitio estático sin build.
 
 ## Pendiente
 
-- Pagina `pages/market-rates.html`: contenido funcional de cotizaciones (fetch opcional).
 - Assets (imagenes, iconos, datos JSON).
 - Deploy funcional.

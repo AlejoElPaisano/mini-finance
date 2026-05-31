@@ -1,3 +1,4 @@
 .env
 node_modules/
 base/styles/pepita.css
+base/scripts/env.js

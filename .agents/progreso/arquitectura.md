@@ -34,7 +34,10 @@ Idea 5 - IntegrarTEC 2026: Mini Finance
 │  │  ├─ local-storage.js
 │  │  ├─ helpers.js
 │  │  ├─ pesito-brain.js
-│  │  └─ pesito-chat.js
+│  │  ├─ pesito-chat.js
+│  │  ├─ market-rates.js
+│  │  ├─ env.example.js
+│  │  └─ env.js  (gitignored)
 │  └─ styles/
 │     ├─ reset.css
 │     ├─ tokens.css
@@ -79,7 +82,7 @@ Punto de entrada protegido: las paginas principales verifican sesion mediante au
 - `index.html`: Dashboard principal con hero, metricas, logros, grafico y movimientos.
 - `pages/simulador.html`: Formularios de ingresos, gastos, metas de ahorro y filtros.
 - `pages/resumen.html`: Historial completo, filtros y calculos de totales.
-- `pages/market-rates.html`: Pagina de cotizaciones (en desarrollo).
+- `pages/market-rates.html`: Cotizaciones: convertidor, cripto (CoinGecko) y dashboard historico (FastForex + ApexCharts).
 
 ### CSS
 - `reset.css`: Normalizacion y box-sizing global.
@@ -108,6 +111,8 @@ Punto de entrada protegido: las paginas principales verifican sesion mediante au
 - `login.js`: Logica de autenticacion y gestion de sesion.
 - `pesito-brain.js`: Arbol de decisiones del asistente virtual.
 - `pesito-chat.js`: Interactividad del chat flotante.
+- `market-rates.js`: Cotizaciones: cripto, convertidor y dashboard historico de 30 dias.
+- `env.js`: Variables locales del front (API key FastForex); gitignored, plantilla en `env.example.js`.
 
 ### Assets
 Recursos estaticos: imagenes, iconos y datos JSON locales.

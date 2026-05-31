@@ -3,6 +3,7 @@
 // APIs:
 //   Conversión  → exchangerate-api.com (sin key, CORS abierto)
 //   Cripto      → CoinGecko
+//   Historial   → FastForex /time-series (API key en env.js)
 // ============================================================
 
 // ── Constantes ───────────────────────────────────────────────
@@ -21,9 +22,32 @@ const CURRENCIES = {
   UYU: { name: 'Peso Uruguayo',         flag: '🇺🇾', symbol: '$'  },
 };
 
-// Referencias a los charts activos
-let chartFrom = null;
-let chartTo   = null;
+// ── FastForex — dashboard histórico ──────────────────────────
+
+const FASTFOREX_BASE = 'https://api.fastforex.io';
+const HISTORY_DAYS   = 30;
+
+// Referencias vivas para re-renderizar el gráfico al cambiar de tema
+let historyChart   = null;
+let historyContext = null;
+let discoveredMaxDays = null; // tope de días que permite el plan (trial = 14)
+let historyRequestId  = 0;    // descarta respuestas de cargas que quedaron viejas
+
+// Locale español para los ejes y tooltips de ApexCharts
+const APEX_LOCALE_ES = {
+  name: 'es',
+  options: {
+    months: ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'],
+    shortMonths: ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'],
+    days: ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'],
+    shortDays: ['dom','lun','mar','mié','jue','vie','sáb'],
+    toolbar: {
+      exportToSVG: 'Descargar SVG', exportToPNG: 'Descargar PNG', exportToCSV: 'Descargar CSV',
+      menu: 'Menú', selection: 'Selección', selectionZoom: 'Zoom', zoomIn: 'Acercar',
+      zoomOut: 'Alejar', pan: 'Desplazar', reset: 'Restablecer',
+    },
+  },
+};
 
 // ── Utilidades ───────────────────────────────────────────────
 
@@ -42,6 +66,18 @@ function formatLargeNumber(n) {
   return `$${formatNumber(n)}`;
 }
 
+// Decimales adaptativos según la magnitud de la tasa
+function rateDecimals(value) {
+  const abs = Math.abs(value);
+  if (abs >= 100) return 2;
+  if (abs >= 1)   return 4;
+  return 6;
+}
+
+function isoDate(date) {
+  return date.toISOString().slice(0, 10);
+}
+
 function changeClass(value) {
   if (value > 0) return 'positive';
   if (value < 0) return 'negative';
@@ -58,6 +94,12 @@ function escapeHtml(text) {
   const div = document.createElement('div');
   div.textContent = text;
   return div.innerHTML;
+}
+
+// Lee un token CSS desde body (donde vive la clase .dark-mode)
+function cssVar(name, fallback) {
+  const value = getComputedStyle(document.body).getPropertyValue(name).trim();
+  return value || fallback;
 }
 
 // ── Selectores del DOM ────────────────────────────────────────
@@ -79,6 +121,20 @@ const dom = {
   errorAmount:   () => document.getElementById('error-amount'),
   errorFrom:     () => document.getElementById('error-from'),
   errorTo:       () => document.getElementById('error-to'),
+};
+
+const historyDom = {
+  panel:   () => document.getElementById('history-panel'),
+  data:    () => document.getElementById('history-data'),
+  eyebrow: () => document.querySelector('#history-data .mkt-history__eyebrow'),
+  rate:    () => document.getElementById('history-rate'),
+  pair:    () => document.getElementById('history-pair'),
+  delta:   () => document.getElementById('history-delta'),
+  chart:   () => document.getElementById('history-chart'),
+  foot:    () => document.getElementById('history-foot'),
+  loading: () => document.getElementById('history-loading'),
+  error:   () => document.getElementById('history-error'),
+  message: () => document.getElementById('history-message'),
 };
 
 // ── CRIPTO — CoinGecko ────────────────────────────────────────
@@ -168,131 +224,262 @@ async function fetchForexRate(from, to) {
   return rate;
 }
 
-// ── FOREX — Estimación semanal ────────────────────────────────
+// ── HISTORIAL — Estados del panel ─────────────────────────────
 
-function generateWeeklyEstimate(currentRate) {
-  const values = [currentRate];
-  for (let i = 1; i < 7; i++) {
-    const prev      = values[0];
-    const variation = (Math.random() * 0.016) - 0.008;
-    values.unshift(parseFloat((prev * (1 - variation)).toFixed(6)));
+// mode: 'data' | 'loading' | 'error' | 'message'
+function showHistory(mode) {
+  const blocks = {
+    data:    historyDom.data(),
+    loading: historyDom.loading(),
+    error:   historyDom.error(),
+    message: historyDom.message(),
+  };
+  Object.values(blocks).forEach(el => { if (el) el.hidden = true; });
+  if (blocks[mode]) blocks[mode].hidden = false;
+}
+
+function showHistoryMessage(text, variant) {
+  showHistory('message');
+  const message = historyDom.message();
+  if (!message) return;
+  message.className = 'mkt-history__state' + (variant ? ` mkt-history__state--${variant}` : '');
+  message.textContent = text;
+}
+
+function getApiKey() {
+  const key = window.MINI_FINANCE_ENV && window.MINI_FINANCE_ENV.FASTFOREX_API_KEY;
+  if (!key || key === 'TU_API_KEY_AQUI') return null;
+  return key;
+}
+
+function buildHistoryUrl(from, to, days, apiKey) {
+  const end   = new Date();
+  const start = new Date();
+  start.setDate(end.getDate() - days);
+  return `${FASTFOREX_BASE}/time-series`
+    + `?from=${encodeURIComponent(from)}`
+    + `&to=${encodeURIComponent(to)}`
+    + `&start=${isoDate(start)}&end=${isoDate(end)}`
+    + `&interval=P1D`
+    + `&api_key=${encodeURIComponent(apiKey)}`;
+}
+
+// Aborta el pedido si tarda demasiado, para no quedar atascados en "cargando"
+function fetchWithTimeout(url, ms = 12000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), ms);
+  return fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timer));
+}
+
+// ── HISTORIAL — Carga FastForex /time-series ──────────────────
+
+async function loadHistory(from, to) {
+  if (!historyDom.panel()) return;
+
+  if (from === to) {
+    historyContext = null;
+    showHistoryMessage('Elegí dos monedas distintas para ver el historial.', 'info');
+    return;
   }
-  return values;
+
+  const apiKey = getApiKey();
+  if (!apiKey) {
+    historyContext = null;
+    showHistoryMessage(
+      'Configurá tu API key de FastForex en base/scripts/env.js para ver el historial real de cotizaciones.',
+      'config',
+    );
+    return;
+  }
+
+  showHistory('loading');
+  const requestId = ++historyRequestId;
+
+  // El plan trial de FastForex limita el rango histórico (14 días). Pedimos el
+  // objetivo (30) y, si la API lo rechaza, detectamos el tope y reintentamos una vez.
+  let days   = discoveredMaxDays ? Math.min(HISTORY_DAYS, discoveredMaxDays) : HISTORY_DAYS;
+  let capped = discoveredMaxDays !== null && discoveredMaxDays < HISTORY_DAYS;
+
+  try {
+    let res = await fetchWithTimeout(buildHistoryUrl(from, to, days, apiKey));
+
+    if (res.status === 403) {
+      const limit = (await res.text()).match(/limited to (\d+) days/i);
+      if (limit) {
+        discoveredMaxDays = Number(limit[1]);
+        days   = Math.min(HISTORY_DAYS, discoveredMaxDays);
+        capped = discoveredMaxDays < HISTORY_DAYS;
+        res = await fetchWithTimeout(buildHistoryUrl(from, to, days, apiKey));
+      }
+    }
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+
+    // Si entró una carga más nueva mientras esperábamos, descartamos esta
+    if (requestId !== historyRequestId) return;
+
+    const raw = data && data.results && data.results[to];
+    if (!raw || typeof raw !== 'object') throw new Error('Respuesta sin datos para el par solicitado');
+
+    const series = Object.entries(raw)
+      .map(([date, rate]) => ({ t: new Date(date).getTime(), y: Number(rate) }))
+      .filter(point => Number.isFinite(point.t) && Number.isFinite(point.y))
+      .sort((a, b) => a.t - b.t);
+
+    if (series.length < 2) throw new Error('Datos insuficientes para graficar');
+
+    historyContext = { from, to, series, days, capped };
+    renderHistory();
+
+  } catch (err) {
+    if (requestId !== historyRequestId) return; // error de una carga vieja: lo ignoramos
+    console.error('FastForex error:', err);
+    historyContext = null;
+    showHistory('error');
+    const error = historyDom.error();
+    if (error) {
+      const motivo = err.name === 'AbortError' ? 'tiempo de espera agotado' : err.message;
+      error.textContent =
+        `No se pudo cargar el historial (${motivo}). Verificá tu API key, los límites del plan, o una extensión/bloqueador de red que frene las solicitudes a la API.`;
+    }
+  }
 }
 
-function getWeekLabels() {
-  return Array.from({ length: 7 }, (_, i) => {
-    const d = new Date();
-    d.setDate(d.getDate() - (6 - i));
-    return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}`;
-  });
+// ── HISTORIAL — Render del panel + gráfico ────────────────────
+
+function renderHistory() {
+  if (!historyContext) return;
+  const { from, to, series, days, capped } = historyContext;
+
+  showHistory('data');
+
+  const values   = series.map(point => point.y);
+  const first     = values[0];
+  const last      = values[values.length - 1];
+  const min       = Math.min(...values);
+  const max       = Math.max(...values);
+  const deltaPct  = ((last - first) / first) * 100;
+  const isUp      = last >= first;
+  const decimals  = rateDecimals(last);
+
+  const eyebrow = historyDom.eyebrow();
+  if (eyebrow) eyebrow.textContent = `Historial · últimos ${days} días`;
+
+  const rateEl = historyDom.rate();
+  if (rateEl) rateEl.textContent = formatNumber(last, decimals);
+
+  const pairEl = historyDom.pair();
+  if (pairEl) pairEl.textContent = `1 ${from} = ${formatNumber(last, decimals)} ${to}`;
+
+  const deltaEl = historyDom.delta();
+  if (deltaEl) {
+    deltaEl.className = `mkt-history__delta mkt-change--${isUp ? 'positive' : 'negative'}`;
+    deltaEl.textContent = `${isUp ? '▲' : '▼'} ${Math.abs(deltaPct).toFixed(2)}%`;
+    deltaEl.title = `Variación en ${HISTORY_DAYS} días`;
+  }
+
+  const foot = historyDom.foot();
+  if (foot) {
+    const trial = capped ? ` · trial: máx ${days} días` : '';
+    foot.textContent =
+      `Mín ${formatNumber(min, decimals)} · Máx ${formatNumber(max, decimals)} ${to} · Fuente: FastForex${trial}`;
+  }
+
+  const chartEl = historyDom.chart();
+  if (chartEl) {
+    chartEl.setAttribute(
+      'aria-label',
+      `Evolución de 1 ${from} en ${to} durante los últimos ${days} días. ` +
+      `Tendencia ${isUp ? 'al alza' : 'a la baja'} de ${Math.abs(deltaPct).toFixed(2)} por ciento.`,
+    );
+  }
+
+  drawHistoryChart(series, from, to, isUp, decimals);
 }
 
-// ── FOREX — Renderizar gráfico individual ─────────────────────
+function drawHistoryChart(series, from, to, isUp, decimals) {
+  const el = historyDom.chart();
+  if (!el || typeof ApexCharts === 'undefined') return;
 
-function renderSingleChart(canvasId, labels, values, currency) {
-  const canvas = document.getElementById(canvasId);
-  if (!canvas) return null;
-
-  const first = values[0];
-  const last  = values[values.length - 1];
-  const isUp  = last >= first;
-
+  const isDark    = document.body.classList.contains('dark-mode');
   const lineColor = isUp
-    ? getComputedStyle(document.documentElement).getPropertyValue('--success-border').trim() || '#16a34a'
-    : getComputedStyle(document.documentElement).getPropertyValue('--danger-border').trim()  || '#dc2626';
+    ? cssVar('--success-border', '#16a34a')
+    : cssVar('--danger-border', '#dc2626');
+  const axisColor = cssVar('--fg-muted', '#94a3b8');
+  const gridColor = cssVar('--border-subtle', 'rgba(148,163,184,0.15)');
+  const fontBody  = cssVar('--font-body', 'system-ui, sans-serif');
 
-  const ctx      = canvas.getContext('2d');
-  const gradient = ctx.createLinearGradient(0, 0, 0, 180);
-  gradient.addColorStop(0, lineColor + '33');
-  gradient.addColorStop(1, lineColor + '00');
+  const data = series.map(point => [point.t, point.y]);
 
-  return new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels,
-      datasets: [{
-        label: currency,
-        data: values,
-        borderColor: lineColor,
-        borderWidth: 2,
-        backgroundColor: gradient,
-        pointRadius: 4,
-        pointBackgroundColor: lineColor,
-        pointHoverRadius: 6,
-        fill: true,
-        tension: 0.3,
-      }],
+  const options = {
+    chart: {
+      type: 'area',
+      height: 260,
+      fontFamily: fontBody,
+      background: 'transparent',
+      locales: [APEX_LOCALE_ES],
+      defaultLocale: 'es',
+      toolbar: { show: false },
+      zoom: { enabled: false },
+      parentHeightOffset: 0,
+      animations: { enabled: true, easing: 'easeout', speed: 500 },
     },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      interaction: { mode: 'index', intersect: false },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--bg-surface').trim() || '#1e293b',
-          borderColor:     getComputedStyle(document.documentElement).getPropertyValue('--border-default').trim() || 'rgba(255,255,255,0.12)',
-          borderWidth: 1,
-          titleColor:  getComputedStyle(document.documentElement).getPropertyValue('--fg-tertiary').trim() || '#94a3b8',
-          bodyColor:   getComputedStyle(document.documentElement).getPropertyValue('--fg-primary').trim()  || '#f8fafc',
-          padding: 10,
-          callbacks: {
-            label: ctx => ` ${formatNumber(ctx.parsed.y, 4)} ${currency}`,
-          },
-        },
+    series: [{ name: `${from} → ${to}`, data }],
+    colors: [lineColor],
+    stroke: { curve: 'smooth', width: 2.5, lineCap: 'round' },
+    fill: {
+      type: 'gradient',
+      gradient: { shadeIntensity: 1, opacityFrom: 0.35, opacityTo: 0, stops: [0, 100] },
+    },
+    dataLabels: { enabled: false },
+    markers: { size: 0, strokeWidth: 0, hover: { size: 5 } },
+    grid: {
+      borderColor: gridColor,
+      strokeDashArray: 0,
+      xaxis: { lines: { show: false } },
+      yaxis: { lines: { show: true } },
+      padding: { top: 0, right: 8, bottom: 0, left: 8 },
+    },
+    xaxis: {
+      type: 'datetime',
+      tooltip: { enabled: false },
+      axisBorder: { show: false },
+      axisTicks: { show: false },
+      labels: {
+        datetimeUTC: false,
+        format: 'dd MMM',
+        style: { colors: axisColor, fontSize: '11px' },
       },
-      scales: {
-        x: {
-          grid: { display: false },
-          ticks: {
-            color: getComputedStyle(document.documentElement).getPropertyValue('--fg-muted').trim() || '#64748b',
-            font: { size: 10 },
-          },
-          border: { display: false },
-        },
-        y: {
-          position: 'right',
-          grid: {
-            color: getComputedStyle(document.documentElement).getPropertyValue('--border-subtle').trim() || 'rgba(255,255,255,0.06)',
-          },
-          ticks: {
-            color: getComputedStyle(document.documentElement).getPropertyValue('--fg-muted').trim() || '#64748b',
-            font: { size: 10 },
-            callback: v => formatNumber(v, 4),
-          },
-          border: { display: false },
-        },
+      crosshairs: { stroke: { color: axisColor, width: 1, dashArray: 3 } },
+    },
+    yaxis: {
+      opposite: true,
+      tickAmount: 4,
+      labels: {
+        style: { colors: axisColor, fontSize: '11px' },
+        formatter: value => formatNumber(value, decimals),
       },
     },
-  });
+    tooltip: {
+      theme: isDark ? 'dark' : 'light',
+      x: { format: 'dd MMM yyyy' },
+      y: { formatter: value => `${formatNumber(value, decimals)} ${to}` },
+    },
+    legend: { show: false },
+  };
+
+  if (historyChart) { historyChart.destroy(); historyChart = null; }
+  historyChart = new ApexCharts(el, options);
+  historyChart.render();
 }
 
-// ── FOREX — Mostrar los dos gráficos ─────────────────────────
-
-function loadForexCharts(from, to, rateFromTo) {
-  const placeholder = document.getElementById('forex-chart-placeholder');
-  const chartsWrap  = document.getElementById('forex-charts-wrap');
-
-  if (placeholder) placeholder.hidden = true;
-  if (chartsWrap)  chartsWrap.hidden  = false;
-
-  // Destruir charts anteriores
-  if (chartFrom) { chartFrom.destroy(); chartFrom = null; }
-  if (chartTo)   { chartTo.destroy();   chartTo   = null; }
-
-  const labels       = getWeekLabels();
-  const valuesFromTo = generateWeeklyEstimate(rateFromTo);
-  const valuesTo     = generateWeeklyEstimate(1 / rateFromTo); // inverso: cuánto vale 1 unidad de "to" en "from"
-
-  // Títulos
-  const titleFrom = document.getElementById('chart-title-from');
-  const titleTo   = document.getElementById('chart-title-to');
-  if (titleFrom) titleFrom.textContent = `${from} → ${to}`;
-  if (titleTo)   titleTo.textContent   = `${to} → ${from}`;
-
-  chartFrom = renderSingleChart('canvas-from', labels, valuesFromTo, to);
-  chartTo   = renderSingleChart('canvas-to',   labels, valuesTo,     from);
+// Re-render del gráfico cuando cambia el tema o la paleta accesible
+function observeThemeChanges() {
+  const observer = new MutationObserver(() => {
+    if (historyContext && historyChart) renderHistory();
+  });
+  observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 }
 
 // ── FOREX — Validación ────────────────────────────────────────
@@ -358,6 +545,9 @@ async function handleForexSubmit(e) {
   const from   = dom.selectFrom().value;
   const to     = dom.selectTo().value;
 
+  // El dashboard histórico se carga en paralelo, independiente de la conversión
+  loadHistory(from, to);
+
   try {
     const rate      = await fetchForexRate(from, to);
     const converted = amount * rate;
@@ -383,8 +573,6 @@ async function handleForexSubmit(e) {
     const updated = dom.forexUpdated();
     if (updated) updated.textContent = `Tasa obtenida: ${new Date().toLocaleTimeString('es-AR')}`;
 
-    loadForexCharts(from, to, rate);
-
   } catch (err) {
     console.error('ExchangeRate error:', err);
     if (error) {
@@ -408,13 +596,7 @@ function handleSwap() {
     setTimeout(() => { result.hidden = true; }, 250);
   }
 
-  // Ocultar gráficos al invertir
-  const chartsWrap  = document.getElementById('forex-charts-wrap');
-  const placeholder = document.getElementById('forex-chart-placeholder');
-  if (chartsWrap)  chartsWrap.hidden  = true;
-  if (placeholder) placeholder.hidden = false;
-  if (chartFrom) { chartFrom.destroy(); chartFrom = null; }
-  if (chartTo)   { chartTo.destroy();   chartTo   = null; }
+  loadHistory(from.value, to.value);
 }
 
 function initForexForm() {
@@ -424,11 +606,20 @@ function initForexForm() {
   if (swap) swap.addEventListener('click', handleSwap);
 }
 
+function initHistory() {
+  if (!historyDom.panel()) return;
+  observeThemeChanges();
+  const from = dom.selectFrom()?.value || 'USD';
+  const to   = dom.selectTo()?.value   || 'EUR';
+  loadHistory(from, to);
+}
+
 // ── Init ──────────────────────────────────────────────────────
 
 function initMarketRates() {
   loadCrypto();
   initForexForm();
+  initHistory();
 }
 
 if (document.readyState === 'loading') {
