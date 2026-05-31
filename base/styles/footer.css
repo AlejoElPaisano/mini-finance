@@ -70,7 +70,8 @@
 ══════════════════════════════════════════ */
 
 .footer-drawer {
-  background-color: var(--bg-surface);
+  background-color: var(--bg-theme-footer);
+  opacity: 95%;
   color: var(--fg-secondary);
   font-family: var(--font-body);
   border-top: 0.5px solid var(--border-subtle);

@@ -27,7 +27,7 @@
   --brand-primary: #1e3a8a;
   --brand-primary-dim: #172554;
   --brand-primary-subtle: #dbeafe;
-  --brand-accent: #f59e0b;
+  --brand-accent: rgb(255, 122, 0);   /* #ff7a00 */
   --brand-accent-dim: #b45309;
   --brand-accent-subtle: #fffbeb;
 
@@ -76,9 +76,13 @@
 
   --footer-toggle-height: 2.25rem;
   --max-width: 90rem;
+  --bg-theme-header: #d1d9f7;
+  --bg-theme-card:   #eaf0fe;
+  --bg-theme-footer: #dadde8 ;
 }
 
 body.dark-mode {
+  
   --fg-primary: #f8fafc;
   --fg-secondary: #cbd5e1;
   --fg-tertiary: #94a3b8;
@@ -113,6 +117,12 @@ body.dark-mode {
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.24);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.32), 0 2px 4px -2px rgb(0 0 0 / 0.24);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.40), 0 4px 6px -4px rgb(0 0 0 / 0.32);
+
+  /* Light-mode-only tokens: en dark vuelven al surface original */
+  --bg-theme-header: var(--bg-surface);
+  --bg-theme-card:   var(--bg-surface);
+  --bg-theme-footer: var(--bg-surface) ;
+
 }
 
 @media (max-width: 480px) {
