@@ -34,6 +34,8 @@ Idea 5 - IntegrarTEC 2026: Mini Finance
 - Modal de contacto funcional (nombre, apellido, email, mensaje) con validacion y mensaje de exito en el DOM.
 - Pesito contextualizado para pagina de Resumen (`pesitoBrainResumen`) y Cotizaciones (`pesitoBrainCotizaciones`).
 - Boton de logros agregado a headers de `resumen.html` y `market-rates.html` con script `achievements.js`.
+- Fix modo daltónico: paleta accesible completa en claro/oscuro y colores hardcodeados de estado reemplazados por variables CSS en `resumen.css` y `simulator.css`.
+- Removido brillo del botón Pesito por decisión de diseño.
 
 ## Pendiente
 

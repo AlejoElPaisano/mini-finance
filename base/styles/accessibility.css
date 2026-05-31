@@ -73,7 +73,18 @@ body.dyslexic-mode * {
   letter-spacing: 0.05em !important;
 }
 
+/* ============================================================
+   MODO DALTONICO — Paleta accesible (modo claro)
+   ============================================================ */
+
 body.colorblind-mode {
+  --brand-primary: #0072b2;
+  --brand-primary-dim: #005a8e;
+  --brand-primary-subtle: #e0f0ff;
+  --brand-accent: #e69f00;
+  --brand-accent-dim: #b36200;
+  --brand-accent-subtle: #fff5e0;
+
   --success-fg: #004488;
   --success-bg: #e0f0ff;
   --success-border: #56b4e9;
@@ -83,21 +94,42 @@ body.colorblind-mode {
   --warning-fg: #664400;
   --warning-bg: #fff5e0;
   --warning-border: #e69f00;
-  --brand-accent: #af7c0e;
-  --brand-accent-dim: #b36200;
-  --brand-accent-subtle: #fff5e0;
 }
 
+/* Indicadores visuales de refuerzo (no solo color) */
 body.colorblind-mode .card--income {
-  border-top-width: 4px;
+  border-top: 4px solid var(--success-border);
 }
 
 body.colorblind-mode .card--expense {
-  border-top-width: 4px;
+  border-top: 4px solid var(--danger-border);
 }
 
 body.colorblind-mode .alert {
   border-left-width: 5px;
+}
+
+/* ============================================================
+   MODO DALTONICO — Paleta accesible (modo oscuro)
+   ============================================================ */
+
+body.dark-mode.colorblind-mode {
+  --brand-primary: #88ccee;
+  --brand-primary-dim: #79aae0;
+  --brand-primary-subtle: #004488;
+  --brand-accent: #f0e442;
+  --brand-accent-dim: #e6c800;
+  --brand-accent-subtle: #664400;
+
+  --success-fg: #88ccee;
+  --success-bg: #003366;
+  --success-border: #56b4e9;
+  --danger-fg: #ffcc99;
+  --danger-bg: #662200;
+  --danger-border: #ff9966;
+  --warning-fg: #ffee88;
+  --warning-bg: #664400;
+  --warning-border: #f0e442;
 }
 
 .user-menu {

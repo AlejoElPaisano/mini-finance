@@ -513,11 +513,11 @@ p.card-total-label {
 }
 
 .movement[data-type="income"] {
-  border-left-color: #16a34a;
+  border-left-color: var(--success-border);
 }
 
 .movement[data-type="expense"] {
-  border-left-color: #dc2626;
+  border-left-color: var(--danger-border);
 }
 
 .movement__header {
@@ -580,21 +580,21 @@ p.card-total-label {
 }
 
 .movement[data-type="income"] .movement__amount {
-  color: #16a34a;
+  color: var(--success-border);
 }
 
 .movement[data-type="expense"] .movement__amount {
-  color: #dc2626;
+  color: var(--danger-border);
 }
 
-/* Meta de ahorro: índigo para diferenciar de income (verde) y expense (rojo) */
+/* Meta de ahorro */
 .movement[data-type="savings"] {
-  border-left-color: #6366f1;
-  background-color: #eef2ff;
+  border-left-color: var(--brand-primary);
+  background-color: var(--brand-primary-subtle);
 }
 
 .movement[data-type="savings"] .movement__amount {
-  color: #4f46e5;
+  color: var(--brand-primary);
 }
 
 .movement[data-type="savings"] .movement__amount::before {
