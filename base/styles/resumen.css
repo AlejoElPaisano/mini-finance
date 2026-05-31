@@ -10,7 +10,7 @@
 }
 
 .balance-card {
-  background-color: var(--bg-surface);
+  background-color: var(--bg-theme-card);
   border: 0.0625em solid var(--border-subtle);
   border-radius: var(--radius-md);
   padding: 1.1em 1.25em;
@@ -73,7 +73,7 @@
 
 .ledger {
   margin-top: 2rem;
-  background-color: var(--bg-surface);
+  background-color: var(--bg-theme-card);
   border: 0.0625em solid var(--border-subtle);
   border-radius: var(--radius-md);
   padding: 1.25em 1.25em 0.5em;
@@ -86,6 +86,12 @@
   justify-content: space-between;
   gap: 1em;
   padding-bottom: 1em;
+}
+
+body:not(.dark-mode) .ledger-header {
+  background-color: var(--bg-theme-header-title);
+  opacity: 79%;
+  border-radius: 0.5rem;
 }
 
 .ledger-header h2 {

@@ -80,6 +80,7 @@
   --bg-theme-header: #d1d9f7;
   --bg-theme-card:   #eaf0fe;
   --bg-theme-footer: #dadde8 ;
+  --bg-theme-header-title: #acd1ff ;
 }
 
 body.dark-mode {
@@ -87,6 +88,8 @@ body.dark-mode {
   --fg-primary: #f8fafc;
   --fg-secondary: #cbd5e1;
   --fg-tertiary: #94a3b8;
+  --fg-quaternary: #cbd5e1 ;
+
   --fg-muted: #64748b;
 
   --bg-base: #0f172a;

@@ -337,7 +337,7 @@ body::after {
 body::before {
   top: -120px;
   left: -120px;
-  background: radial-gradient(circle, var(--brand-primary) 0%, transparent 70%);
+  /*background: radial-gradient(circle, var(--brand-primary) 0%, transparent 70%);*/
 }
 
 body::after {
@@ -645,6 +645,17 @@ body.dark-mode .achievement-toast__title {
 
 body.dark-mode .achievement-toast__desc {
   color: #fbbf24;
+}
+
+/*
+body:not(.dark-mode) {
+    background-color: #94a9de;
+  background-image: radial-gradient(rgba(15, 23, 42, 0.06) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+*/
+body:not(.dark-mode) {
+  background-color: #94a9de;
 }
 
 /* ══════════════════════════════════════════
