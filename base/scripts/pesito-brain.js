@@ -256,3 +256,81 @@ var pesitoBrainResumen = {
     ]
   }
 };
+
+/* ================================================================
+   CEREBRO: PAGINA DE COTIZACIONES
+   ================================================================ */
+var pesitoBrainCotizaciones = {
+  root: {
+    message:
+      "Hola! Soy Pesito. Estoy aqui para ayudarte con las Cotizaciones del Mercado. Que queres saber?",
+    options: [
+      { label: "Que son las cotizaciones?", next: "que_son" },
+      { label: "Como leer una cotizacion?", next: "como_leer" },
+      { label: "De donde salen los datos?", next: "datos" },
+      { label: "Consejos rapidos de finanzas", next: "consejos_menu" }
+    ]
+  },
+
+  que_son: {
+    message:
+      "Las cotizaciones son el valor actual de monedas, acciones o commodities en el mercado. En Mini Finance vas a poder ver divisas como USD, EUR y otras referencias para tomar decisiones financieras informadas.",
+    options: [
+      { label: "Volver al menu", next: "root" }
+    ]
+  },
+
+  como_leer: {
+    message:
+      "Una cotizacion muestra el precio de compra y venta de un activo. Si ves USD/ARS, el primer valor es lo que paga el mercado por dolar y el segundo lo que vende. Observa la tendencia: si sube, tu poder adquisitivo en moneda extranjera baja.",
+    options: [
+      { label: "Volver al menu", next: "root" }
+    ]
+  },
+
+  datos: {
+    message:
+      "Los datos de cotizaciones provienen de fuentes financieras publicas. En Mini Finance mostramos la informacion de forma clara para que puedas comparar valores sin salir de la app.",
+    options: [
+      { label: "Volver al menu", next: "root" }
+    ]
+  },
+
+  consejos_menu: {
+    message:
+      "Me encanta que quieras mejorar tus habitos! Elegi un tema y te doy un consejo rapidito:",
+    options: [
+      { label: "Ahorro mensual", next: "consejo_ahorro" },
+      { label: "Evitar gastos hormiga", next: "consejo_hormiga" },
+      { label: "Regla 50/30/20", next: "consejo_502030" },
+      { label: "Volver al menu principal", next: "root" }
+    ]
+  },
+
+  consejo_ahorro: {
+    message:
+      "Consejo de oro: automatiza tu ahorro. El dia que cobras, transferi automaticamente un porcentaje fijo a una cuenta separada. Si no lo ves, no lo gastas. Empeza con un 10% y aumentalo cada 3 meses.",
+    options: [
+      { label: "Quiero otro consejo", next: "consejos_menu" },
+      { label: "Volver al menu principal", next: "root" }
+    ]
+  },
+
+  consejo_hormiga: {
+    message:
+      "Los 'gastos hormiga' son esos pequenos gastos diarios que parecen inofensivos: un cafe, una app, un snack. Juntos pueden robar hasta el 15% de tu sueldo. Mi recomendacion: registra TODO en Mini Finance durante una semana. Ver los numeros en frio es un despertador brutal.",
+    options: [
+      { label: "Quiero otro consejo", next: "consejos_menu" },
+      { label: "Volver al menu principal", next: "root" }
+    ]
+  },
+
+  consejo_502030: {
+    message:
+      "La regla 50/30/20 es un clasico infalible: el 50% de tus ingresos va a necesidades (alquiler, comida), el 30% a deseos (salidas, hobbies) y el 20% a ahorro o deuda. Usa Mini Finance para etiquetar tus movimientos y ver si estas cerca de esos porcentajes.",
+    options: [
+      { label: "Quiero otro consejo", next: "consejos_menu" },
+      { label: "Volver al menu principal", next: "root" }
+    ]
+  }
+};

@@ -112,6 +112,9 @@
     if (path.includes('resumen')) {
       return window.pesitoBrainResumen;
     }
+    if (path.includes('market-rates') || path.includes('cotizaciones')) {
+      return window.pesitoBrainCotizaciones;
+    }
     return window.pesitoBrainHome;
   }
 
