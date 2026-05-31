@@ -9,6 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../base/styles/main.css">
+  <link rel="stylesheet" href="../base/styles/market-rates.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
   <script>
     if (!localStorage.getItem('miniFinanceSession')) {
       window.location.replace('./login.html');
@@ -61,8 +63,122 @@
   </header>
 
   <main id="main-content">
-    <h1>Cotizaciones del Mercado</h1>
-    <p class="text-secondary">Próximamente: visualización de cotizaciones financieras en tiempo real.</p>
+    <section class="market-rates" aria-labelledby="market-rates-title">
+
+      <div class="market-rates__header">
+        <h1 id="market-rates-title">Cotizaciones del Mercado</h1>
+        <p>Precios en tiempo real de criptomonedas y conversión de divisas.</p>
+      </div>
+
+      <!-- ── CRIPTO ─────────────────────────────────────────── -->
+      <div class="mkt-section">
+        <div class="mkt-section__header">
+          <h2 class="mkt-section__title">Criptomonedas</h2>
+          <p class="mkt-panel__updated" id="crypto-updated" aria-live="polite"></p>
+        </div>
+
+        <p class="mkt-error" id="crypto-error" role="alert" hidden></p>
+
+        <div
+          class="mkt-crypto-grid"
+          id="crypto-grid"
+          aria-live="polite"
+          aria-label="Cotizaciones de criptomonedas"
+        ></div>
+      </div>
+
+      <!-- ── DIVISAS ─────────────────────────────────────────── -->
+      <div class="mkt-section">
+        <div class="mkt-section__header">
+          <h2 class="mkt-section__title">Convertidor de Divisas</h2>
+          <p class="mkt-panel__updated" id="forex-updated" aria-live="polite"></p>
+        </div>
+
+        <p class="mkt-error" id="forex-form-error" role="alert" hidden></p>
+
+        <div class="mkt-forex-layout">
+
+          <!-- Columna izquierda: formulario + resultado -->
+          <div class="mkt-forex-left">
+            <form class="mkt-forex-form" id="forex-form" novalidate>
+
+              <div class="mkt-forex-form__fields">
+
+                <div class="form-group">
+                  <label for="forex-amount">Monto</label>
+                  <input
+                    type="number"
+                    id="forex-amount"
+                    name="amount"
+                    min="0.01"
+                    step="any"
+                    placeholder="Ej: 100"
+                    autocomplete="off"
+                    aria-describedby="error-amount"
+                  />
+                  <p class="form-group__error" id="error-amount" role="alert"></p>
+                </div>
+
+                <div class="mkt-forex-swap">
+                  <button
+                    type="button"
+                    class="mkt-forex-swap__btn"
+                    id="forex-swap"
+                    aria-label="Invertir monedas"
+                    title="Invertir monedas"
+                  >⇄</button>
+                </div>
+
+                <div class="form-group">
+                  <label for="forex-to">Convertir a</label>
+                  <select id="forex-to" name="to" aria-describedby="error-to">
+                    <option value="">Seleccionar moneda</option>
+                    <option value="USD">🇺🇸 USD — Dólar Estadounidense</option>
+                    <option value="EUR" selected>🇪🇺 EUR — Euro</option>
+                    <option value="ARS">🇦🇷 ARS — Peso Argentino</option>
+                    <option value="BRL">🇧🇷 BRL — Real Brasileño</option>
+                    <option value="GBP">🇬🇧 GBP — Libra Esterlina</option>
+                    <option value="JPY">🇯🇵 JPY — Yen Japonés</option>
+                    <option value="MXN">🇲🇽 MXN — Peso Mexicano</option>
+                    <option value="CLP">🇨🇱 CLP — Peso Chileno</option>
+                    <option value="UYU">🇺🇾 UYU — Peso Uruguayo</option>
+                  </select>
+                  <p class="form-group__error" id="error-to" role="alert"></p>
+                </div>
+
+              </div>
+
+              <div class="form-group">
+                <label for="forex-from">Moneda de origen</label>
+                <select id="forex-from" name="from" aria-describedby="error-from">
+                  <option value="">Seleccionar moneda</option>
+                  <option value="USD" selected>🇺🇸 USD — Dólar Estadounidense</option>
+                  <option value="EUR">🇪🇺 EUR — Euro</option>
+                  <option value="ARS">🇦🇷 ARS — Peso Argentino</option>
+                  <option value="BRL">🇧🇷 BRL — Real Brasileño</option>
+                  <option value="GBP">🇬🇧 GBP — Libra Esterlina</option>
+                  <option value="JPY">🇯🇵 JPY — Yen Japonés</option>
+                  <option value="MXN">🇲🇽 MXN — Peso Mexicano</option>
+                  <option value="CLP">🇨🇱 CLP — Peso Chileno</option>
+                  <option value="UYU">🇺🇾 UYU — Peso Uruguayo</option>
+                </select>
+                <p class="form-group__error" id="error-from" role="alert"></p>
+              </div>
+
+              <button type="submit" class="btn btn--primary mkt-forex-form__submit">
+                Consultar cotización
+              </button>
+
+            </form>
+
+            <!-- Resultado -->
+            <div class="mkt-result" id="forex-result" aria-live="polite" hidden></div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
   </main>
 
   <footer class="app-footer" id="app-footer">
@@ -193,9 +309,9 @@
 
   <script src="../base/scripts/main.js"></script>
   <script src="../base/scripts/footer.js"></script>
-  <script src="../base/scripts/pesito-brain.js"></script>
-  <script src="../base/scripts/pesito-chat.js"></script>
+  <script src="../base/scripts/market-rates.js"></script>
   <script src="../base/scripts/contact-modal.js"></script>
 </body>
+
 </html>
 
