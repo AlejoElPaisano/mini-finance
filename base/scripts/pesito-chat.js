@@ -109,6 +109,9 @@
     if (path.includes('simulador')) {
       return window.pesitoBrainSimulator;
     }
+    if (path.includes('resumen')) {
+      return window.pesitoBrainResumen;
+    }
     return window.pesitoBrainHome;
   }
 

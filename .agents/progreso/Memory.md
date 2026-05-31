@@ -30,6 +30,9 @@ Idea 5 - IntegrarTEC 2026: Mini Finance
 - Documentacion completa: `README.md` e `informe-uso-ia.md`.
 - Skill de buenas practicas actualizada con reglas estrictas de Git y automatizacion de contexto.
 - Skills adicionales instaladas: `frontend-design`, `mobile-first-design`, `design-lab`, `trello-sync`.
+- Footer reestructurado: logo y marca en fila horizontal, copyright actualizado y boton "Contáctanos".
+- Modal de contacto funcional (nombre, apellido, email, mensaje) con validacion y mensaje de exito en el DOM.
+- Pesito contextualizado para pagina de Resumen (`pesitoBrainResumen`).
 
 ## Pendiente
 
