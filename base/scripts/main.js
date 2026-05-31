@@ -186,12 +186,19 @@ if (cookieBanner && cookieAccept) {
   });
 }
 
-  if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => {
-    initFinancialApp();
-    initAchievementButton();
-  });
-} else {
-  initFinancialApp();
-  initAchievementButton();
+
+function safeInit () {
+
+    initFinancialApp() ;
+
+    if ( typeof initAchievementButton === 'function' ) initAchievementButton() ;
+
+}
+
+
+if ( document.readyState === 'loading' ) {
+    document.addEventListener( 'DOMContentLoaded', safeInit ) ;
+}
+else {
+    safeInit() ;
 }
