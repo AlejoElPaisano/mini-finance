@@ -177,3 +177,82 @@ var pesitoBrainSimulator = {
     ]
   }
 };
+
+
+/* ================================================================
+   CEREBRO: PAGINA DE RESUMEN
+   ================================================================ */
+var pesitoBrainResumen = {
+  root: {
+    message:
+      "Hola! Soy Pesito. Estoy aqui para ayudarte con el Resumen Financiero. Que queres saber?",
+    options: [
+      { label: "Como funcionan los filtros?", next: "filtros" },
+      { label: "Que muestra el balance contable?", next: "balance" },
+      { label: "Como leo el historial de movimientos?", next: "historial" },
+      { label: "Consejos rapidos de finanzas", next: "consejos_menu" }
+    ]
+  },
+
+  filtros: {
+    message:
+      "En el Resumen podes filtrar los movimientos por tipo (Ingreso, Gasto o Meta de Ahorro) y por categoria. Selecciona los filtros que necesites y la tabla se actualiza automaticamente.",
+    options: [
+      { label: "Volver al menu", next: "root" }
+    ]
+  },
+
+  balance: {
+    message:
+      "El balance contable muestra cuatro tarjetas: Ingresos totales, Gastos totales, Sumatoria de Metas de Ahorro y el Balance de Movimientos (Ingresos - Gastos). Asi podes ver tu situacion financiera de un vistazo.",
+    options: [
+      { label: "Volver al menu", next: "root" }
+    ]
+  },
+
+  historial: {
+    message:
+      "El historial lista todos tus movimientos registrados con fecha, descripcion, tipo, categoria y monto. Podes filtrarlos y se muestran en orden cronologico inverso (los mas recientes primero).",
+    options: [
+      { label: "Volver al menu", next: "root" }
+    ]
+  },
+
+  consejos_menu: {
+    message:
+      "Me encanta que quieras mejorar tus habitos! Elegi un tema y te doy un consejo rapidito:",
+    options: [
+      { label: "Ahorro mensual", next: "consejo_ahorro" },
+      { label: "Evitar gastos hormiga", next: "consejo_hormiga" },
+      { label: "Regla 50/30/20", next: "consejo_502030" },
+      { label: "Volver al menu principal", next: "root" }
+    ]
+  },
+
+  consejo_ahorro: {
+    message:
+      "Consejo de oro: automatiza tu ahorro. El dia que cobras, transferi automaticamente un porcentaje fijo a una cuenta separada. Si no lo ves, no lo gastas. Empeza con un 10% y aumentalo cada 3 meses.",
+    options: [
+      { label: "Quiero otro consejo", next: "consejos_menu" },
+      { label: "Volver al menu principal", next: "root" }
+    ]
+  },
+
+  consejo_hormiga: {
+    message:
+      "Los 'gastos hormiga' son esos pequenos gastos diarios que parecen inofensivos: un cafe, una app, un snack. Juntos pueden robar hasta el 15% de tu sueldo. Mi recomendacion: registra TODO en Mini Finance durante una semana. Ver los numeros en frio es un despertador brutal.",
+    options: [
+      { label: "Quiero otro consejo", next: "consejos_menu" },
+      { label: "Volver al menu principal", next: "root" }
+    ]
+  },
+
+  consejo_502030: {
+    message:
+      "La regla 50/30/20 es un clasico infalible: el 50% de tus ingresos va a necesidades (alquiler, comida), el 30% a deseos (salidas, hobbies) y el 20% a ahorro o deuda. Usa Mini Finance para etiquetar tus movimientos y ver si estas cerca de esos porcentajes.",
+    options: [
+      { label: "Quiero otro consejo", next: "consejos_menu" },
+      { label: "Volver al menu principal", next: "root" }
+    ]
+  }
+};

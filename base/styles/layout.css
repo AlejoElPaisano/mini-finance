@@ -1,11 +1,12 @@
 header {
-  background-color: var(--bg-surface);
+  background-color: var(--bg-theme-header);
   border-bottom: 1px solid var(--border-default);
   padding: var(--space-4);
   position: sticky;
   top: 0;
   z-index: 9999;
   transform: translateZ(0);
+  /*background-color: var(--bg-light-header);         /* lavanda claro */
 }
 
 nav {
@@ -99,6 +100,14 @@ main {
   z-index: 1;
 }
 
+/* Estilado visual solo para tematica clara */
+body:not(.dark-mode) main {
+  background-color: #94a9de;
+  background-image: radial-gradient(rgba(15, 23, 42, 0.06) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+
 .dashboard {
   display: grid;
   grid-template-columns: 1fr;
@@ -181,5 +190,6 @@ main {
 
   .dashboard .card--featured {
     grid-column: span 2;
+
   }
 }

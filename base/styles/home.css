@@ -12,7 +12,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 60%);
+  background: radial-gradient(circle at 90% 20%, rgba(255,255,255,0.08) 0%, transparent 60%);
   pointer-events: none;
 }
 
@@ -25,6 +25,11 @@
   text-wrap: balance;
 }
 
+body:not(.dark-mode) .hero__title {
+  color: #fbeed4
+}
+
+
 .hero__tip {
   font-family: var(--font-body);
   font-size: var(--text-base);
@@ -33,6 +38,10 @@
   margin-bottom: var(--space-5);
   position: relative;
   max-width: 640px;
+}
+
+body:not(.dark-mode) .hero__tip{
+  color: #fef8eb
 }
 
 .hero__actions {
@@ -199,7 +208,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--bg-surface);
+  background-color: color-mix(in srgb, var(--bg-theme-card) 60%, transparent);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   padding: var(--space-5);
@@ -328,7 +337,7 @@ body::after {
 body::before {
   top: -120px;
   left: -120px;
-  background: radial-gradient(circle, var(--brand-primary) 0%, transparent 70%);
+  /*background: radial-gradient(circle, var(--brand-primary) 0%, transparent 70%);*/
 }
 
 body::after {
@@ -636,6 +645,17 @@ body.dark-mode .achievement-toast__title {
 
 body.dark-mode .achievement-toast__desc {
   color: #fbbf24;
+}
+
+/*
+body:not(.dark-mode) {
+    background-color: #94a9de;
+  background-image: radial-gradient(rgba(15, 23, 42, 0.06) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+*/
+body:not(.dark-mode) {
+  background-color: #94a9de;
 }
 
 /* ══════════════════════════════════════════
