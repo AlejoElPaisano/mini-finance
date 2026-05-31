@@ -7,6 +7,7 @@ El informe deberá tener una extension aproximada de 1 a 2 páginas y responder:
 - OpenCode Agent (modelo Gemini 3.1 Pro Preview).
 - OpenCode Agent con modelo Kimi 2.6 (en sesiones posteriores de desarrollo de funcionalidades financieras y autenticación).
 - Skills especializadas integradas en el entorno: `frontend-design`, `interface-design`, `mobile-first-design`, y la skill personalizada `buenas-practica-mini-finance`.
+- Claude Code con modelo Opus 4.8
 
 **2 ¿Para qué las utilizaron?**
 - Para refactorizar la arquitectura CSS usando un sistema de tokens, implementar un *footer* colapsable con persistencia de estado (`localStorage`), limpiar comentarios del código para cumplir restricciones del proyecto, corregir validaciones HTML y accesibilidad, y generar mensajes de commit en inglés.
@@ -19,6 +20,11 @@ El informe deberá tener una extension aproximada de 1 a 2 páginas y responder:
 - Para extender la integración del Asistente Virtual Flotante "Pesito" al resto de las páginas protegidas (`simulador.html`, `resumen.html`, `market-rates.html`), asegurando la consistencia de scripts y estructura HTML en toda la aplicación.
 - Para validar directrices de la skill de "buenas prácticas", específicamente confirmando que la automatización de actualizaciones de contexto en `AGENTS.md` es una estrategia correcta.
 - Para pulir la UI del simulador (rediseñar el efecto hover de las cards del formulario y scoparlo correctamente), corregir la superposición de notificaciones de logros con otros toasts, rediseñar el footer con el logo de marca, y preservar el color del borde izquierdo en el hover de los movimientos del home.
+- Diseñar e implementar lo central y principal de la website page Resumen, con enfoque en vista, renderizados dinamicos, contenedores con grillas, estilados y funcionalidades, conservando la estatica de homebanking frío. Con lo cual, basicamente, se inovo con 4 estructuras de cards financieras (Ingreso | Gastos | Sumatoria de Metas de Ahorro | Balance de Movimientos) y con un ledger con columnas alineadas al tipico estilado de extracto bancario.
+- Diagnosticar y resolver un `SyntaxError: Unexpected token 'export'`
+  causado por `state.js` mezclando sintaxis ES module con carga
+  como classic script en `index.html`.
+- Refactorizar `base/scripts/resumen 
 
 **3 ¿Qué partes del proyecto fueron asistidas por IA?**
 - Refactorización visual de la interfaz de usuario (HTML/CSS de `index.html`, `simulador.html`, `resumen.html`, `market-rates.html`).
