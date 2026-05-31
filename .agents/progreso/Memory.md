@@ -18,7 +18,7 @@ Idea 5 - IntegrarTEC 2026: Mini Finance
 - Sistema de autenticacion con login, registro, recuperacion y auth guard en todas las paginas protegidas.
 - Modulos financieros implementados: `config.js`, `state.js`, `dom.js`, `render.js`, `events.js`, `main.js`.
 - Cumplimiento del desafio obligatorio: alertas visuales en el DOM para limite de gasto y meta de ahorro.
-- Asistente virtual "Pesito" integrado en todas las paginas protegidas (`pesito-brain.js`, `pesito-chat.js`).
+- Asistente virtual flotante "Pesito" integrado con opciones guiadas (tipo BOTI), interfaz Mobile-First (Bottom Sheet) y diseño SVG inline.
 - Reconstruccion de la home con 5 bloques: Hero, Metricas Clave, Panel de Logros, Distribucion de Gastos y Ultimos Movimientos.
 - Dashboard: Distribucion de Gastos con insight de categoria mayor y barras de progreso por categoria (Vanilla CSS/JS).
 - Orden cronologico inverso y limite de 5 movimientos en Inicio y Simulador.
