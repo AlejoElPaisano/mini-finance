@@ -1,6 +1,7 @@
 import { FormatAmount } from './helpers.js' ;
 import { LoadMovements, STORAGE_KEYS } from './local-storage.js' ;
-import { TYPE_LABELS, CATEGORY_LABELS, SIGN_BY_TYPE } from './state.js' ;
+import { TYPE_LABELS, CATEGORY_LABELS, SIGN_BY_TYPE } from './labels.js' ;
+
 
 const resumenElements = {
 
