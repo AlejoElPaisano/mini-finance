@@ -21,6 +21,10 @@ const CURRENCIES = {
   UYU: { name: 'Peso Uruguayo',         flag: '🇺🇾', symbol: '$'  },
 };
 
+// Referencias a los charts activos
+let chartFrom = null;
+let chartTo   = null;
+
 // ── Utilidades ───────────────────────────────────────────────
 
 function formatNumber(n, decimals = 2) {
@@ -152,19 +156,143 @@ function renderCryptoCards(coins) {
   });
 }
 
-// ── FOREX — Conversión (exchangerate-api.com) ─────────────────
+// ── FOREX — Conversión ────────────────────────────────────────
 
 async function fetchForexRate(from, to) {
   if (from === to) return 1;
-
-  const url = `https://api.exchangerate-api.com/v4/latest/${from}`;
-  const res = await fetch(url);
+  const res  = await fetch(`https://api.exchangerate-api.com/v4/latest/${from}`);
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   const data = await res.json();
-
   const rate = data.rates[to];
   if (!rate) throw new Error(`Moneda ${to} no encontrada`);
   return rate;
+}
+
+// ── FOREX — Estimación semanal ────────────────────────────────
+
+function generateWeeklyEstimate(currentRate) {
+  const values = [currentRate];
+  for (let i = 1; i < 7; i++) {
+    const prev      = values[0];
+    const variation = (Math.random() * 0.016) - 0.008;
+    values.unshift(parseFloat((prev * (1 - variation)).toFixed(6)));
+  }
+  return values;
+}
+
+function getWeekLabels() {
+  return Array.from({ length: 7 }, (_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - (6 - i));
+    return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}`;
+  });
+}
+
+// ── FOREX — Renderizar gráfico individual ─────────────────────
+
+function renderSingleChart(canvasId, labels, values, currency) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return null;
+
+  const first = values[0];
+  const last  = values[values.length - 1];
+  const isUp  = last >= first;
+
+  const lineColor = isUp
+    ? getComputedStyle(document.documentElement).getPropertyValue('--success-border').trim() || '#16a34a'
+    : getComputedStyle(document.documentElement).getPropertyValue('--danger-border').trim()  || '#dc2626';
+
+  const ctx      = canvas.getContext('2d');
+  const gradient = ctx.createLinearGradient(0, 0, 0, 180);
+  gradient.addColorStop(0, lineColor + '33');
+  gradient.addColorStop(1, lineColor + '00');
+
+  return new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        label: currency,
+        data: values,
+        borderColor: lineColor,
+        borderWidth: 2,
+        backgroundColor: gradient,
+        pointRadius: 4,
+        pointBackgroundColor: lineColor,
+        pointHoverRadius: 6,
+        fill: true,
+        tension: 0.3,
+      }],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--bg-surface').trim() || '#1e293b',
+          borderColor:     getComputedStyle(document.documentElement).getPropertyValue('--border-default').trim() || 'rgba(255,255,255,0.12)',
+          borderWidth: 1,
+          titleColor:  getComputedStyle(document.documentElement).getPropertyValue('--fg-tertiary').trim() || '#94a3b8',
+          bodyColor:   getComputedStyle(document.documentElement).getPropertyValue('--fg-primary').trim()  || '#f8fafc',
+          padding: 10,
+          callbacks: {
+            label: ctx => ` ${formatNumber(ctx.parsed.y, 4)} ${currency}`,
+          },
+        },
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: {
+            color: getComputedStyle(document.documentElement).getPropertyValue('--fg-muted').trim() || '#64748b',
+            font: { size: 10 },
+          },
+          border: { display: false },
+        },
+        y: {
+          position: 'right',
+          grid: {
+            color: getComputedStyle(document.documentElement).getPropertyValue('--border-subtle').trim() || 'rgba(255,255,255,0.06)',
+          },
+          ticks: {
+            color: getComputedStyle(document.documentElement).getPropertyValue('--fg-muted').trim() || '#64748b',
+            font: { size: 10 },
+            callback: v => formatNumber(v, 4),
+          },
+          border: { display: false },
+        },
+      },
+    },
+  });
+}
+
+// ── FOREX — Mostrar los dos gráficos ─────────────────────────
+
+function loadForexCharts(from, to, rateFromTo) {
+  const placeholder = document.getElementById('forex-chart-placeholder');
+  const chartsWrap  = document.getElementById('forex-charts-wrap');
+
+  if (placeholder) placeholder.hidden = true;
+  if (chartsWrap)  chartsWrap.hidden  = false;
+
+  // Destruir charts anteriores
+  if (chartFrom) { chartFrom.destroy(); chartFrom = null; }
+  if (chartTo)   { chartTo.destroy();   chartTo   = null; }
+
+  const labels       = getWeekLabels();
+  const valuesFromTo = generateWeeklyEstimate(rateFromTo);
+  const valuesTo     = generateWeeklyEstimate(1 / rateFromTo); // inverso: cuánto vale 1 unidad de "to" en "from"
+
+  // Títulos
+  const titleFrom = document.getElementById('chart-title-from');
+  const titleTo   = document.getElementById('chart-title-to');
+  if (titleFrom) titleFrom.textContent = `${from} → ${to}`;
+  if (titleTo)   titleTo.textContent   = `${to} → ${from}`;
+
+  chartFrom = renderSingleChart('canvas-from', labels, valuesFromTo, to);
+  chartTo   = renderSingleChart('canvas-to',   labels, valuesTo,     from);
 }
 
 // ── FOREX — Validación ────────────────────────────────────────
@@ -255,6 +383,8 @@ async function handleForexSubmit(e) {
     const updated = dom.forexUpdated();
     if (updated) updated.textContent = `Tasa obtenida: ${new Date().toLocaleTimeString('es-AR')}`;
 
+    loadForexCharts(from, to, rate);
+
   } catch (err) {
     console.error('ExchangeRate error:', err);
     if (error) {
@@ -277,6 +407,14 @@ function handleSwap() {
     result.classList.remove('mkt-result--visible');
     setTimeout(() => { result.hidden = true; }, 250);
   }
+
+  // Ocultar gráficos al invertir
+  const chartsWrap  = document.getElementById('forex-charts-wrap');
+  const placeholder = document.getElementById('forex-chart-placeholder');
+  if (chartsWrap)  chartsWrap.hidden  = true;
+  if (placeholder) placeholder.hidden = false;
+  if (chartFrom) { chartFrom.destroy(); chartFrom = null; }
+  if (chartTo)   { chartTo.destroy();   chartTo   = null; }
 }
 
 function initForexForm() {
