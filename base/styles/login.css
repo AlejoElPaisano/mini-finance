@@ -112,9 +112,16 @@
 .auth-form .form-group input {
   background-color: var(--bg-base);
   border-color: var(--border-default);
+  color: var(--fg-primary);
+  caret-color: var(--brand-accent);
   transition: border-color var(--duration-fast) var(--ease-out-quart),
               box-shadow var(--duration-fast) var(--ease-out-quart),
               background-color var(--duration-fast) var(--ease-out-quart);
+}
+
+.auth-form .form-group input::placeholder {
+  color: var(--fg-muted);
+  opacity: 1;
 }
 
 .auth-form .form-group input:hover {
@@ -124,6 +131,33 @@
 
 .auth-form .form-group input:focus {
   background-color: var(--bg-surface);
+}
+
+body.dark-mode .auth-form .form-group input {
+  background-color: rgba(15, 23, 42, 0.72);
+  border-color: rgba(248, 250, 252, 0.16);
+  color: var(--fg-primary);
+  -webkit-text-fill-color: var(--fg-primary);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+body.dark-mode .auth-form .form-group input:hover,
+body.dark-mode .auth-form .form-group input:focus {
+  background-color: rgba(30, 41, 59, 0.92);
+  border-color: var(--brand-primary);
+}
+
+body.dark-mode .auth-form .form-group input::placeholder {
+  color: rgba(203, 213, 225, 0.68);
+}
+
+body.dark-mode .auth-form .form-group input:-webkit-autofill,
+body.dark-mode .auth-form .form-group input:-webkit-autofill:hover,
+body.dark-mode .auth-form .form-group input:-webkit-autofill:focus {
+  border-color: var(--brand-primary);
+  -webkit-text-fill-color: var(--fg-primary);
+  box-shadow: 0 0 0 1000px #1e293b inset;
+  caret-color: var(--brand-accent);
 }
 
 .auth-footer {

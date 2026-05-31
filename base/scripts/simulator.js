@@ -1,5 +1,5 @@
 import { ParseAmount, FormatAmount } from "./helpers.js";
-import { STORAGE_KEYS, LoadMovements, SaveMovements, SaveAmount } from './local-storage.js'
+import { STORAGE_KEYS, SaveAmount } from './local-storage.js'
 
 
 export const simulatorElements = {
@@ -36,32 +36,42 @@ export const simulatorElements = {
 
     // UI global
     $darkModeToggle: document.querySelector('#dark-mode-toggle'),
+    $resetBtn: document.querySelector('#reset-btn'),
 
 }
 
 let savingsMode = 'amount' ;
-const INITIAL_TOTAL = 10 ;
 
+function showToast(message, type = 'success') {
 
-function ComputeTotal ( movements ) {
+    let $container = document.querySelector('.toast-container') ;
 
-    const compute = movements.reduce( (acc, m) => {
+    if ( !$container ) {
+        $container = document.createElement('div') ;
+        $container.className = 'toast-container' ;
+        document.body.appendChild( $container ) ;
+    }
 
-        // Solo income/expense afectan el total. Las metas son informativas.
-        if ( m.type !== 'income' && m.type !== 'expense' ) return acc ;
+    const $toast = document.createElement('div') ;
+    $toast.className = `toast toast--${type}` ;
 
-        const amount = Number( m.amount ) || 0 ;
+    const icon = type === 'success' ? '✅' : '💡' ;
 
-        return m.type === 'income'
-                        ? acc + amount
-                        : acc - amount
+    $toast.innerHTML = `
+        <span class="toast__icon">${icon}</span>
+        <span class="toast__text">${message}</span>
+    ` ;
 
-    }, INITIAL_TOTAL )
+    $container.appendChild( $toast ) ;
 
+    setTimeout( () => {
+        $toast.classList.add('toast--exit') ;
+        $toast.addEventListener('animationend', () => {
+            $toast.remove() ;
+        }) ;
+    }, 3000 ) ;
 
-    return compute ;
 }
-
 
 function ComputeAdjusted ( total, savingsValue, mode ) {
 
@@ -73,16 +83,11 @@ function ComputeAdjusted ( total, savingsValue, mode ) {
 
 }
 
-
-// Render & persist — separados para que cada form afecte solo lo suyo
-
 function RefreshTotal () {
 
     const { $totalAmount } = simulatorElements
 
-    const movementsCurrent = LoadMovements() ;
-
-    const totalCurrent = ComputeTotal( movementsCurrent ) ;
+    const totalCurrent = getBalance() ;
 
     $totalAmount.textContent = FormatAmount( totalCurrent ) ;
 
@@ -92,25 +97,18 @@ function RefreshTotal () {
 
 function RefreshAdjusted () {
 
-    const { $totalAmount, $adjustedAmount, $savingsGoal } = simulatorElements
+    const { $adjustedAmount } = simulatorElements
 
-    const totalCurrent = ParseAmount( $totalAmount.textContent ) ;
+    const totalCurrent = getBalance() ;
 
-    const savedValue = localStorage.getItem( STORAGE_KEYS.savingsGoal ) ;
+    const savedValue = getSavingsGoal() ;
 
     const savedMode = localStorage.getItem( STORAGE_KEYS.savingsMode ) || 'amount' ;
 
-
-
-
-
-    const adjustedCurrent = savedValue !== null
-                                        ? ComputeAdjusted( totalCurrent, Number(savedValue) , savedMode  ) 
-                                        : totalCurrent 
+    const adjustedCurrent = savedValue > 0
+                                        ? ComputeAdjusted( totalCurrent, savedValue, savedMode )
+                                        : totalCurrent
     ;
-
-
-
 
     $adjustedAmount.textContent = FormatAmount( adjustedCurrent ) ;
 
@@ -207,7 +205,7 @@ function CreateMovementNode ( m ) {
 function RenderMovements () {
 
     const { $movementsList } = simulatorElements
-    const movements = LoadMovements()
+    const movements = getMovements()
 
     $movementsList.replaceChildren()
 
@@ -219,8 +217,12 @@ function RenderMovements () {
         return
     }
 
-    // Más reciente primero
-    const sorted = movements.slice().reverse()
+    // Más reciente primero, máximo 5
+    const sorted = movements.slice().sort((a, b) => {
+        const dateA = new Date(a.createdAt || a.date);
+        const dateB = new Date(b.createdAt || b.date);
+        return dateB - dateA;
+    }).slice(0, 5)
 
     sorted.forEach( m => {
         $movementsList.appendChild( CreateMovementNode(m) )
@@ -232,17 +234,14 @@ function InitAmounts () {
 
     const { $adjustedAmount, $totalAmount } = simulatorElements
 
-    // Total: siempre se recomputa desde el array de movimientos
     RefreshTotal() ;
 
-    // Adjusted: leer el último valor confirmado (no recalcular ante un reload)
     const adjustedSaved = localStorage.getItem( STORAGE_KEYS.adjustedAmount ) ;
 
     if ( adjustedSaved !== null ) {
         $adjustedAmount.textContent = FormatAmount( Number(adjustedSaved) ) ;
     }
     else {
-        // primera carga: arranca igual al total
         $adjustedAmount.textContent = $totalAmount.textContent ;
     }
 }
@@ -374,6 +373,14 @@ simulatorElements.$toggleScaleBtn.addEventListener( 'click', ToggleSavingsScale 
 
 simulatorElements.$savingsGoal.addEventListener( 'input', UpdateSavingsOutput ) ;
 
+if (simulatorElements.$resetBtn) {
+    simulatorElements.$resetBtn.addEventListener('click', () => {
+        if (simulatorElements.$form) {
+            simulatorElements.$form.reset();
+        }
+    });
+}
+
 
 
 
@@ -390,6 +397,8 @@ simulatorElements.$form.addEventListener( 'submit', (e) => {
 
     const movement = {
 
+        id: crypto.randomUUID(),
+
         type: $typeSelect.value ,
 
         category: $categorySelect.value ,
@@ -405,18 +414,22 @@ simulatorElements.$form.addEventListener( 'submit', (e) => {
     }
 
 
-    const movements = LoadMovements() ;
+    const movements = getMovements() ;
 
     movements.push( movement ) ;
 
-    SaveMovements(movements) ;
+    saveMovements(movements) ;
 
+    const typeLabel = movement.type === 'income' ? 'ingreso' : 'gasto' ;
+    showToast( `Movimiento agregado: ${typeLabel} de ${ FormatAmount(movement.amount) }`, 'success' ) ;
 
     RefreshTotal() ;
 
     RefreshAdjusted() ;
 
     RenderMovements() ;
+
+    if ( typeof checkAchievements === 'function' ) checkAchievements() ;
 
     e.target.reset()
 
@@ -444,7 +457,7 @@ simulatorElements.$savingsForm.addEventListener( 'submit', (e) => {
                             : `Reserva fija de ${ FormatAmount(sliderValue) }` ;
 
     // Commit: el slider actual pasa a ser la meta vigente
-    SaveAmount( STORAGE_KEYS.savingsGoal, $savingsGoal.value ) ;
+    setSavingsGoal( sliderValue ) ;
     SaveAmount( STORAGE_KEYS.savingsMode, savingsMode ) ;
 
     // Registro de la meta en el feed de movimientos
@@ -457,12 +470,19 @@ simulatorElements.$savingsForm.addEventListener( 'submit', (e) => {
         createdAt: new Date().toISOString(),
     }
 
-    const movements = LoadMovements() ;
+    const movements = getMovements() ;
     movements.push( savingsMovement ) ;
-    SaveMovements( movements ) ;
+    saveMovements( movements ) ;
+
+    const goalLabel = savingsMode === 'percent'
+                        ? `${sliderValue}% del total`
+                        : FormatAmount(sliderValue) ;
+    showToast( `Meta de ahorro actualizada: ${goalLabel}`, 'info' ) ;
 
     RefreshAdjusted() ;
     RenderMovements() ;
+
+    if ( typeof checkAchievements === 'function' ) checkAchievements() ;
 
 } )
 

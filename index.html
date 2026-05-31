@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mini Finance - Inicio</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -19,13 +20,22 @@
 
   <header>
     <nav>
-      <ul>
-        <li><a href="./index.html" aria-current="page">Inicio</a></li>
-        <li><a href="./pages/simulador.html">Simulador</a></li>
-        <li><a href="./pages/resumen.html">Resumen</a></li>
-        <li><a href="./pages/market-rates.html">Cotizaciones</a></li>
-      </ul>
+      <div class="nav-left">
+        <div class="brand-logo">
+          <img src="./assets/logo-mf.svg" alt="Mini Finance Logo" style="width: 48px; height: 48px;">
+        </div>
+        <ul>
+          <li><a href="./index.html" aria-current="page">Inicio</a></li>
+          <li><a href="./pages/simulador.html">Simulador</a></li>
+          <li><a href="./pages/resumen.html">Resumen</a></li>
+          <li><a href="./pages/market-rates.html">Cotizaciones</a></li>
+        </ul>
+      </div>
       <div class="header-tools">
+        <button type="button" id="achievements-toggle" class="btn-tool" aria-label="Centro de logros" title="Ver todos los logros">
+          <span aria-hidden="true">🏆</span>
+          <span class="btn-tool__label">Logros</span>
+        </button>
         <div class="accessibility-tools">
           <button type="button" id="dyslexic-toggle" class="btn-tool" aria-pressed="false" title="Fuente para dislexia">
             <span aria-hidden="true">👁️</span>
@@ -81,14 +91,14 @@
       </article>
       <article class="card card--savings">
         <h2 class="card__title">Meta de Ahorro</h2>
-        <p class="card__value" id="savings-goal">$500.000</p>
+        <p class="card__value" id="savings-goal-display">$0</p>
         <div class="savings-progress">
           <div class="savings-progress__track">
-            <div class="savings-progress__fill" style="width: 35%;"></div>
+            <div class="savings-progress__fill" id="savings-progress-fill" style="width: 0%;"></div>
           </div>
           <div class="savings-progress__meta">
-            <span id="savings-current">$175.000 acumulados</span>
-            <span id="savings-percent">35%</span>
+            <span id="savings-current">$0 acumulados</span>
+            <span id="savings-percent">0%</span>
           </div>
         </div>
       </article>
@@ -104,7 +114,7 @@
 
     <section class="chart-section" aria-labelledby="chart-title">
       <h2 id="chart-title" class="chart-section__title">Distribución de Gastos</h2>
-      <div class="chart-container">
+      <div class="chart-container" id="expense-distribution-container">
         <div class="chart-empty">
           <p class="chart-empty__icon" aria-hidden="true">📊</p>
           <p>Aún no hay gastos registrados para analizar.</p>
@@ -116,28 +126,8 @@
       <div class="recent-movements__header">
         <h2 id="recent-title" class="recent-movements__title">Últimos Movimientos</h2>
       </div>
-      <ul class="movements-list--compact">
-        <li class="movement-item movement-item--income">
-          <div class="movement-item__info">
-            <span class="movement-item__description">Sueldo Mensual</span>
-            <span class="movement-item__meta">Ingreso · Trabajo · 20/05/2026</span>
-          </div>
-          <span class="movement-item__amount">+$450.000</span>
-        </li>
-        <li class="movement-item movement-item--expense">
-          <div class="movement-item__info">
-            <span class="movement-item__description">Supermercado Coto</span>
-            <span class="movement-item__meta">Gasto · Alimentación · 22/05/2026</span>
-          </div>
-          <span class="movement-item__amount">-$68.500</span>
-        </li>
-        <li class="movement-item movement-item--expense">
-          <div class="movement-item__info">
-            <span class="movement-item__description">Netflix Subscription</span>
-            <span class="movement-item__meta">Gasto · Entretenimiento · 25/05/2026</span>
-          </div>
-          <span class="movement-item__amount">-$5.499</span>
-        </li>
+      <ul class="movements-list--compact" id="recent-movements-list">
+        <li class="empty-state">No hay movimientos registrados.</li>
       </ul>
       <div style="text-align: right; margin-top: var(--space-4);">
         <a href="./pages/resumen.html" class="link-view-all">Ver historial completo</a>
@@ -151,17 +141,21 @@
       <span class="footer-toggle-text">CERRAR</span>
     </button>
     <div class="footer-drawer" id="footer-drawer">
-      <div class="footer__grid">
-        <div>
+      <div class="footer-drawer__inner">
+        <div class="footer__grid">
+        <div class="footer__brand-col">
+          <div class="footer__brand-logo">
+            <img src="./assets/logo-mf.svg" alt="Mini Finance" class="footer__brand-logo-img">
+          </div>
           <p class="footer__brand-name"><span aria-hidden="true">📈</span> Mini Finance</p>
           <p class="footer__brand-tagline">Tu suite interactiva para simular metas y planificar tu futuro financiero.</p>
         </div>
         <div>
-          <p class="footer__heading">Proyecto</p>
+          <p class="footer__heading">Soporte</p>
           <ul class="footer__links">
             <li><a href="https://github.com/AlejoElPaisano/integrartec-proyecto-1" target="_blank" rel="noopener">Repositorio</a></li>
-            <li><a href="#">Deploy</a></li>
-            <li><a href="https://github.com/AlejoElPaisano/integrartec-proyecto-1/blob/develop/README.md" target="_blank" rel="noopener">README</a></li>
+            <li><a href="https://github.com/AlejoElPaisano/integrartec-proyecto-1/issues" target="_blank" rel="noopener">Reportar un bug</a></li>
+            <li><span>Mini Finance v1.0</span></li>
           </ul>
         </div>
         <div>
@@ -179,6 +173,7 @@
         <a href="https://fpintegrar.org" target="_blank" rel="noopener" class="footer__logo-link">
           <img src="./assets/img/logo-integrar.png" alt="Fundación Integrar" class="footer__logo-img" loading="lazy">
         </a>
+        </div>
       </div>
     </div>
   </footer>
@@ -191,46 +186,25 @@
       <header class="pesito-header">
         <div class="pesito-header__info">
           <div class="pesito-header__avatar" aria-hidden="true">
-            <!-- Pesito: Moneda-cerdito animada, identidad visual de Mini Finance -->
+            <!-- Pesito: Moneda animada, identidad visual de Mini Finance -->
             <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- Orejas -->
-              <ellipse cx="25" cy="22" rx="11" ry="17" fill="#f59e0b" stroke="#b45309" stroke-width="3" transform="rotate(-25 25 22)"/>
-              <ellipse cx="75" cy="22" rx="11" ry="17" fill="#f59e0b" stroke="#b45309" stroke-width="3" transform="rotate(25 75 22)"/>
-              <!-- Interior orejas -->
-              <ellipse cx="25" cy="22" rx="5" ry="9" fill="#fde68a" transform="rotate(-25 25 22)"/>
-              <ellipse cx="75" cy="22" rx="5" ry="9" fill="#fde68a" transform="rotate(25 75 22)"/>
-
-              <!-- Moneda / Cara -->
-              <circle cx="50" cy="56" r="36" fill="url(#goldGradient)" stroke="#b45309" stroke-width="3"/>
-              <!-- Relieve borde moneda -->
-              <circle cx="50" cy="56" r="32" stroke="#b45309" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.5"/>
-
-              <!-- Ojos -->
-              <circle cx="38" cy="50" r="5.5" fill="#1e293b"/>
-              <circle cx="62" cy="50" r="5.5" fill="#1e293b"/>
-              <circle cx="40" cy="48" r="2" fill="white"/>
-              <circle cx="64" cy="48" r="2" fill="white"/>
-
-              <!-- Mejillas -->
-              <circle cx="30" cy="60" r="4.5" fill="#fca5a5" opacity="0.5"/>
-              <circle cx="70" cy="60" r="4.5" fill="#fca5a5" opacity="0.5"/>
-
-              <!-- Sonrisa -->
-              <path d="M42 64 Q50 72 58 64" stroke="#1e293b" stroke-width="3" stroke-linecap="round" fill="none"/>
-              <path d="M40 63 Q42 65 44 63" stroke="#1e293b" stroke-width="2" stroke-linecap="round" fill="none"/>
-              <path d="M56 63 Q58 65 60 63" stroke="#1e293b" stroke-width="2" stroke-linecap="round" fill="none"/>
-
-              <!-- Letra P de Pesito (marca de la moneda) -->
-              <text x="50" y="42" text-anchor="middle" font-family="'Playfair Display', Georgia, serif" font-weight="700" font-size="13" fill="#92400e" opacity="0.35">P</text>
-
-              <!-- Reflejo metálico -->
-              <ellipse cx="34" cy="28" rx="10" ry="5" fill="white" opacity="0.3" transform="rotate(-25 34 28)"/>
-
+              <circle cx="50" cy="50" r="46" fill="url(#goldGradient)" stroke="#b45309" stroke-width="4"/>
+              <circle cx="50" cy="50" r="38" stroke="#b45309" stroke-width="2" stroke-dasharray="6 4" opacity="0.6"/>
+              <circle cx="50" cy="50" r="34" fill="#fbbf24" opacity="0.4"/>
+              <path d="M 18,35 A 40,40 0 0,1 35,18" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+              <circle cx="36" cy="46" r="6" fill="#1e293b"/>
+              <circle cx="64" cy="46" r="6" fill="#1e293b"/>
+              <circle cx="38" cy="44" r="2.5" fill="white"/>
+              <circle cx="66" cy="44" r="2.5" fill="white"/>
+              <ellipse cx="26" cy="54" rx="5" ry="3" fill="#f43f5e" opacity="0.6"/>
+              <ellipse cx="74" cy="54" rx="5" ry="3" fill="#f43f5e" opacity="0.6"/>
+              <path d="M 42,58 Q 50,68 58,58" stroke="#1e293b" stroke-width="4" stroke-linecap="round" fill="none"/>
               <defs>
-                <linearGradient id="goldGradient" x1="20" y1="20" x2="80" y2="80" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#fcd34d"/>
-                  <stop offset="0.5" stop-color="#fbbf24"/>
-                  <stop offset="1" stop-color="#f59e0b"/>
+                <linearGradient id="goldGradient" x1="10" y1="10" x2="90" y2="90" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#fef08a"/>
+                  <stop offset="0.3" stop-color="#fcd34d"/>
+                  <stop offset="0.8" stop-color="#f59e0b"/>
+                  <stop offset="1" stop-color="#d97706"/>
                 </linearGradient>
               </defs>
             </svg>
@@ -261,22 +235,23 @@
     <span class="pesito-toggle__icon pesito-toggle__icon--open" aria-hidden="true">
       <!-- Pesito mini para el botón flotante -->
       <svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="25" cy="22" rx="11" ry="17" fill="#f59e0b" stroke="#92400e" stroke-width="3" transform="rotate(-25 25 22)"/>
-        <ellipse cx="75" cy="22" rx="11" ry="17" fill="#f59e0b" stroke="#92400e" stroke-width="3" transform="rotate(25 75 22)"/>
-        <ellipse cx="25" cy="22" rx="5" ry="9" fill="#fde68a" transform="rotate(-25 25 22)"/>
-        <ellipse cx="75" cy="22" rx="5" ry="9" fill="#fde68a" transform="rotate(25 75 22)"/>
-        <circle cx="50" cy="56" r="36" fill="url(#goldGradToggle)" stroke="#92400e" stroke-width="3"/>
-        <circle cx="38" cy="50" r="5.5" fill="#1e293b"/>
-        <circle cx="62" cy="50" r="5.5" fill="#1e293b"/>
-        <circle cx="40" cy="48" r="2" fill="white"/>
-        <circle cx="64" cy="48" r="2" fill="white"/>
-        <path d="M42 64 Q50 72 58 64" stroke="#1e293b" stroke-width="3" stroke-linecap="round" fill="none"/>
-        <ellipse cx="34" cy="28" rx="10" ry="5" fill="white" opacity="0.3" transform="rotate(-25 34 28)"/>
+        <circle cx="50" cy="50" r="46" fill="url(#goldGradToggle)" stroke="#92400e" stroke-width="4"/>
+        <circle cx="50" cy="50" r="38" stroke="#92400e" stroke-width="2" stroke-dasharray="6 4" opacity="0.6"/>
+        <circle cx="50" cy="50" r="34" fill="#fbbf24" opacity="0.4"/>
+        <path d="M 18,35 A 40,40 0 0,1 35,18" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+        <circle cx="36" cy="46" r="6" fill="#1e293b"/>
+        <circle cx="64" cy="46" r="6" fill="#1e293b"/>
+        <circle cx="38" cy="44" r="2.5" fill="white"/>
+        <circle cx="66" cy="44" r="2.5" fill="white"/>
+        <ellipse cx="26" cy="54" rx="5" ry="3" fill="#f43f5e" opacity="0.6"/>
+        <ellipse cx="74" cy="54" rx="5" ry="3" fill="#f43f5e" opacity="0.6"/>
+        <path d="M 42,58 Q 50,68 58,58" stroke="#1e293b" stroke-width="4" stroke-linecap="round" fill="none"/>
         <defs>
-          <linearGradient id="goldGradToggle" x1="20" y1="20" x2="80" y2="80" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#fcd34d"/>
-            <stop offset="0.5" stop-color="#fbbf24"/>
-            <stop offset="1" stop-color="#f59e0b"/>
+          <linearGradient id="goldGradToggle" x1="10" y1="10" x2="90" y2="90" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#fef08a"/>
+            <stop offset="0.3" stop-color="#fcd34d"/>
+            <stop offset="0.8" stop-color="#f59e0b"/>
+            <stop offset="1" stop-color="#d97706"/>
           </linearGradient>
         </defs>
       </svg>
@@ -285,12 +260,29 @@
   </button>
 
   <div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Aviso de cookies" hidden>
-    <p class="cookie-banner__text">Utilizamos cookies y almacenamiento local para mejorar tu experiencia. Al continuar navegando, aceptás su uso.</p>
-    <button type="button" id="cookie-accept" class="btn btn--primary">Entendido</button>
+    <div class="cookie-banner__content">
+      <div class="cookie-banner__icon" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/>
+          <path d="M8.5 8.5v.01"/>
+          <path d="M16 15v.01"/>
+          <path d="M12 7v.01"/>
+          <path d="M20 16v.01"/>
+          <path d="M17 11v.01"/>
+          <path d="M7 14v.01"/>
+        </svg>
+      </div>
+      <div class="cookie-banner__text-wrap">
+        <p class="cookie-banner__title">Privacidad y Cookies</p>
+        <p class="cookie-banner__text">Utilizamos cookies y almacenamiento local para mejorar tu experiencia. Al continuar navegando, aceptás su uso.</p>
+      </div>
+    </div>
+    <button type="button" id="cookie-accept" class="btn btn--primary cookie-banner__btn">Entendido</button>
   </div>
 
   <script src="./base/scripts/config.js"></script>
   <script src="./base/scripts/state.js"></script>
+  <script src="./base/scripts/achievements.js"></script>
   <script src="./base/scripts/dom.js"></script>
   <script src="./base/scripts/render.js"></script>
   <script src="./base/scripts/events.js"></script>
@@ -300,3 +292,4 @@
   <script src="./base/scripts/pesito-chat.js"></script>
 </body>
 </html>
+

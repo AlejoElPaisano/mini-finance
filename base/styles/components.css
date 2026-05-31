@@ -379,8 +379,8 @@
 }
 
 .movement-item:hover {
-  border-color: var(--border-default);
   box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
 }
 
 .movement-item--income {

@@ -16,7 +16,30 @@ section.card {
   padding: 1rem;
   border-radius: 0.75rem;
   background-color: #e0e7ff;
-  margin-top: 0 ;
+  margin-top: 0;
+}
+
+section.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--brand-primary) 0%, var(--brand-accent) 100%);
+  border-radius: 0 2px 2px 0;
+  box-shadow: 0 0 12px rgba(30, 58, 138, 0.35);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform var(--duration-base) var(--ease-out-expo);
+}
+
+section.card:hover::before {
+  transform: scaleY(1);
+}
+
+body.dark-mode section.card::before {
+  box-shadow: 0 0 12px rgba(147, 197, 253, 0.4);
 }
 
 section.card > h2 {
@@ -122,6 +145,40 @@ section.card > h2 {
   font-family: inherit;           /* hereda Sora/Playfair en vez de la mono del browser */
   min-height: 3rem;
   resize: vertical;               /* solo arrastrable hacia abajo (recomendado) */
+}
+
+/* Micro-animaciones de inputs */
+.form-group input,
+.form-group select,
+.form-group textarea {
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.2s ease,
+              border-color 0.2s ease;
+  border: 2px solid transparent;
+}
+
+.form-group input:hover,
+.form-group select:hover,
+.form-group textarea:hover {
+  transform: translateY(-1px) scale(1.005);
+  box-shadow: 0 12px 20px -4px rgb(0 0 0 / 0.12), 0 6px 8px -4px rgb(0 0 0 / 0.1);
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15), 0 12px 24px -4px rgb(0 0 0 / 0.12);
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.form-group input:active,
+.form-group select:active,
+.form-group textarea:active {
+  transform: scale(0.985);
+  transition-duration: 0.05s;
 }
 
 
@@ -544,4 +601,285 @@ p.card-total-label {
   content: "⊘ ";
   opacity: 0.6;
   font-weight: 400;
+}
+
+/* ══════════════════════════════════════════
+   Dark mode overrides — mantener cards del
+   formulario con sus tonos, fondo azul oscuro
+   igual que el resto del sitio
+   ══════════════════════════════════════════ */
+
+body.dark-mode section.card {
+  background-color: #1e293b;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+body.dark-mode section.card > h2 {
+  color: var(--fg-primary);
+}
+
+body.dark-mode #movement-form {
+  background-color: #3d5a52;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  --divider-color: rgba(255, 255, 255, 0.2);
+}
+
+body.dark-mode #savings-form {
+  background-color: #2d4a4a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  --divider-color: rgba(255, 255, 255, 0.2);
+}
+
+body.dark-mode .card-total {
+  background-color: #0c4a6e;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --divider-color: rgba(255, 255, 255, 0.2);
+}
+
+body.dark-mode .card-total #savings-title {
+  color: #fde68a;
+}
+
+body.dark-mode #movement-form .form-group label,
+body.dark-mode .range-field {
+  color: var(--fg-primary);
+}
+
+body.dark-mode #movement-form .form-group input,
+body.dark-mode #movement-form .form-group select,
+body.dark-mode #movement-form .form-group textarea {
+  background-color: #5a7a72;
+  color: #f0fdfa;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.25), 0 4px 6px -4px rgb(0 0 0 / 0.2);
+}
+
+body.dark-mode #movement-form .form-group input::placeholder,
+body.dark-mode #movement-form .form-group textarea::placeholder {
+  color: #cbd5e1;
+}
+
+body.dark-mode #savings-form .form-group input,
+body.dark-mode #savings-form .form-group select,
+body.dark-mode #savings-form .form-group textarea {
+  background-color: #1e293b;
+  color: var(--fg-primary);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.25), 0 4px 6px -4px rgb(0 0 0 / 0.2);
+}
+
+body.dark-mode .form-group strong {
+  color: var(--fg-tertiary);
+}
+
+body.dark-mode .range-field output {
+  background-color: #0ea5e9;
+  color: #0f172a;
+}
+
+body.dark-mode .slider-scale {
+  color: var(--fg-muted);
+}
+
+body.dark-mode .btn-scale-toggle {
+  color: #7dd3fc;
+  border-color: #0ea5e9;
+}
+
+body.dark-mode .btn-scale-toggle:hover {
+  background-color: #0ea5e9;
+  color: #0f172a;
+}
+
+body.dark-mode .card-total-label {
+  color: var(--fg-primary);
+}
+
+body.dark-mode .card-total-amount {
+  color: #fde68a;
+  background-color: #075985;
+}
+
+body.dark-mode .card-total-footer {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .card-total-footer__label {
+  color: #cbd5e1;
+}
+
+body.dark-mode .card-total-footer__value {
+  color: #e2e8f0;
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+body.dark-mode .btn--primary {
+  background-color: #0ea5e9;
+  color: #0f172a;
+  border-color: #0284c7;
+}
+
+body.dark-mode .btn--primary:hover {
+  background-color: #0284c7;
+}
+
+body.dark-mode .btn--reset {
+  background-color: #ef4444;
+  color: #fef2f2;
+  border-color: #b91c1c;
+}
+
+body.dark-mode .btn--reset:hover {
+  background-color: #b91c1c;
+}
+
+body.dark-mode .slider-equiv-header:not([hidden]) {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .slider-equiv-header small {
+  color: var(--fg-muted);
+}
+
+body.dark-mode .slider-equiv-header output {
+  color: #7dd3fc;
+}
+
+body.dark-mode .movements__header h2 {
+  color: var(--fg-primary);
+}
+
+body.dark-mode .movements-list .empty-state {
+  color: var(--fg-muted);
+  background-color: #1e293b;
+}
+
+body.dark-mode .movement {
+  background-color: #1e293b;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+body.dark-mode .movement:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+}
+
+body.dark-mode .movement__description {
+  color: var(--fg-primary);
+}
+
+body.dark-mode .movement__date {
+  color: var(--fg-tertiary);
+}
+
+body.dark-mode .movement__meta dd {
+  background-color: #334155;
+  color: var(--fg-secondary);
+}
+
+/* ══════════════════════════════════════════
+   TOAST — Mensajes flotantes de confirmación
+══════════════════════════════════════════ */
+
+.toast-container {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.25rem;
+  border-radius: 0.75rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #0f172a;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  transform: translateX(120%);
+  opacity: 0;
+  animation: toastSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  max-width: 22rem;
+  line-height: 1.4;
+}
+
+.toast--exit {
+  animation: toastSlideOut 0.35s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+}
+
+.toast__icon {
+  flex-shrink: 0;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 1rem;
+}
+
+.toast--success .toast__icon {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.toast--success {
+  border-left: 4px solid #22c55e;
+}
+
+.toast--info .toast__icon {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.toast--info {
+  border-left: 4px solid #3b82f6;
+}
+
+@keyframes toastSlideIn {
+  from {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes toastSlideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+}
+
+/* Dark mode overrides */
+body.dark-mode .toast {
+  background: rgba(30, 41, 59, 0.92);
+  color: #f1f5f9;
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+body.dark-mode .toast--success .toast__icon {
+  background-color: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+}
+
+body.dark-mode .toast--info .toast__icon {
+  background-color: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
 }

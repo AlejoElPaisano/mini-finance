@@ -20,5 +20,14 @@ const dom = {
 
   filterType: document.getElementById('filter-type'),
   filterCategory: document.getElementById('filter-category'),
-  filtersContainer: document.querySelector('.filters')
+  filtersContainer: document.querySelector('.filters'),
+
+  savingsGoalDisplay: document.getElementById('savings-goal-display'),
+  savingsProgressFill: document.getElementById('savings-progress-fill'),
+  savingsCurrent: document.getElementById('savings-current'),
+  savingsPercent: document.getElementById('savings-percent'),
+  recentMovementsList: document.getElementById('recent-movements-list'),
+  achievementsPanel: document.getElementById('achievements-panel'),
+  expenseDistributionContainer: document.getElementById('expense-distribution-container'),
+  resetBtn: document.getElementById('reset-btn')
 };

@@ -1,22 +1,36 @@
 const toggle = document.getElementById('dark-mode-toggle');
+const brandLogoImg = document.querySelector('.brand-logo img');
+
+function updateLogoTheme(isDark) {
+  if (!brandLogoImg) return;
+  const isInPages = window.location.pathname.includes('/pages/');
+  const basePath = isInPages ? '../assets/' : './assets/';
+  brandLogoImg.src = isDark ? `${basePath}logo-mf-dark.svg` : `${basePath}logo-mf.svg`;
+}
 
 const savedMode = localStorage.getItem('dark-mode');
 if (savedMode === 'enabled') {
   document.body.classList.add('dark-mode');
   if (toggle) toggle.textContent = '☀️';
+  updateLogoTheme(true);
+} else {
+  updateLogoTheme(false);
 }
 
 if (toggle) {
   toggle.addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
 
-    if (document.body.classList.contains('dark-mode')) {
+    if (isDark) {
       localStorage.setItem('dark-mode', 'enabled');
       toggle.textContent = '☀️';
     } else {
       localStorage.setItem('dark-mode', 'disabled');
       toggle.textContent = '🌙';
     }
+    
+    updateLogoTheme(isDark);
   });
 }
 
@@ -112,10 +126,24 @@ if (dailyTipElement) {
 }
 
 function initFinancialApp() {
-  if (typeof getMovements !== 'function') return;
+  if (typeof getMovements !== 'function' || typeof dom === 'undefined') return;
 
   renderDashboard();
   renderAlerts();
+  renderSavingsGoal();
+
+  if (dom.recentMovementsList) {
+    renderRecentMovements(3);
+  }
+
+  if (dom.expenseDistributionContainer) {
+    renderExpenseDistribution();
+  }
+
+  if (dom.achievementsPanel) {
+    renderAchievementsPanel();
+    checkAchievements();
+  }
 
   if (dom.movementsList) {
     renderMovements(
@@ -158,8 +186,12 @@ if (cookieBanner && cookieAccept) {
   });
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initFinancialApp);
+  if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    initFinancialApp();
+    initAchievementButton();
+  });
 } else {
   initFinancialApp();
+  initAchievementButton();
 }
