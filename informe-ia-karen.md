@@ -7,7 +7,7 @@
 
 ## 1. ¿Qué herramientas de IA utilizaron?
 
-Se utilizó Claude (Anthropic) como herramienta de asistencia durante el desarrollo de la sección de Cotizaciones y Footer.
+Se utilizó Claude Sonnet 4.6 como herramienta de asistencia durante el desarrollo de la sección de Cotizaciones y Footer.
 
 ---
 
