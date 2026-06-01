@@ -5,10 +5,6 @@
 
 ---
 
-Aquí está el texto adaptado al tono grupal/general:
-
----
-
 ## 1. ¿Qué herramientas de IA utilizaron?
 
 Se utilizó Claude (Anthropic) como herramienta de asistencia durante el desarrollo de la sección de Cotizaciones y Footer.
@@ -23,7 +19,7 @@ Se usó principalmente para dos cosas: entender cómo trabajar correctamente con
 
 ## 3. ¿Qué partes del proyecto fueron asistidas por IA?
 
-La sección de Cotizaciones fue la parte donde más se usó IA. Específicamente ayudó a:
+En la sección de Cotizaciones, específicamente ayudó a:
 
 - Entender cómo hacer un `fetch` a una API externa y manejar la respuesta
 - Decidir qué APIs usar (CoinGecko para cripto, exchangerate-api.com para divisas) y por qué cada una era viable
@@ -58,7 +54,7 @@ Se aprendió que antes de elegir una API hay que verificar tres cosas: que sea g
 
 ## 8. ¿Qué partes del código puede explicar cada integrante?
 
-Se puede explicar la sección de Cotizaciones:
+La sección de Cotizaciones:
 
 - **market-rates.html:** la estructura semántica de la página, el formulario de divisas con sus labels, selects e inputs, y cómo se conecta con el JS mediante IDs
 - **market-rates.js:** cómo funciona el fetch a CoinGecko para traer los precios de cripto, cómo se renderizan las tarjetas dinámicamente en el DOM, cómo funciona la validación del formulario mostrando errores sin alert(), y cómo fetchForexRate obtiene la tasa real desde exchangerate-api.com
