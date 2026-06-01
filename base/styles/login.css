@@ -252,12 +252,6 @@ body.dark-mode .auth-form .form-group input:-webkit-autofill:focus {
   }
 }
 
-.btn--full {
-  width: 100%;
-  margin-top: var(--space-1);
-}
-
-@media (min-width: 768px) {
 .auth-dark-toggle {
   position: fixed;
   top: var(--space-4);
@@ -287,7 +281,13 @@ body.dark-mode .auth-form .form-group input:-webkit-autofill:focus {
   transform: scale(0.96);
 }
 
-.auth-page {
+.btn--full {
+  width: 100%;
+  margin-top: var(--space-1);
+}
+
+@media (min-width: 768px) {
+  .auth-page {
     padding: var(--space-8) var(--space-6);
   }
 

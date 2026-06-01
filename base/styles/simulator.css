@@ -17,7 +17,6 @@ section.card {
   border-radius: 0.75rem;
   background-color: #e0e7ff;
   margin-top: 0;
-  overflow: hidden;
 }
 
 /* ── Tabs (visible < 1024px) ───────────────── */
@@ -685,6 +684,22 @@ p.card-total-label {
   .card-total {
     grid-column: 3;
     grid-row: 2;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn--primary {
+    padding-inline: 1rem;
+    width: 100%;
+  }
+
+  .btn--reset {
+    width: 100%;
   }
 }
 

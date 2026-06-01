@@ -380,6 +380,14 @@
 }
 
 @media (max-width: 480px) {
+  .app-footer {
+    transform: translateY(calc(100% - var(--footer-toggle-height) + 0.75rem));
+  }
+
+  .app-footer.open {
+    transform: translateY(0);
+  }
+
   .footer__grid {
     grid-template-columns: 1fr;
     gap: var(--space-4);
