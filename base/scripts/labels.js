@@ -7,6 +7,7 @@ export const TYPE_LABELS = {
 export const CATEGORY_LABELS = {
     salary: 'Sueldo',
     sales: 'Ventas',
+    rentals: 'Alquileres',
     food: 'Alimentos',
     transport: 'Transporte',
     services: 'Servicios',
