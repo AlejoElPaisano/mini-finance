@@ -103,6 +103,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: var(--space-4);
+  min-width: 0;
 }
 
 /* ── Tarjeta de cripto ──────────────────────────────────────── */

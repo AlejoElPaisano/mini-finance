@@ -462,6 +462,13 @@ body.dark-mode::after {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--space-3);
+  min-width: 0;
+}
+
+@media (max-width: 480px) {
+  .achievements-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (min-width: 768px) {

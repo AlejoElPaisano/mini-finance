@@ -7,6 +7,7 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 0.75rem;
   margin-top: 1.5rem;
+  min-width: 0;
 }
 
 .balance-card {
@@ -247,7 +248,7 @@ body:not(.dark-mode) .ledger-header {
 
 /* ══════════════════════════════════════════
    Responsive
-══════════════════════════════════════════ */
+═════════════════════════════════════════ */
 
 @media (max-width: 56.25em) {
   .balance-road {
@@ -272,4 +273,10 @@ body:not(.dark-mode) .ledger-header {
   .ledger-row-date        { grid-area: date; }
   .ledger-row-type,
   .ledger-row-category    { grid-area: meta; display: inline-block; margin-right: 0.5em; }
+}
+
+@media (max-width: 480px) {
+  .balance-road {
+    grid-template-columns: 1fr;
+  }
 }
