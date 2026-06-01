@@ -1,0 +1,435 @@
+/* ================================================================
+   PESITO — Asistente Virtual Flotante
+   Estilos dedicados, Mobile-First, con microinteracciones pulidas.
+   IntegrarTEC 2026 · Mini Finance
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   1. VARIABLES LOCALES & CONTENEDOR PRINCIPAL
+   ---------------------------------------------------------------- */
+.pesito-container {
+  --pesito-header-h: 3.5rem;
+  --pesito-radius: var(--radius-lg);
+
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none; /* Permite clicks a través cuando está cerrado */
+}
+
+.pesito-container.is-open {
+  pointer-events: auto;
+}
+
+/* ----------------------------------------------------------------
+   2. VENTANA DE CHAT  (Mobile-First: Bottom Sheet)
+   ---------------------------------------------------------------- */
+.pesito-chat {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 88vh;
+  max-height: 640px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-surface);
+  border-radius: var(--pesito-radius) var(--pesito-radius) 0 0;
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(100%);
+  transition:
+    opacity var(--duration-slow) var(--ease-out-expo),
+    transform var(--duration-slow) var(--ease-out-expo);
+  pointer-events: none;
+}
+
+.pesito-container.is-open .pesito-chat {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* ----------------------------------------------------------------
+   3. HEADER DEL CHAT
+   ---------------------------------------------------------------- */
+.pesito-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-4);
+  height: var(--pesito-header-h);
+  background-color: var(--brand-primary);
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.pesito-header__info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.pesito-header__avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+  /* El propio SVG trae su forma de moneda dorada; no necesita fondo extra */
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
+}
+
+.pesito-header__avatar svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.pesito-header__name {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+  margin: 0;
+  color: #fff;
+}
+
+.pesito-header__status {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+/* Punto verde de "En línea" */
+.pesito-header__status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background-color: #4ade80;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.pesito-header__close {
+  width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  border-radius: var(--radius-md);
+  color: #fff;
+  font-size: var(--text-lg);
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-out-quart);
+}
+
+.pesito-header__close:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.pesito-header__close:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bg-base), 0 0 0 4px var(--brand-accent);
+}
+
+/* ----------------------------------------------------------------
+   4. ÁREA DE MENSAJES
+   ---------------------------------------------------------------- */
+.pesito-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  scroll-behavior: smooth;
+}
+
+/* Scrollbar sutil (WebKit) */
+.pesito-messages::-webkit-scrollbar {
+  width: 6px;
+}
+.pesito-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+.pesito-messages::-webkit-scrollbar-thumb {
+  background-color: var(--border-strong);
+  border-radius: 3px;
+}
+
+/* ----------------------------------------------------------------
+   5. BURBUJAS DE MENSAJE
+   ---------------------------------------------------------------- */
+.pesito-message {
+  max-width: 88%;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: 1.55;
+  animation: messageIn var(--duration-base) var(--ease-out-expo) both;
+}
+
+@keyframes messageIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mensaje del bot */
+.pesito-message--bot {
+  align-self: flex-start;
+  background-color: var(--bg-base);
+  color: var(--fg-primary);
+  border-bottom-left-radius: var(--radius-sm);
+}
+
+/* Mensaje del usuario */
+.pesito-message--user {
+  align-self: flex-end;
+  background-color: var(--brand-primary);
+  color: #fff;
+  border-bottom-right-radius: var(--radius-sm);
+}
+
+/* ----------------------------------------------------------------
+   6. TYPING INDICATOR (Tres puntitos animados)
+   ---------------------------------------------------------------- */
+.pesito-typing {
+  display: flex;
+  align-items: center;
+  padding: var(--space-3) var(--space-4);
+  align-self: flex-start;
+}
+
+.pesito-typing[hidden] {
+  display: none;
+}
+
+.pesito-typing__dots {
+  display: flex;
+  gap: 4px;
+}
+
+.pesito-typing__dots span {
+  width: 6px;
+  height: 6px;
+  background-color: var(--fg-muted);
+  border-radius: 50%;
+  animation: typingBounce 1.4s infinite ease-in-out both;
+}
+
+.pesito-typing__dots span:nth-child(1) { animation-delay: -0.32s; }
+.pesito-typing__dots span:nth-child(2) { animation-delay: -0.16s; }
+.pesito-typing__dots span:nth-child(3) { animation-delay: 0s; }
+
+@keyframes typingBounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+/* ----------------------------------------------------------------
+   7. CONTENEDOR DE OPCIONES (Botones guiados)
+   ---------------------------------------------------------------- */
+.pesito-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--border-subtle);
+  background-color: var(--bg-surface);
+  flex-shrink: 0;
+  max-height: 38vh;
+  overflow-y: auto;
+}
+
+.pesito-option-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--brand-primary);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  min-height: 44px; /* Mobile-first touch target */
+  transition:
+    background-color var(--duration-fast) var(--ease-out-quart),
+    border-color     var(--duration-fast) var(--ease-out-quart),
+    transform        var(--duration-fast) var(--ease-out-quart);
+}
+
+.pesito-option-btn:hover {
+  background-color: var(--brand-primary-subtle);
+  border-color: var(--brand-primary);
+  transform: translateY(-1px);
+}
+
+.pesito-option-btn:active {
+  transform: translateY(0);
+  transition-duration: 0ms;
+}
+
+.pesito-option-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bg-base), 0 0 0 4px var(--brand-primary);
+}
+
+/* ----------------------------------------------------------------
+   8. BOTÓN FLOTANTE TOGGLE
+   ---------------------------------------------------------------- */
+.pesito-toggle {
+  position: fixed;
+  bottom: calc(var(--space-5) + var(--footer-toggle-height) + var(--space-2));
+  right: var(--space-4);
+  z-index: 101;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: transparent;
+  color: var(--fg-primary);
+  border: none;
+  box-shadow: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    transform        var(--duration-base) var(--ease-out-expo),
+    background-color var(--duration-fast) var(--ease-out-quart),
+    box-shadow       var(--duration-base) var(--ease-out-expo);
+}
+
+.pesito-toggle:hover {
+  transform: scale(1.08) rotate(-4deg);
+  box-shadow: none;
+}
+
+.pesito-toggle:active {
+  transform: scale(0.94);
+}
+
+.pesito-toggle:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--bg-base), 0 0 0 6px var(--brand-accent);
+}
+
+/* Estado abierto: muestra el boton naranja solido con la cruz */
+.pesito-toggle.is-open {
+  background-color: var(--brand-accent);
+  box-shadow: var(--shadow-lg);
+}
+
+.pesito-toggle.is-open:hover {
+  box-shadow: 0 12px 24px -4px rgba(245, 158, 11, 0.35);
+}
+
+/* Iconos del toggle (cruz / chat) */
+.pesito-toggle__icon {
+  position: absolute;
+  transition:
+    opacity   var(--duration-fast) var(--ease-out-quart),
+    transform var(--duration-fast) var(--ease-out-quart);
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.pesito-toggle__icon--open svg {
+  width: 56px;
+  height: 56px;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
+  transition: filter var(--duration-fast) var(--ease-out-quart);
+}
+
+.pesito-toggle:hover .pesito-toggle__icon--open svg {
+  filter: drop-shadow(0 8px 16px rgba(245, 158, 11, 0.35));
+}
+
+.pesito-toggle__icon--close {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.5);
+}
+
+/* Estado abierto: intercambia iconos */
+.pesito-toggle.is-open .pesito-toggle__icon--open {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.5);
+}
+
+.pesito-toggle.is-open .pesito-toggle__icon--close {
+  opacity: 1;
+  transform: rotate(0) scale(1);
+}
+
+/* ----------------------------------------------------------------
+   9. RESPONSIVE — Tablet & Desktop (> 768px)
+   En pantallas grandes el chat es una ventana flotante elegante.
+   ---------------------------------------------------------------- */
+@media (min-width: 768px) {
+  .pesito-container {
+    inset: auto;
+    right: var(--space-5);
+    bottom: calc(var(--space-6) + var(--footer-toggle-height));
+    width: 380px;
+    height: auto;
+  }
+
+  .pesito-chat {
+    position: absolute;
+    bottom: calc(56px + var(--space-4)); /* Justo arriba del botón flotante */
+    right: 0;
+    width: 380px;
+    height: 520px;
+    max-height: calc(100vh - 140px);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-default);
+    box-shadow: var(--shadow-lg);
+    /* En desktop usamos una animación más sutil */
+    transform: translateY(16px) scale(0.96);
+  }
+
+  .pesito-container.is-open .pesito-chat {
+    transform: translateY(0) scale(1);
+  }
+
+  .pesito-toggle {
+    bottom: calc(var(--space-4) + var(--footer-toggle-height));
+    right: var(--space-4);
+  }
+}
+
+/* Ajuste fino para pantallas muy altas */
+@media (min-width: 768px) and (min-height: 800px) {
+  .pesito-chat {
+    height: 560px;
+  }
+}

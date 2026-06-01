@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini Finance - Acceso</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../base/styles/main.css">
+  <link rel="stylesheet" href="../base/styles/login.css">
+</head>
+<body>
+  <button type="button" id="dark-mode-toggle" class="auth-dark-toggle" aria-label="Cambiar modo oscuro">
+    <span aria-hidden="true">🌙</span>
+  </button>
+
+  <div class="auth-page" role="main" aria-label="Acceso a Mini Finance">
+    <div class="auth-brand" aria-hidden="true">
+      <img src="../assets/logo-mf.svg" alt="Mini Finance Logo" style="width: 32px; height: 32px; margin-right: 0.5rem; vertical-align: middle;">
+      <span class="auth-brand__name" style="vertical-align: middle;">Mini Finance</span>
+    </div>
+
+    <div class="auth-card" id="auth-card">
+      <header class="auth-card__header">
+        <h1 class="auth-card__title" id="auth-title">Iniciar sesión</h1>
+        <p class="auth-card__subtitle" id="auth-subtitle">Accedé a tu panel de finanzas personales</p>
+      </header>
+
+      <div id="auth-message" class="auth-message" role="status" aria-live="polite" hidden></div>
+
+      <section class="auth-view" id="view-login" data-view="login" aria-labelledby="auth-title">
+        <form id="form-login" class="auth-form" novalidate>
+          <div class="form-group">
+            <label for="login-user">Usuario</label>
+            <input
+              type="text"
+              id="login-user"
+              name="username"
+              required
+              autocomplete="username"
+              placeholder="Ingresá tu usuario"
+              aria-describedby="login-user-hint"
+            >
+            <small id="login-user-hint" class="form-hint">Tu nombre de usuario registrado.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="login-password">Contraseña</label>
+            <input
+              type="password"
+              id="login-password"
+              name="password"
+              required
+              autocomplete="current-password"
+              placeholder="Ingresá tu contraseña"
+              aria-describedby="login-password-hint"
+            >
+            <small id="login-password-hint" class="form-hint">Minimo 4 caracteres.</small>
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--full">Ingresar</button>
+        </form>
+
+        <footer class="auth-footer">
+          <p class="auth-footer__text">
+            ¿No tenés cuenta?
+            <button type="button" class="auth-link" data-goto="register">Registrate aqui</button>
+          </p>
+          <p class="auth-footer__text">
+            <button type="button" class="auth-link" data-goto="recover">¿Olvidaste tu contraseña?</button>
+          </p>
+        </footer>
+      </section>
+
+      <section class="auth-view" id="view-register" data-view="register" hidden aria-labelledby="auth-title">
+        <form id="form-register" class="auth-form" novalidate>
+          <div class="form-group">
+            <label for="register-user">Usuario</label>
+            <input
+              type="text"
+              id="register-user"
+              name="username"
+              required
+              autocomplete="username"
+              placeholder="Elegí un nombre de usuario"
+              aria-describedby="register-user-hint"
+            >
+            <small id="register-user-hint" class="form-hint">Solo letras, numeros y guiones. Minimo 3 caracteres.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="register-password">Contraseña</label>
+            <input
+              type="password"
+              id="register-password"
+              name="password"
+              required
+              autocomplete="new-password"
+              placeholder="Crea una contraseña segura"
+              aria-describedby="register-password-hint"
+            >
+            <small id="register-password-hint" class="form-hint">Minimo 4 caracteres.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="register-password-confirm">Confirmar contraseña</label>
+            <input
+              type="password"
+              id="register-password-confirm"
+              name="passwordConfirm"
+              required
+              autocomplete="new-password"
+              placeholder="Repeti tu contraseña"
+            >
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--full">Crear cuenta</button>
+        </form>
+
+        <footer class="auth-footer">
+          <p class="auth-footer__text">
+            ¿Ya tenés cuenta?
+            <button type="button" class="auth-link" data-goto="login">Inicia sesion</button>
+          </p>
+        </footer>
+      </section>
+
+      <section class="auth-view" id="view-recover" data-view="recover" hidden aria-labelledby="auth-title">
+        <form id="form-recover" class="auth-form" novalidate>
+          <div class="form-group">
+            <label for="recover-user">Usuario</label>
+            <input
+              type="text"
+              id="recover-user"
+              name="username"
+              required
+              autocomplete="username"
+              placeholder="Ingresá tu usuario"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="recover-password">Nueva contraseña</label>
+            <input
+              type="password"
+              id="recover-password"
+              name="password"
+              required
+              autocomplete="new-password"
+              placeholder="Ingresá tu nueva contraseña"
+              aria-describedby="recover-password-hint"
+            >
+            <small id="recover-password-hint" class="form-hint">Minimo 4 caracteres.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="recover-password-confirm">Confirmar nueva contraseña</label>
+            <input
+              type="password"
+              id="recover-password-confirm"
+              name="passwordConfirm"
+              required
+              autocomplete="new-password"
+              placeholder="Repeti la nueva contraseña"
+            >
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--full">Restablecer contraseña</button>
+        </form>
+
+        <footer class="auth-footer">
+          <p class="auth-footer__text">
+            ¿Recordaste tu contraseña?
+            <button type="button" class="auth-link" data-goto="login">Inicia sesion</button>
+          </p>
+        </footer>
+      </section>
+    </div>
+
+    <a href="../index.html" class="auth-back">← Volver al sitio</a>
+  </div>
+
+  <script src="../base/scripts/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+  <defs>
+    <style>
+      .navy { fill: #0f172a; }
+      .amber { fill: #f59e0b; }
+    </style>
+  </defs>
+  <!-- Background with border radius like the favicon in the image -->
+  <rect width="500" height="500" rx="100" class="navy" />
+  
+  <!-- The MF Monogram (White and Amber inside the dark box) -->
+  <g transform="translate(100, 150) scale(0.6)">
+    <!-- White M part -->
+    <path fill="#ffffff" d="M0,330 L0,0 L180,180 L290,70 L210,150 L100,260 L80,240 L80,330 Z" />
+    <!-- White F part -->
+    <path fill="#ffffff" d="M320,330 L320,150 L500,150 L420,230 L400,230 L400,330 Z" />
+    <!-- Amber upward arrow/slash -->
+    <path class="amber" d="M320,120 L400,40 L500,40 L380,160 Z" />
+  </g>
+</svg>

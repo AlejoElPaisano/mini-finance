@@ -1,0 +1,282 @@
+/* ══════════════════════════════════════════
+   Resumen — Balance contable (homebanking)
+══════════════════════════════════════════ */
+
+.balance-road {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  min-width: 0;
+}
+
+.balance-card {
+  background-color: var(--bg-theme-card);
+  border: 0.0625em solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.1em 1.25em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.balance-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0.1875em;
+  height: 100%;
+  background-color: var(--fg-muted);
+}
+
+.balance-card--income::before  { background-color: var(--success-border); }
+.balance-card-expense::before  { background-color: var(--danger-border); }
+.balance-card-savings::before  { background-color: var(--brand-primary); }
+.balance-card-balance::before  { background-color: var(--brand-primary); }
+
+.balance-card-title {
+  margin: 0;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--fg-tertiary);
+  font-family: var(--font-body);
+}
+
+.balance-card-value {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--fg-primary);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+  font-family: 'Inter', var(--font-body);
+}
+
+.balance-card--income .balance-card-value { color: var(--success-border); }
+.balance-card-expense .balance-card-value { color: var(--danger-border); }
+.balance-card-savings .balance-card-value { color: var(--brand-primary); }
+
+.balance-card-balance .balance-card-value[data-sign="negative"] {
+  color: var(--danger-border);
+}
+
+
+/* ══════════════════════════════════════════
+   Ledger (extracto bancario)
+══════════════════════════════════════════ */
+
+.ledger {
+  margin-top: 2rem;
+  background-color: var(--bg-theme-card);
+  border: 0.0625em solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.25em 1.25em 0.5em;
+  box-shadow: var(--shadow-sm);
+}
+
+.ledger-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1em;
+  padding-bottom: 1em;
+}
+
+body:not(.dark-mode) .ledger-header {
+  background-color: var(--bg-theme-header-title);
+  opacity: 79%;
+  border-radius: 0.5rem;
+}
+
+.ledger-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--fg-primary);
+  font-family: var(--font-body);
+}
+
+.ledger-count {
+  font-size: 0.8rem;
+  color: var(--fg-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+
+.ledger-filters {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1em;
+  padding-bottom: 1em;
+  border-bottom: 0.0625em solid var(--border-subtle);
+}
+
+.ledger-filters .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+}
+
+.ledger-filters label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--fg-tertiary);
+}
+
+.ledger-filters select {
+  border: 0.0625em solid var(--border-default);
+  background-color: var(--bg-surface);
+  border-radius: var(--radius-sm);
+  padding: 0.45em 0.6em;
+  font-size: 0.875rem;
+  color: var(--fg-primary);
+  font-family: inherit;
+}
+
+.ledger-filters select:focus {
+  outline: none;
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 0.1875em var(--brand-primary-subtle);
+}
+
+.ledger-table {
+  display: flex;
+  flex-direction: column;
+}
+
+.ledger-head,
+.ledger-row {
+  display: grid;
+  grid-template-columns: 6rem minmax(0, 2fr) 7rem 8rem 10rem;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.7rem 0.25rem;
+}
+
+.ledger-head {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--fg-tertiary);
+  border-bottom: 0.0625em solid var(--border-default);
+  padding-top: 1rem;
+}
+
+.ledger-head-right {
+  text-align: right;
+}
+
+.ledger-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ledger-row {
+  border-bottom: 0.0625em solid var(--border-subtle);
+  font-family: 'Inter', var(--font-body);
+  font-size: 0.875rem;
+  color: var(--fg-secondary);
+  transition: background-color 150ms ease;
+}
+
+.ledger-row:hover {
+  background-color: rgba(15, 23, 42, 0.025);
+}
+
+.ledger-row:last-child {
+  border-bottom: none;
+}
+
+.ledger-row-date {
+  font-variant-numeric: tabular-nums;
+  color: var(--fg-tertiary);
+  font-size: 0.8rem;
+}
+
+.ledger-row-description {
+  color: var(--fg-primary);
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ledger-row-type,
+.ledger-row-category {
+  font-size: 0.75rem;
+  color: var(--fg-tertiary);
+  font-weight: 500;
+}
+
+.ledger-row-type[data-type="income"]  { color: var(--success-border); }
+.ledger-row-type[data-type="expense"] { color: var(--danger-border); }
+.ledger-row-type[data-type="savings"] { color: var(--brand-primary); }
+
+.ledger-row-amount {
+  text-align: right;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+  letter-spacing: -0.01em;
+  color: var(--fg-primary);
+}
+
+.ledger-row[data-type="income"]  .ledger-row-amount { color: var(--success-border); }
+.ledger-row[data-type="expense"] .ledger-row-amount { color: var(--danger-border); }
+.ledger-row[data-type="savings"] .ledger-row-amount { color: var(--brand-primary); }
+
+.ledger-empty {
+  list-style: none;
+  text-align: center;
+  padding: 2.5em 1em;
+  color: var(--fg-tertiary);
+  font-style: italic;
+  font-size: 0.875rem;
+}
+
+
+/* ══════════════════════════════════════════
+   Responsive
+═════════════════════════════════════════ */
+
+@media (max-width: 56.25em) {
+  .balance-road {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ledger-head {
+    display: none;
+  }
+
+  .ledger-row {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "desc   amount"
+      "meta   amount"
+      "date   date";
+    row-gap: 0.2em;
+  }
+
+  .ledger-row-description { grid-area: desc; }
+  .ledger-row-amount      { grid-area: amount; align-self: center; font-size: 1rem; }
+  .ledger-row-date        { grid-area: date; }
+  .ledger-row-type,
+  .ledger-row-category    { grid-area: meta; display: inline-block; margin-right: 0.5em; }
+}
+
+@media (max-width: 480px) {
+  .balance-road {
+    grid-template-columns: 1fr;
+  }
+}

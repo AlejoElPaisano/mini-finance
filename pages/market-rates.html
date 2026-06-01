@@ -1,0 +1,362 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini Finance - Cotizaciones</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../base/styles/main.css">
+  <link rel="stylesheet" href="../base/styles/market-rates.css">
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.54.1"></script>
+  <script>
+    if (!localStorage.getItem('miniFinanceSession')) {
+      window.location.replace('./login.html');
+    }
+  </script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Ir al contenido principal</a>
+
+  <header>
+    <nav>
+      <div class="brand-logo">
+        <img src="../assets/logo-mf.svg" alt="Mini Finance Logo" style="width: 48px; height: 48px;">
+      </div>
+      <button type="button" class="nav-hamburger" id="nav-hamburger" aria-expanded="false" aria-controls="nav-drawer" aria-label="Abrir menú de navegación">
+        <span class="nav-hamburger__bar"></span>
+        <span class="nav-hamburger__bar"></span>
+        <span class="nav-hamburger__bar"></span>
+      </button>
+      <div class="nav-drawer" id="nav-drawer">
+        <ul>
+          <li><a href="../index.html">Inicio</a></li>
+          <li><a href="./simulador.html">Simulador</a></li>
+          <li><a href="./resumen.html">Resumen</a></li>
+          <li><a href="./market-rates.html" aria-current="page">Cotizaciones</a></li>
+        </ul>
+        <div class="header-tools">
+          <button type="button" id="achievements-toggle" class="btn-tool" aria-label="Centro de logros" title="Ver todos los logros">
+            <span aria-hidden="true">🏆</span>
+            <span class="btn-tool__label">Logros</span>
+          </button>
+          <div class="accessibility-tools">
+            <button type="button" id="dyslexic-toggle" class="btn-tool" aria-pressed="false" title="Fuente para dislexia">
+              <span aria-hidden="true">👁️</span>
+              <span class="btn-tool__label">Dislexia</span>
+            </button>
+            <button type="button" id="colorblind-toggle" class="btn-tool" aria-pressed="false" title="Modo alto contraste para daltonismo">
+              <span aria-hidden="true">🎨</span>
+              <span class="btn-tool__label">Daltónico</span>
+            </button>
+          </div>
+        <div class="header-tools-row">
+          <button type="button" id="dark-mode-toggle" aria-label="Cambiar modo oscuro">
+            <span aria-hidden="true">🌙</span>
+          </button>
+          <div class="user-menu">
+            <button type="button" class="btn-tool user-menu__trigger" aria-haspopup="true" aria-expanded="false" title="Menú de usuario">
+              <span aria-hidden="true">👤</span>
+            </button>
+            <div class="user-menu__dropdown" hidden>
+              <button type="button" class="user-menu__item" id="logout-btn">
+                <span aria-hidden="true">🚪</span>
+                Cerrar sesión
+              </button>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </nav>
+    <div class="nav-overlay" id="nav-overlay" hidden></div>
+  </header>
+
+  <main id="main-content">
+    <section class="market-rates" aria-labelledby="market-rates-title">
+
+      <div class="market-rates__header">
+        <h1 id="market-rates-title">Cotizaciones del Mercado</h1>
+        <p>Precios en tiempo real de criptomonedas y conversión de divisas.</p>
+      </div>
+
+      <!-- ── CRIPTO ─────────────────────────────────────────── -->
+      <div class="mkt-section">
+        <div class="mkt-section__header">
+          <h2 class="mkt-section__title">Criptomonedas</h2>
+          <p class="mkt-panel__updated" id="crypto-updated" aria-live="polite"></p>
+        </div>
+
+        <p class="mkt-error" id="crypto-error" role="alert" hidden></p>
+
+        <div
+          class="mkt-crypto-grid"
+          id="crypto-grid"
+          aria-live="polite"
+          aria-label="Cotizaciones de criptomonedas"
+        ></div>
+      </div>
+
+      <!-- ── DIVISAS ─────────────────────────────────────────── -->
+      <div class="mkt-section">
+        <div class="mkt-section__header">
+          <h2 class="mkt-section__title">Convertidor de Divisas</h2>
+          <p class="mkt-panel__updated" id="forex-updated" aria-live="polite"></p>
+        </div>
+
+        <p class="mkt-error" id="forex-form-error" role="alert" hidden></p>
+
+        <div class="mkt-forex-layout">
+
+          <!-- Columna izquierda: formulario + resultado -->
+          <div class="mkt-forex-left">
+            <form class="mkt-forex-form" id="forex-form" novalidate>
+
+              <div class="mkt-forex-form__fields">
+
+                <div class="form-group">
+                  <label for="forex-amount">Monto</label>
+                  <input
+                    type="number"
+                    id="forex-amount"
+                    name="amount"
+                    min="0.01"
+                    step="any"
+                    placeholder="Ej: 100"
+                    autocomplete="off"
+                    aria-describedby="error-amount"
+                  />
+                  <p class="form-group__error" id="error-amount" role="alert"></p>
+                </div>
+
+                <div class="mkt-forex-swap">
+                  <button
+                    type="button"
+                    class="mkt-forex-swap__btn"
+                    id="forex-swap"
+                    aria-label="Invertir monedas"
+                    title="Invertir monedas"
+                  >⇄</button>
+                </div>
+
+                <div class="form-group">
+                  <label for="forex-to">Convertir a</label>
+                  <select id="forex-to" name="to" aria-describedby="error-to">
+                    <option value="">Seleccionar moneda</option>
+                    <option value="USD">🇺🇸 USD — Dólar Estadounidense</option>
+                    <option value="EUR" selected>🇪🇺 EUR — Euro</option>
+                    <option value="ARS">🇦🇷 ARS — Peso Argentino</option>
+                    <option value="BRL">🇧🇷 BRL — Real Brasileño</option>
+                    <option value="GBP">🇬🇧 GBP — Libra Esterlina</option>
+                    <option value="JPY">🇯🇵 JPY — Yen Japonés</option>
+                    <option value="MXN">🇲🇽 MXN — Peso Mexicano</option>
+                    <option value="CLP">🇨🇱 CLP — Peso Chileno</option>
+                    <option value="UYU">🇺🇾 UYU — Peso Uruguayo</option>
+                  </select>
+                  <p class="form-group__error" id="error-to" role="alert"></p>
+                </div>
+
+              </div>
+
+              <div class="form-group">
+                <label for="forex-from">Moneda de origen</label>
+                <select id="forex-from" name="from" aria-describedby="error-from">
+                  <option value="">Seleccionar moneda</option>
+                  <option value="USD" selected>🇺🇸 USD — Dólar Estadounidense</option>
+                  <option value="EUR">🇪🇺 EUR — Euro</option>
+                  <option value="ARS">🇦🇷 ARS — Peso Argentino</option>
+                  <option value="BRL">🇧🇷 BRL — Real Brasileño</option>
+                  <option value="GBP">🇬🇧 GBP — Libra Esterlina</option>
+                  <option value="JPY">🇯🇵 JPY — Yen Japonés</option>
+                  <option value="MXN">🇲🇽 MXN — Peso Mexicano</option>
+                  <option value="CLP">🇨🇱 CLP — Peso Chileno</option>
+                  <option value="UYU">🇺🇾 UYU — Peso Uruguayo</option>
+                </select>
+                <p class="form-group__error" id="error-from" role="alert"></p>
+              </div>
+
+              <button type="submit" class="btn btn--primary mkt-forex-form__submit">
+                Consultar cotización
+              </button>
+
+            </form>
+
+            <!-- Resultado -->
+            <div class="mkt-result" id="forex-result" aria-live="polite" hidden></div>
+          </div>
+
+          <!-- Columna derecha: Dashboard de Métricas Históricas -->
+          <div class="mkt-forex-right">
+            <div class="mkt-history" id="history-panel" role="group" aria-label="Métricas históricas de los últimos 30 días">
+
+              <div class="mkt-history__data" id="history-data" hidden>
+                <div class="mkt-history__head">
+                  <div class="mkt-history__heading">
+                    <p class="mkt-history__eyebrow">Historial · últimos 30 días</p>
+                    <p class="mkt-history__rate" id="history-rate">—</p>
+                    <p class="mkt-history__pair" id="history-pair"></p>
+                  </div>
+                  <span class="mkt-history__delta" id="history-delta"></span>
+                </div>
+                <div class="mkt-history__chart" id="history-chart" role="img" aria-label="Gráfico de evolución de la cotización"></div>
+                <p class="mkt-history__foot" id="history-foot"></p>
+              </div>
+
+              <div class="mkt-history__state" id="history-loading" hidden>
+                <span class="mkt-spinner" aria-hidden="true"></span>
+                <p>Cargando historial…</p>
+              </div>
+
+              <div class="mkt-history__state mkt-history__state--error" id="history-error" role="alert" hidden></div>
+
+              <div class="mkt-history__state" id="history-message" hidden></div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="app-footer" id="app-footer">
+    <button type="button" class="footer-toggle-btn" id="footer-toggle" aria-expanded="true" aria-controls="footer-drawer">
+      <span class="footer-toggle-icon" aria-hidden="true">▲</span>
+      <span class="footer-toggle-text">CERRAR</span>
+    </button>
+    <div class="footer-drawer" id="footer-drawer">
+      <div class="footer-drawer__inner">
+        <div class="footer__grid">
+        <div class="footer__brand-col">
+          <div class="footer__brand-logo">
+            <img src="../assets/logo-mf.svg" alt="Mini Finance" class="footer__brand-logo-img">
+          </div>
+          <div class="footer__brand-text">
+            <p class="footer__brand-name"><span aria-hidden="true">📈</span> Mini Finance</p>
+            <p class="footer__brand-tagline">Tu suite interactiva para simular metas y planificar tu futuro financiero.</p>
+          </div>
+        </div>
+        <div>
+          <p class="footer__heading">Soporte</p>
+          <ul class="footer__links">
+            <li><a href="https://github.com/AlejoElPaisano/integrartec-proyecto-1" target="_blank" rel="noopener">Repositorio</a></li>
+            <li><a href="https://github.com/AlejoElPaisano/integrartec-proyecto-1/issues" target="_blank" rel="noopener">Reportar un bug</a></li>
+            <li><button type="button" class="footer__contact-btn" id="footer-contact-btn">Contáctanos</button></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer__heading">Desarrollado por:</p>
+          <div class="footer__team">
+            <a href="https://www.linkedin.com/in/karenledesma08" target="_blank" rel="noopener" class="footer__member-name">Karen Ledesma</a>
+            <a href="https://www.linkedin.com/in/francisco-thomas-chiressi-8b55b01a0" target="_blank" rel="noopener" class="footer__member-name">Francisco Chiressi</a>
+            <a href="https://www.linkedin.com/in/alejo-martinez-olmedo-877004283/" target="_blank" rel="noopener" class="footer__member-name">Alejo Martinez Olmedo</a>
+          </div>
+        </div>
+      </div>
+      <hr class="footer__divider">
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2026 Mini Finance · IntegrarTEC · Desarrollado por DevCore · Mini Finance v1.0</p>
+        <a href="https://fpintegrar.org" target="_blank" rel="noopener" class="footer__logo-link">
+          <img src="../assets/img/logo-integrar.png" alt="Fundación Integrar" class="footer__logo-img" loading="lazy">
+        </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================
+       PESITO — Asistente Virtual Flotante
+       ========================================== -->
+  <div id="pesito-container" class="pesito-container">
+    <div class="pesito-chat" role="dialog" aria-modal="true" aria-label="Chat con Pesito, asistente virtual">
+      <header class="pesito-header">
+        <div class="pesito-header__info">
+          <div class="pesito-header__avatar" aria-hidden="true">
+            <!-- Pesito: Moneda animada, identidad visual de Mini Finance -->
+            <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="46" fill="url(#goldGradient)" stroke="#b45309" stroke-width="4"/>
+              <circle cx="50" cy="50" r="38" stroke="#b45309" stroke-width="2" stroke-dasharray="6 4" opacity="0.6"/>
+              <circle cx="50" cy="50" r="34" fill="#fbbf24" opacity="0.4"/>
+              <path d="M 18,35 A 40,40 0 0,1 35,18" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+              <circle cx="36" cy="46" r="6" fill="#1e293b"/>
+              <circle cx="64" cy="46" r="6" fill="#1e293b"/>
+              <circle cx="38" cy="44" r="2.5" fill="white"/>
+              <circle cx="66" cy="44" r="2.5" fill="white"/>
+              <ellipse cx="26" cy="54" rx="5" ry="3" fill="#f43f5e" opacity="0.6"/>
+              <ellipse cx="74" cy="54" rx="5" ry="3" fill="#f43f5e" opacity="0.6"/>
+              <path d="M 42,58 Q 50,68 58,58" stroke="#1e293b" stroke-width="4" stroke-linecap="round" fill="none"/>
+              <defs>
+                <linearGradient id="goldGradient" x1="10" y1="10" x2="90" y2="90" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#fef08a"/>
+                  <stop offset="0.3" stop-color="#fcd34d"/>
+                  <stop offset="0.8" stop-color="#f59e0b"/>
+                  <stop offset="1" stop-color="#d97706"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <div>
+            <h2 class="pesito-header__name">Pesito</h2>
+            <span class="pesito-header__status">En línea</span>
+          </div>
+        </div>
+        <button type="button" class="pesito-header__close" aria-label="Cerrar chat">
+          <span aria-hidden="true">✕</span>
+        </button>
+      </header>
+
+      <div class="pesito-messages" id="pesito-messages" aria-live="polite"></div>
+
+      <div class="pesito-typing" id="pesito-typing" hidden>
+        <div class="pesito-typing__dots">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+
+      <div class="pesito-options" id="pesito-options"></div>
+    </div>
+  </div>
+
+  <button type="button" id="pesito-toggle" class="pesito-toggle" aria-expanded="false" aria-label="Abrir asistente virtual Pesito">
+    <span class="pesito-toggle__icon pesito-toggle__icon--open" aria-hidden="true">
+      <!-- Pesito mini para el botón flotante -->
+      <svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="46" fill="url(#goldGradToggle)" stroke="#92400e" stroke-width="4"/>
+        <circle cx="50" cy="50" r="38" stroke="#92400e" stroke-width="2" stroke-dasharray="6 4" opacity="0.6"/>
+        <circle cx="50" cy="50" r="34" fill="#fbbf24" opacity="0.4"/>
+        <path d="M 18,35 A 40,40 0 0,1 35,18" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+        <circle cx="36" cy="46" r="6" fill="#1e293b"/>
+        <circle cx="64" cy="46" r="6" fill="#1e293b"/>
+        <circle cx="38" cy="44" r="2.5" fill="white"/>
+        <circle cx="66" cy="44" r="2.5" fill="white"/>
+        <ellipse cx="26" cy="54" rx="5" ry="3" fill="#f43f5e" opacity="0.6"/>
+        <ellipse cx="74" cy="54" rx="5" ry="3" fill="#f43f5e" opacity="0.6"/>
+        <path d="M 42,58 Q 50,68 58,58" stroke="#1e293b" stroke-width="4" stroke-linecap="round" fill="none"/>
+        <defs>
+          <linearGradient id="goldGradToggle" x1="10" y1="10" x2="90" y2="90" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#fef08a"/>
+            <stop offset="0.3" stop-color="#fcd34d"/>
+            <stop offset="0.8" stop-color="#f59e0b"/>
+            <stop offset="1" stop-color="#d97706"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </span>
+    <span class="pesito-toggle__icon pesito-toggle__icon--close" aria-hidden="true">✕</span>
+  </button>
+
+  <script src="../base/scripts/achievements.js"></script>
+  <script src="../base/scripts/main.js"></script>
+  <script src="../base/scripts/footer.js"></script>
+  <script src="../base/scripts/env.js"></script>
+  <script src="../base/scripts/market-rates.js"></script>
+  <script src="../base/scripts/contact-modal.js"></script>
+  <script src="../base/scripts/pesito-brain.js"></script>
+  <script src="../base/scripts/pesito-chat.js"></script>
+</body>
+
+</html>
+

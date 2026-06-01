@@ -1,0 +1,485 @@
+/* ============================================================
+   market-rates.css — Cotizaciones del Mercado · Mini Finance
+   Usa las variables de tokens.css — no duplica nada
+   ============================================================ */
+
+/* ── Layout de la sección ──────────────────────────────────── */
+
+.market-rates {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-5);
+}
+
+.market-rates__header {
+  margin-bottom: var(--space-6);
+}
+
+.market-rates__header h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--fg-primary);
+  margin-bottom: var(--space-2);
+}
+
+.market-rates__header p {
+  font-size: var(--text-base);
+  color: var(--fg-tertiary);
+}
+
+/* ── Secciones ─────────────────────────────────────────────── */
+
+.mkt-section {
+  margin-bottom: var(--space-8);
+}
+
+.mkt-section__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.mkt-section__title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--fg-primary);
+}
+
+.mkt-panel__updated {
+  font-size: var(--text-xs);
+  color: var(--fg-muted);
+}
+
+/* ── Loading ────────────────────────────────────────────────── */
+
+.mkt-loading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-7) 0;
+  color: var(--fg-tertiary);
+  font-size: var(--text-sm);
+}
+
+.mkt-spinner {
+  display: inline-block;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid var(--border-default);
+  border-top-color: var(--brand-primary);
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Error inline ───────────────────────────────────────────── */
+
+.mkt-error {
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-md);
+  background-color: var(--danger-bg);
+  color: var(--danger-fg);
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--danger-border);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--space-5);
+}
+
+/* ── Grid de cripto ─────────────────────────────────────────── */
+
+.mkt-crypto-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+/* ── Tarjeta de cripto ──────────────────────────────────────── */
+
+.mkt-crypto-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.mkt-crypto-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.mkt-crypto-card__icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.mkt-crypto-card__name {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--fg-primary);
+  line-height: 1.2;
+}
+
+.mkt-crypto-card__symbol {
+  font-size: var(--text-xs);
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+}
+
+.mkt-crypto-card__price {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--fg-primary);
+  letter-spacing: -0.02em;
+}
+
+.mkt-crypto-card__change {
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.mkt-change--positive { color: var(--success-border); }
+.mkt-change--negative { color: var(--danger-border);  }
+.mkt-change--neutral  { color: var(--fg-muted);       }
+
+.mkt-crypto-card__meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-subtle);
+  margin-top: auto;
+}
+
+.mkt-crypto-card__meta dt {
+  font-size: var(--text-xs);
+  color: var(--fg-muted);
+  margin-bottom: 2px;
+}
+
+.mkt-crypto-card__meta dd {
+  font-size: var(--text-sm);
+  font-family: var(--font-mono);
+  font-weight: var(--font-weight-semibold);
+  color: var(--fg-secondary);
+}
+
+/* ── Formulario forex ───────────────────────────────────────── */
+
+.mkt-forex-form__fields {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: var(--space-4);
+  align-items: end;
+  margin-bottom: var(--space-4);
+}
+
+.mkt-forex-swap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: var(--space-1);
+}
+
+.mkt-forex-swap__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border-default);
+  background-color: var(--bg-surface);
+  color: var(--fg-tertiary);
+  font-size: var(--text-lg);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-out-quart),
+    color var(--duration-fast) var(--ease-out-quart),
+    border-color var(--duration-fast) var(--ease-out-quart),
+    transform var(--duration-fast) var(--ease-out-quart);
+}
+
+.mkt-forex-swap__btn:hover {
+  background-color: var(--brand-primary-subtle);
+  color: var(--brand-primary);
+  border-color: var(--brand-primary);
+  transform: rotate(180deg);
+}
+
+.mkt-forex-swap__btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bg-base), 0 0 0 4px var(--brand-primary);
+}
+
+.mkt-forex-form__submit {
+  width: 100%;
+  margin-top: var(--space-2);
+}
+
+/* ── Resultado de conversión ────────────────────────────────── */
+
+.mkt-result {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--brand-primary);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity var(--duration-base) var(--ease-out-expo),
+    transform var(--duration-base) var(--ease-out-expo);
+}
+
+.mkt-result--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mkt-result__label {
+  font-size: var(--text-xs);
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: var(--space-3);
+}
+
+.mkt-result__conversion {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+}
+
+.mkt-result__from {
+  font-family: var(--font-mono);
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--fg-secondary);
+}
+
+.mkt-result__arrow {
+  color: var(--fg-muted);
+  font-size: var(--text-lg);
+}
+
+.mkt-result__to {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--brand-primary);
+}
+
+.mkt-result__rate {
+  font-size: var(--text-sm);
+  color: var(--fg-tertiary);
+  font-family: var(--font-mono);
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+
+@media (max-width: 600px) {
+  .market-rates {
+    padding: var(--space-5) var(--space-4);
+  }
+
+  .market-rates__header h1 {
+    font-size: var(--text-3xl);
+  }
+
+  .mkt-forex-form__fields {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+
+  .mkt-forex-swap {
+    padding-bottom: 0;
+  }
+
+  .mkt-forex-swap__btn {
+    transform: rotate(90deg);
+  }
+
+  .mkt-forex-swap__btn:hover {
+    transform: rotate(270deg);
+  }
+
+  .mkt-result__conversion {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-1);
+  }
+}
+
+@media (max-width: 480px) {
+  .mkt-crypto-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Layout forex: formulario (40%) + dashboard (60%) ───────── */
+
+.mkt-forex-layout {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.mkt-forex-left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.mkt-forex-right {
+  min-width: 0; /* evita que el gráfico desborde la celda del grid */
+}
+
+/* ── Dashboard de Métricas Históricas (ApexCharts) ──────────── */
+
+.mkt-history {
+  display: flex;
+  flex-direction: column;
+  min-height: 360px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+}
+
+.mkt-history__data {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+.mkt-history__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.mkt-history__eyebrow {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--fg-muted);
+  margin-bottom: var(--space-2);
+}
+
+.mkt-history__rate {
+  font-family: var(--font-mono);
+  font-size: var(--text-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--fg-primary);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.mkt-history__pair {
+  margin-top: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--fg-tertiary);
+}
+
+.mkt-history__delta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+}
+
+.mkt-history__delta.mkt-change--positive {
+  background-color: var(--success-bg);
+  color: var(--success-fg);
+}
+
+.mkt-history__delta.mkt-change--negative {
+  background-color: var(--danger-bg);
+  color: var(--danger-fg);
+}
+
+.mkt-history__chart {
+  min-height: 260px;
+  margin: 0 calc(var(--space-2) * -1);
+}
+
+.mkt-history__foot {
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-subtle);
+  font-size: var(--text-xs);
+  font-family: var(--font-mono);
+  color: var(--fg-muted);
+}
+
+/* ── Estados del panel (cargando / error / aviso) ───────────── */
+
+.mkt-history__state {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  min-height: 260px;
+  padding: var(--space-5);
+  text-align: center;
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: var(--fg-tertiary);
+}
+
+.mkt-history__state--error { color: var(--danger-fg); }
+
+.mkt-history__state--config {
+  border: 1px dashed var(--border-default);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-base);
+  color: var(--fg-secondary);
+}
+
+/* `hidden` debe ganarle al display:flex de estos bloques (si no, se ven a la vez) */
+.mkt-history__data[hidden],
+.mkt-history__state[hidden] {
+  display: none;
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .mkt-forex-layout {
+    grid-template-columns: 1fr;
+  }
+}

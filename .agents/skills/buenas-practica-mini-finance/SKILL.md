@@ -1,0 +1,341 @@
+---
+name: buenas-practica-mini-finance
+description: Skill especializada para construir, revisar y documentar el Proyecto Integrador Web Estática IntegrarTEC 2026, Idea 5 Mini Finance. Usar cuando se trabaje en HTML semántico, CSS responsive, JavaScript vanilla, DOM, arrays, objetos, localStorage, estructura modular, Git/GitHub, README, informe de IA, deploy o validación contra la consigna oficial y los contenidos de clase.
+---
+
+# Mini Finance IntegrarTEC
+
+Usar esta skill para ayudar a desarrollar el proyecto integrador Mini Finance con HTML, CSS y JavaScript vanilla, respetando la consigna oficial y los contenidos trabajados en clase.
+
+## Objetivo
+
+Construir un sitio web estático, funcional, navegable, responsive e interactivo para registrar ingresos, gastos y metas de ahorro. El usuario debe poder visualizar saldo, gastos por categoría, progreso de ahorro y alertas visuales cuando supere un límite de gasto o no alcance su meta.
+
+## Reglas obligatorias
+
+- Usar HTML, CSS y JavaScript vanilla.
+- No usar Bootstrap, Tailwind, React, Vue, Angular, Svelte, Astro, Next.js, Nuxt ni plantillas que resuelvan la estructura principal.
+- Crear mínimo 3 documentos HTML navegables.
+- Usar CSS propio y media queries.
+- Implementar mínimo 3 funcionalidades reales de JavaScript.
+- Usar `localStorage` o `sessionStorage` con datos relevantes.
+- Mostrar mensajes en el DOM, no con `alert()` o `prompt()`.
+- Preparar README, informe de IA, repositorio público, ramas `main` y `develop`, Conventional Commits y deploy funcional.
+
+## Estructura recomendada
+
+/
+├─ index.html
+├─ pages/
+│  ├─ simulador.html
+│  └─ resumen.html
+├─ base/
+│  ├─ scripts/
+│  │  ├─ config.js
+│  │  ├─ state.js
+│  │  ├─ dom.js
+│  │  ├─ render.js
+│  │  ├─ events.js
+│  │  └─ main.js
+│  └─ styles/
+│     ├─ reset.css
+│     ├─ tokens.css
+│     ├─ base.css
+│     ├─ layout.css
+│     ├─ components.css
+│     ├─ motion.css
+│     ├─ preferences.css
+│     └─ main.css
+├─ assets/
+│  ├─ img/
+│  ├─ icons/
+│  └─ data/
+├─ docs/
+│  └─ informe-uso-ia.md
+└─ README.md
+
+## Instrucciones para HTML
+Escribir HTML como estructura semántica, no como decoración.
+
+Cada página debe tener:
+
+<!DOCTYPE html>.
+<html lang="es">.
+<meta charset="UTF-8">.
+<meta name="viewport" content="width=device-width, initial-scale=1.0">.
+Un único <h1> por página.
+Jerarquía correcta de títulos sin saltos incoherentes.
+Uso de header, nav, main, section, article, footer y form cuando corresponda.
+Navegación real entre documentos HTML.
+Rutas relativas correctas.
+Imágenes con alt útil cuando correspondan.
+Formularios con label asociado mediante for e id.
+Botones reales con <button>, no div clickeables.
+Inputs con tipos adecuados: text, number, date, email, etc.
+Preferir HTML nativo antes que ARIA. Usar ARIA solo cuando HTML nativo no alcance, por ejemplo aria-live para zonas de mensajes dinámicos o aria-invalid en campos con error.
+
+## Instrucciones para CSS
+Usar CSS moderno, propio y organizado.
+
+Aplicar:
+
+box-sizing: border-box global.
+Variables CSS en tokens.css.
+Flexbox para componentes de una dimensión.
+Grid para layouts de página o grillas de cards.
+Media queries obligatorias para mobile y desktop.
+Transiciones simples con propósito.
+Estados visibles de foco, hover, error y éxito.
+Contraste legible.
+Espaciados consistentes.
+No alcanza con achicar el diseño. En responsive debe cambiar la distribución: columnas, navegación, formularios, cards, tablas o métricas deben reorganizarse para pantallas chicas.
+
+Usar esta regla de decisión:
+
+Flexbox para navbar, botones agrupados, formularios simples y alineaciones internas.
+Grid para dashboard, cards de resumen, layout principal y columnas de métricas.
+
+## Instrucciones para JavaScript
+Escribir JavaScript claro, modular y explicable.
+
+Usar:
+
+const por defecto y let solo cuando el valor cambie.
+Funciones pequeñas con nombres claros.
+Igualdad estricta ===.
+Template literals cuando mejoren legibilidad.
+Validaciones antes de guardar datos.
+Conversión explícita de montos con Number().
+Mensajes visibles modificando el DOM.
+addEventListener, no handlers inline en HTML.
+textContent para texto simple.
+innerHTML solo cuando sea necesario y con datos controlados.
+classList para estados visuales.
+Evitar:
+
+Código mezclado sin módulos.
+Variables globales innecesarias.
+Lógica financiera dentro del render.
+Repetición de selectores.
+console.log() como funcionalidad.
+alert() como validación principal.
+
+
+## Modelo de datos recomendado
+Representar los movimientos como arreglo de objetos:
+const movement = {
+  id: crypto.randomUUID(),
+  type: "income",
+  description: "Sueldo",
+  amount: 250000,
+  category: "trabajo",
+  date: "2026-05-20"
+};
+
+Usar arrays para listas de movimientos y objetos para representar entidades con propiedades.
+
+Aplicar métodos de arrays según necesidad:
+
+push para agregar movimientos.
+filter para filtrar por categoría o eliminar por id.
+find para buscar un movimiento.
+map para transformar datos antes de renderizar.
+reduce para calcular ingresos, gastos, saldo y totales por categoría.
+some o every para validar condiciones generales.
+
+## Módulos JavaScript
+config.js:
+Guardar constantes, categorías, claves de storage y límites por defecto.
+
+state.js:
+Gestionar estado, localStorage y cálculos financieros.
+
+dom.js:
+Centralizar selectores del DOM.
+
+render.js:
+Renderizar cards, tablas, métricas, mensajes y alertas.
+
+events.js:
+Registrar eventos de formularios, filtros y botones.
+
+main.js:
+Inicializar la app y coordinar los módulos.
+
+## Storage
+Usar localStorage con JSON.stringify() y JSON.parse().
+
+Guardar datos útiles:
+
+Movimientos.
+Meta de ahorro.
+Límite de gasto.
+Categoría seleccionada o preferencias simples.
+Al cargar la página, recuperar datos guardados y renderizar automáticamente.
+
+## Funcionalidades mínimas sugeridas
+Implementar al menos 3, idealmente más:
+
+Agregar ingresos.
+Agregar gastos.
+Eliminar movimientos.
+Filtrar movimientos por tipo o categoría.
+Calcular saldo disponible.
+Calcular total de ingresos y gastos.
+Calcular porcentaje de ahorro.
+Guardar y recuperar datos con localStorage.
+Mostrar alertas visuales si se supera el límite de gasto.
+Mostrar alerta visual si no se alcanza la meta de ahorro.
+Renderizar resumen financiero dinámico.
+
+
+## Async y fetch
+El uso de API externa es opcional. Si se usa, debe tener sentido.
+
+Se permite usar fetch para leer un JSON local, por ejemplo categorías o consejos financieros desde assets/data/.
+
+Si se usa fetch:
+
+Usar async/await.
+Validar response.ok.
+Manejar errores con try/catch.
+Mostrar errores en el DOM.
+No crear API propia para este proyecto.
+
+## Accesibilidad
+Cumplir buenas prácticas básicas:
+
+Labels en formularios.
+Errores visibles.
+Contraste suficiente.
+Navegación clara.
+Foco visible.
+No depender solo del color para comunicar deuda, ahorro o alerta.
+Usar texto junto con color o íconos.
+Usar aria-live="polite" para mensajes dinámicos importantes.
+
+## Git y documentación
+Sugerir Conventional Commits:
+
+feat: add expense form
+feat: render financial summary
+fix: correct savings warning
+style: improve responsive dashboard
+docs: update README
+refactor: separate storage logic
+El README debe incluir nombre, descripción, integrantes, idea elegida, tecnologías, funcionalidades, links, uso e información sobre IA.
+
+El informe de IA debe explicar herramientas usadas, prompts útiles, partes asistidas, correcciones realizadas, aprendizajes y decisiones tomadas por el grupo.
+
+## TypeScript
+No implementar TypeScript en el proyecto salvo pedido explícito, porque la consigna exige JavaScript vanilla. Usar la clase de TypeScript solo como referencia conceptual para pensar mejor los tipos de datos, formas de objetos, estados y funciones.
+
+## Checklist final
+Antes de considerar listo el proyecto, verificar:
+
+Hay 3 HTML navegables.
+Hay CSS propio.
+Hay media queries.
+Hay JS vanilla modular.
+Hay mínimo 3 funcionalidades reales.
+Hay localStorage con datos útiles.
+El desafío de alertas visuales está cumplido.
+Los formularios validan y muestran mensajes en el DOM.
+El sitio funciona en mobile y desktop.
+No hay frameworks prohibidos.
+El README está completo.
+El informe de IA está incluido.
+El deploy navega correctamente.
+
+## Reglas de Comentarios en el Código (Estricto)
+Evitar saturar el código con comentarios explicativos innecesarios u obvios. Busco un resultado estético, limpio y profesional.
+- PROHIBIDO comentar cada línea de código explicando qué hace la sintaxis nativa de JS, HTML o CSS.
+- El código debe ser autoexplicativo mediante el uso de nombres de variables y funciones descriptivos.
+- SÓLO se permiten comentarios cortos y concisos en situaciones excepcionales: para justificar una decisión de diseño compleja, una fórmula matemática o la integración con el localStorage si es estrictamente necesario para el entendimiento del flujo general.
+- Si no hay una lógica compleja, devolvé el código completamente limpio de comentarios.
+
+## Automatización de Contexto Interno (Bitácora y Arquitectura)
+En cada interacción donde el usuario solicite crear, modificar o eliminar archivos del proyecto, o cuando se avance en el desarrollo de cualquier funcionalidad, DEBO actualizar automáticamente los siguientes archivos de contexto antes de entregar la respuesta final. **REGLA CRÍTICA: Mantener estricta brevedad extrema para no consumir tokens de contexto excesivos.**
+
+1. `.agents/progreso/Memory.md`:
+   - **PROHIBIDO** crear un historial cronológico, "diario íntimo" o registro día por día de los cambios.
+   - **PROHIBIDO** registrar cambios menores, refactorizaciones de CSS (ej. ajustes de colores hexadecimales), correcciones de rutas o bugs menores.
+   - Mantener ÚNICAMENTE una lista plana, breve y consolidada de "Funcionalidades Completadas" y "Pendientes".
+   - Registrar solo hitos arquitectónicos o funcionales de alto nivel (ej. "Sistema de logros V2 implementado").
+
+2. `.agents/progreso/arquitectura.md`:
+   - **PROHIBIDO** duplicar el árbol de estructura de carpetas. El diagrama del repositorio debe existir una sola vez en todo el documento.
+   - Las descripciones de los módulos JS y CSS deben tener un MÁXIMO estricto de 15 palabras por archivo.
+   - Describir solo *qué* hace el archivo a nivel general, evitando explicar *cómo* funciona la lógica interna.
+   - Si se crean, renombran o eliminan carpetas, actualizar el único diagrama de estructura existente.
+
+3. `AGENTS.md` (En la raíz del proyecto):
+   - Si la estructura modular cambia permanentemente (nuevas carpetas clave) o si el equipo define nuevas restricciones técnicas globales, actualizar las secciones correspondientes de este documento para que las futuras sesiones de la IA hereden las reglas correctas.
+
+Reglas para esta actualización:
+- No esperar a que el usuario lo pida explícitamente.
+- Mantener el formato Markdown limpio y directo, sin comentarios innecesarios.
+- Priorizar la precisión técnica sobre la verbosidad.
+
+## Reglas de Git (Estricto)
+
+### Commits
+- **PROHIBIDO ejecutar `git commit` sin permiso explícito del usuario.**
+- **PROHIBIDO ejecutar `git push`, `git merge`, `git rebase`, `git reset --hard` u cualquier comando destructivo sin autorización previa.**
+- En cada interacción donde se realicen cambios en el proyecto, DEBO proponer al usuario un título y una descripción de commit acordes a la convención Conventional Commits, solicitando confirmación antes de ejecutar (siemppre en ingles para mantener la consistencia con la convención).
+- Ejemplo de formato a proponer:
+  ```
+  feat: add expense form with validation
+
+  - Add form fields for description, amount, date and category
+  - Implement client-side validation before submission
+  - Persist expenses to localStorage with unique IDs
+  ```
+- Sólo tras la confirmación explícita del usuario (`"dale"`, `"hacelo"`, `"sí"`, `"ok"`, etc.) se debe ejecutar el commit.
+
+## Flujo de Trabajo con Worktrees Múltiples (Crítico)
+
+Cuando el usuario indica que está trabajando sobre una rama específica (ej. `feat/home-ui-refactoring`) y esa rama está asociada a un worktree diferente del directorio actual de OpenCode, DEBO seguir este protocolo obligatorio:
+
+### Contexto del Problema
+OpenCode ejecuta sus operaciones en un worktree interno (ej. `opencode/eager-meadow` o similar). Sin embargo, el usuario real desarrolla en su propio worktree local (ej. `D:/ALEJO/AleMart/Documents/IntegrarTEC/Proyecto1`). Si OpenCode solo guarda los cambios en su worktree interno, el usuario **no verá los cambios** en su rama de trabajo real.
+
+### Protocolo Obligatorio
+
+1. **Identificar la rama y el directorio real del usuario:**
+   - El usuario DEBE indicar en qué rama está trabajando (ej. `"estoy en feat/home-ui-refactoring"`).
+   - Si la rama indicada ya está asociada a otro worktree (aparece en `git branch -vv` con una ruta como `D:/...`), anotar esa ruta como `WORKTREE_REAL`.
+   - Si el usuario no especifica la ruta pero sí la rama, preguntar: `"¿Dónde está tu repositorio local?"` antes de continuar.
+
+2. **Realizar los cambios en el worktree de OpenCode:**
+   - Crear, modificar y editar todos los archivos normalmente en el directorio de trabajo actual de OpenCode.
+   - Verificar que los cambios sean correctos (sintaxis, estructura, coherencia).
+
+3. **Sincronización al worktree real del usuario (PASO CRÍTICO):**
+   - Una vez finalizados todos los cambios y verificaciones, DEBO copiar **todos los archivos modificados y nuevos** desde el worktree de OpenCode hacia el `WORKTREE_REAL` del usuario.
+   - Para cada archivo modificado: usar `copy` o `xcopy` con la ruta absoluta del archivo en el worktree de OpenCode → ruta absoluta del archivo en el `WORKTREE_REAL`.
+   - Para archivos nuevos (untracked): crear el archivo en el `WORKTREE_REAL` con el mismo contenido.
+   - NUNCA asumir que el usuario ya tiene los cambios. Siempre ejecutar la copia explícitamente.
+
+4. **Verificación en el worktree real:**
+   - Ejecutar `git status` en el `WORKTREE_REAL` para confirmar que los archivos aparecen como "modified" o "untracked".
+   - Mostrar al usuario el resultado de `git status` como prueba de que los cambios llegaron correctamente.
+
+5. **Excepción - Si no hay worktree separado:**
+   - Si la rama indicada no tiene un worktree separado y OpenCode está trabajando directamente en ella, omitir la sincronización (los cambios ya están en el lugar correcto).
+
+### Ejemplo de Aplicación
+```
+Usuario: "Estoy en feat/home-ui-refactoring"
+OpenCode detecta: feat/home-ui-refactoring → D:/ALEJO/AleMart/Documents/IntegrarTEC/Proyecto1
+
+1. OpenCode realiza todos los cambios en su worktree interno.
+2. Al finalizar, ejecuta:
+   copy "C:\...\opencode\worktree\...\index.html" "D:\ALEJO\AleMart\Documents\IntegrarTEC\Proyecto1\index.html"
+   copy "C:\...\opencode\worktree\...\base\styles\home.css" "D:\ALEJO\AleMart\Documents\IntegrarTEC\Proyecto1\base\styles\home.css"
+   (y así con cada archivo modificado o nuevo)
+3. Verifica con git status en D:/ALEJO/AleMart/Documents/IntegrarTEC/Proyecto1
+4. Confirma al usuario: "Los cambios ya están en tu rama feat/home-ui-refactoring"
+```
+
+**IMPORTANTE:** Esta regla aplica a TODA interacción futura donde el usuario mencione estar trabajando en una rama específica que tenga un worktree separado. Es responsabilidad de OpenCode garantizar que los cambios lleguen al directorio correcto del usuario.

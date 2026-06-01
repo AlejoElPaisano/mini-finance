@@ -1,0 +1,396 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini Finance - Simulador</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../base/styles/main.css">
+  <script>
+    if (!localStorage.getItem('miniFinanceSession')) {
+      window.location.replace('./login.html');
+    }
+  </script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Ir al contenido principal</a>
+
+  <header>
+    <nav>
+      <div class="brand-logo">
+        <img src="../assets/logo-mf.svg" alt="Mini Finance Logo" style="width: 48px; height: 48px;">
+      </div>
+      <button type="button" class="nav-hamburger" id="nav-hamburger" aria-expanded="false" aria-controls="nav-drawer" aria-label="Abrir menú de navegación">
+        <span class="nav-hamburger__bar"></span>
+        <span class="nav-hamburger__bar"></span>
+        <span class="nav-hamburger__bar"></span>
+      </button>
+      <div class="nav-drawer" id="nav-drawer">
+        <ul>
+          <li><a href="../index.html">Inicio</a></li>
+          <li><a href="./simulador.html" aria-current="page">Simulador</a></li>
+          <li><a href="./resumen.html">Resumen</a></li>
+          <li><a href="./market-rates.html">Cotizaciones</a></li>
+        </ul>
+        <div class="header-tools">
+          <button type="button" id="achievements-toggle" class="btn-tool" aria-label="Centro de logros" title="Ver todos los logros">
+            <span aria-hidden="true">🏆</span>
+            <span class="btn-tool__label">Logros</span>
+          </button>
+          <div class="accessibility-tools">
+            <button type="button" id="dyslexic-toggle" class="btn-tool" aria-pressed="false" title="Fuente para dislexia">
+              <span aria-hidden="true">👁️</span>
+              <span class="btn-tool__label">Dislexia</span>
+            </button>
+            <button type="button" id="colorblind-toggle" class="btn-tool" aria-pressed="false" title="Modo alto contraste para daltonismo">
+              <span aria-hidden="true">🎨</span>
+              <span class="btn-tool__label">Daltónico</span>
+            </button>
+          </div>
+        <div class="header-tools-row">
+          <button type="button" id="dark-mode-toggle" aria-label="Cambiar modo oscuro">
+            <span aria-hidden="true">🌙</span>
+          </button>
+          <div class="user-menu">
+            <button type="button" class="btn-tool user-menu__trigger" aria-haspopup="true" aria-expanded="false" title="Menú de usuario">
+              <span aria-hidden="true">👤</span>
+            </button>
+            <div class="user-menu__dropdown" hidden>
+              <button type="button" class="user-menu__item" id="logout-btn">
+                <span aria-hidden="true">🚪</span>
+                Cerrar sesión
+              </button>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </nav>
+    <div class="nav-overlay" id="nav-overlay" hidden></div>
+  </header>
+
+  <main id="main-content" aria-describedby="simulator-title">
+    <h1 id="simulator-title">Simulador de Movimientos</h1>
+
+    <div id="alerts-container" aria-live="polite"></div>
+      <div class="card-tabs" role="tablist" aria-label="Secciones del simulador">
+        <button type="button" role="tab" aria-selected="true" aria-controls="panel-movement" class="card-tab card-tab--active" data-panel="panel-movement">Registrar Movimiento</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="panel-savings" class="card-tab" data-panel="panel-savings">Metas de Ahorro</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="panel-total" class="card-tab" data-panel="panel-total">Montos de Cuenta</button>
+      </div>
+      <section class="card">
+        
+        <!-- Form de movimientos → col 1 (sin .slider-grid adentro) -->
+        <div class="card-tab-panel active" id="panel-movement" role="tabpanel" aria-labelledby="tab-movement">
+        <form id="movement-form" class="card-form" aria-labelledby="section-movement">
+          <h2 id="section-movement">Registrar Movimiento</h2>
+          <hr class="divider"> 
+
+          <div class="form-group">
+            <label for="type">Tipo</label>
+            <select id="type" name="type" required>
+
+              <option value="">Seleccionar tipo</option>
+              <option value="income">Ingreso</option>
+              <option value="expense">Gasto</option>
+
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="category">Categoría</label>
+            <select id="category" name="category" required>
+
+              <option value="">Seleccionar categoría</option>
+              <option value="salary">Sueldo</option>
+              <option value="sales">Ventas</option>
+              <option value="rentals">Alquileres</option>
+              <option value="food">Alimentos</option>
+              <option value="transport">Transporte</option>
+              <option value="services">Servicios</option>
+              <option value="entertainment">Entretenimiento</option>
+
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="description" id="description-hint">Descripción</label>
+            <textarea 
+              type="text" 
+              id="description" 
+              name="description"
+              rows="2" 
+              required 
+              aria-describedby="description-hint" 
+              placeholder="Ingresá una descripción breve del movimiento" 
+            ></textarea>
+            <!--<strong id="description-hint">Ingresá una descripción breve del movimiento</strong> -->
+          </div>
+
+          <div class="form-group">
+            <label for="amount" id="amount-hint">Monto</label>
+            <input 
+              type="number" 
+              id="amount" 
+              name="amount" 
+              min="1"
+              required
+              aria-describedby="amount-hint"
+              placeholder="0"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="date">Fecha</label>
+            <input type="date" id="date" name="date" required>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn--reset" id="reset-btn">Limpiar</button>
+            <button type="submit" class="btn btn--primary" id="submit-btn">Agregar Movimiento</button>
+          </div>
+
+        </form>
+        </div>
+
+        <!-- Form de meta de ahorro → col 2 (slider + su propio botón) -->
+        <div class="card-tab-panel" id="panel-savings" role="tabpanel" aria-labelledby="tab-savings">
+        <form id="savings-form" class="card-form" aria-labelledby="savings-title">
+          <h3 id="savings-title" class="sr-only">Metas de Ahorro</h3>
+          <hr class="divider">
+
+
+          <div class="slider-grid">
+
+            <header id="savings-equiv-header" class="slider-equiv-header" hidden>
+              <small>porcentualmente equivale a: </small>
+              <output id="savings-money-equiv">$0</output>
+            </header>
+
+            <label class="range-field" for="savings-goal">
+              <span>Meta de Ahorro</span>
+              <output id="savings-goal-output" for="savings-goal">$10</output>
+            </label>
+
+            <input id="savings-goal" name="savings-goal" type="range"
+                  min="0" max="50000" step="100" value="10" list="savings-scale" />
+
+            <datalist id="savings-scale">...</datalist>
+
+            <div class="slider-scale">
+              <span>$0</span><span>$10k</span><span>$20k</span>
+              <span>$30k</span><span>$40k</span><span>$50k</span>
+            </div>
+
+            <button type="button" id="toggle-scale-btn" class="btn-scale-toggle">
+              Cambiar a escala porcentual del total
+            </button>
+
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn--primary" id="savings-submit-btn">
+              Agregar meta
+            </button>
+          </div>
+
+        </form>
+        </div>
+
+        <div class="card-tab-panel" id="panel-total" role="tabpanel" aria-labelledby="tab-total">
+        <article class="card-total" >
+          <h3 id="savings-title" class="sr-only">Montos de Cuenta</h3>
+          <hr class="divider">
+          <p class="card-total-label" > Monto Total Disponible </p>
+          <p class="card-total-amount" > $10 </p>
+
+          <aside  class="card-total-footer">
+            <label for="adjusted-amount" class="card-total-footer__label">
+              MONTO DISPONIBLE DEJANDO RESERVAS DE AHORRO
+            </label>
+            <output id="adjusted-amount" class="card-total-footer__value">
+              $0
+            </output>
+          </aside >
+
+        </article>
+        </div>
+
+      </section>
+
+
+
+
+    <section class="movements" aria-labelledby="movements-title">
+
+      <header class="movements__header">
+        <h2 id="movements-title">Movimientos recientes</h2>
+      </header>
+
+      <ol id="movements-list" class="movements-list" aria-live="polite">
+        <li class="empty-state">No hay movimientos registrados.</li>
+      </ol>
+
+    </section>
+  </main>
+
+  <footer class="app-footer" id="app-footer">
+    <button type="button" class="footer-toggle-btn" id="footer-toggle" aria-expanded="true" aria-controls="footer-drawer">
+      <span class="footer-toggle-icon" aria-hidden="true">▲</span>
+      <span class="footer-toggle-text">CERRAR</span>
+    </button>
+    <div class="footer-drawer" id="footer-drawer">
+      <div class="footer-drawer__inner">
+        <div class="footer__grid">
+        <div class="footer__brand-col">
+          <div class="footer__brand-logo">
+            <img src="../assets/logo-mf.svg" alt="Mini Finance" class="footer__brand-logo-img">
+          </div>
+          <div class="footer__brand-text">
+            <p class="footer__brand-name"><span aria-hidden="true">📈</span> Mini Finance</p>
+            <p class="footer__brand-tagline">Tu suite interactiva para simular metas y planificar tu futuro financiero.</p>
+          </div>
+        </div>
+        <div>
+          <p class="footer__heading">Soporte</p>
+          <ul class="footer__links">
+            <li><a href="https://github.com/AlejoElPaisano/integrartec-proyecto-1" target="_blank" rel="noopener">Repositorio</a></li>
+            <li><a href="https://github.com/AlejoElPaisano/integrartec-proyecto-1/issues" target="_blank" rel="noopener">Reportar un bug</a></li>
+            <li><button type="button" class="footer__contact-btn" id="footer-contact-btn">Contáctanos</button></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer__heading">Desarrollado por:</p>
+          <div class="footer__team">
+            <a href="https://www.linkedin.com/in/karenledesma08" target="_blank" rel="noopener" class="footer__member-name">Karen Ledesma</a>
+            <a href="https://www.linkedin.com/in/francisco-thomas-chiressi-8b55b01a0" target="_blank" rel="noopener" class="footer__member-name">Francisco Chiressi</a>
+            <a href="https://www.linkedin.com/in/alejo-martinez-olmedo-877004283/" target="_blank" rel="noopener" class="footer__member-name">Alejo Martinez Olmedo</a>
+          </div>
+        </div>
+      </div>
+      <hr class="footer__divider">
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2026 Mini Finance · IntegrarTEC · Desarrollado por DevCore · Mini Finance v1.0</p>
+        <a href="https://fpintegrar.org" target="_blank" rel="noopener" class="footer__logo-link">
+          <img src="../assets/img/logo-integrar.png" alt="Fundación Integrar" class="footer__logo-img" loading="lazy">
+        </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================
+       PESITO — Asistente Virtual Flotante
+       ========================================== -->
+  <div id="pesito-container" class="pesito-container">
+    <div class="pesito-chat" role="dialog" aria-modal="true" aria-label="Chat con Pesito, asistente virtual">
+      <header class="pesito-header">
+        <div class="pesito-header__info">
+          <div class="pesito-header__avatar" aria-hidden="true">
+            <!-- Pesito: Moneda animada, identidad visual de Mini Finance -->
+            <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="46" fill="url(#goldGradient)" stroke="#b45309" stroke-width="4"/>
+              <circle cx="50" cy="50" r="38" stroke="#b45309" stroke-width="2" stroke-dasharray="6 4" opacity="0.6"/>
+              <circle cx="50" cy="50" r="34" fill="#fbbf24" opacity="0.4"/>
+              <path d="M 18,35 A 40,40 0 0,1 35,18" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+              <circle cx="36" cy="46" r="6" fill="#1e293b"/>
+              <circle cx="64" cy="46" r="6" fill="#1e293b"/>
+              <circle cx="38" cy="44" r="2.5" fill="white"/>
+              <circle cx="66" cy="44" r="2.5" fill="white"/>
+              <ellipse cx="26" cy="54" rx="5" ry="3" fill="#f43f5e" opacity="0.6"/>
+              <ellipse cx="74" cy="54" rx="5" ry="3" fill="#f43f5e" opacity="0.6"/>
+              <path d="M 42,58 Q 50,68 58,58" stroke="#1e293b" stroke-width="4" stroke-linecap="round" fill="none"/>
+              <defs>
+                <linearGradient id="goldGradient" x1="10" y1="10" x2="90" y2="90" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#fef08a"/>
+                  <stop offset="0.3" stop-color="#fcd34d"/>
+                  <stop offset="0.8" stop-color="#f59e0b"/>
+                  <stop offset="1" stop-color="#d97706"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <div>
+            <h2 class="pesito-header__name">Pesito</h2>
+            <span class="pesito-header__status">En línea</span>
+          </div>
+        </div>
+        <button type="button" class="pesito-header__close" aria-label="Cerrar chat">
+          <span aria-hidden="true">✕</span>
+        </button>
+      </header>
+
+      <div class="pesito-messages" id="pesito-messages" aria-live="polite"></div>
+
+      <div class="pesito-typing" id="pesito-typing" hidden>
+        <div class="pesito-typing__dots">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+
+      <div class="pesito-options" id="pesito-options"></div>
+    </div>
+  </div>
+
+  <button type="button" id="pesito-toggle" class="pesito-toggle" aria-expanded="false" aria-label="Abrir asistente virtual Pesito">
+    <span class="pesito-toggle__icon pesito-toggle__icon--open" aria-hidden="true">
+      <svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="46" fill="url(#goldGradToggle)" stroke="#92400e" stroke-width="4"/>
+        <circle cx="50" cy="50" r="38" stroke="#92400e" stroke-width="2" stroke-dasharray="6 4" opacity="0.6"/>
+        <circle cx="50" cy="50" r="34" fill="#fbbf24" opacity="0.4"/>
+        <path d="M 18,35 A 40,40 0 0,1 35,18" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+        <circle cx="36" cy="46" r="6" fill="#1e293b"/>
+        <circle cx="64" cy="46" r="6" fill="#1e293b"/>
+        <circle cx="38" cy="44" r="2.5" fill="white"/>
+        <circle cx="66" cy="44" r="2.5" fill="white"/>
+        <ellipse cx="26" cy="54" rx="5" ry="3" fill="#f43f5e" opacity="0.6"/>
+        <ellipse cx="74" cy="54" rx="5" ry="3" fill="#f43f5e" opacity="0.6"/>
+        <path d="M 42,58 Q 50,68 58,58" stroke="#1e293b" stroke-width="4" stroke-linecap="round" fill="none"/>
+        <defs>
+          <linearGradient id="goldGradToggle" x1="10" y1="10" x2="90" y2="90" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#fef08a"/>
+            <stop offset="0.3" stop-color="#fcd34d"/>
+            <stop offset="0.8" stop-color="#f59e0b"/>
+            <stop offset="1" stop-color="#d97706"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </span>
+    <span class="pesito-toggle__icon pesito-toggle__icon--close" aria-hidden="true">✕</span>
+  </button>
+
+  <script src="../base/scripts/state.js"></script>
+  <script src="../base/scripts/achievements.js"></script>
+  <script src="../base/scripts/main.js"></script>
+  <script src="../base/scripts/footer.js"></script>
+  <script src="../base/scripts/pesito-brain.js"></script>
+  <script src="../base/scripts/pesito-chat.js"></script>
+  <script src="../base/scripts/contact-modal.js"></script>
+  <script type="module" src="../base/scripts/helpers.js"></script>
+  <script type="module" src="../base/scripts/simulator.js"></script>
+  <script type="module" src="../base/scripts/local-storage.js"></script>
+  <script>
+    (function initCardTabs() {
+      var tabs = document.querySelectorAll('.card-tab');
+      var panels = document.querySelectorAll('.card-tab-panel');
+      if (!tabs.length || !panels.length) return;
+
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          var panelId = this.getAttribute('data-panel');
+          tabs.forEach(function (t) { t.setAttribute('aria-selected', 'false'); t.classList.remove('card-tab--active'); });
+          panels.forEach(function (p) { p.classList.remove('active'); p.setAttribute('hidden', ''); });
+          this.setAttribute('aria-selected', 'true');
+          this.classList.add('card-tab--active');
+          var target = document.getElementById(panelId);
+          if (target) { target.classList.add('active'); target.removeAttribute('hidden'); }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
+
